@@ -2,12 +2,7 @@ import React from 'react';
 import { Moon, Sun } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-interface ThemeToggleProps {
-  isDark: boolean;
-  toggleTheme: () => void;
-}
-
-export const ThemeToggle: React.FC<ThemeToggleProps> = ({ isDark, toggleTheme }) => {
+export const ThemeToggle = ({ isDark, toggleTheme }) => {
   return (
     <motion.button
       whileHover={{ scale: 1.1 }}

@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Send } from 'lucide-react';
 
-export const Contact: React.FC = () => {
+export const Contact = () => {
   const [formState, setFormState] = useState({
     name: '',
     email: '',
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission
     console.log(formState);
   };
 

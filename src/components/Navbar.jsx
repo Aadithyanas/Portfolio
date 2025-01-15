@@ -2,12 +2,7 @@ import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ThemeToggle } from './ThemeToggle';
 
-interface NavbarProps {
-  isDark: boolean;
-  toggleTheme: () => void;
-}
-
-export const Navbar: React.FC<NavbarProps> = ({ isDark, toggleTheme }) => {
+export const Navbar = ({ isDark, toggleTheme }) => {
   const { scrollY } = useScroll();
   const backgroundColor = useTransform(
     scrollY,

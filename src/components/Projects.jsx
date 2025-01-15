@@ -4,7 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import { Github, ExternalLink } from 'lucide-react';
 import { projects } from '../data';
 
-export const Projects: React.FC = () => {
+export const Projects = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1
