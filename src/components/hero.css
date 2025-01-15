@@ -1,0 +1,277 @@
+/* Hero.css */
+
+/* Common Styles */
+.hero-section {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f3f4f6; /* Light mode background */
+    color: #d4dff5; /* Dark text for light mode */
+    position: relative;
+    padding: 2rem;
+}
+
+.hero-container {
+    max-width: 7xl;
+    margin: 0 auto;
+    padding: 6rem 3rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3rem;
+}
+
+.hero-text {
+    flex: 1;
+    text-align: left;
+    margin-left: 0;
+}
+
+.hero-heading {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.hero-subheading {
+    font-size: 3.5rem;
+    font-weight: bold;
+    background: linear-gradient(90deg, #1c64f2, #7c3aed); /* Lighter gradient for subheading */
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 1rem;
+}
+
+.hero-description {
+    font-size: 1.25rem;
+    color: #4b5563; /* Dark gray text for description */
+    margin-bottom: 1.5rem;
+}
+
+.hero-animation {
+    font-size: 1.5rem;
+    color: #2563eb; /* Lighter blue for animation */
+    margin-bottom: 1.5rem;
+}
+
+.hero-icons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.hero-icons a {
+    font-size: 1.5rem;
+    background-color: #2563eb; /* Blue icon background for light mode */
+    color: white;
+    padding: 1rem;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+
+.hero-icons a:hover {
+    background-color: #3b82f6; /* Slightly darker blue on hover */
+}
+
+.hero-button {
+    display: inline-block;
+    background: linear-gradient(90deg, #1c64f2, #7c3aed); /* Lighter gradient for button */
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.3s;
+}
+
+.hero-button:hover {
+    opacity: 0.9;
+}
+
+.profile-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -50px;
+}
+
+.profile-image-wrapper {
+    position: relative;
+    width: 24rem;
+    height: 24rem;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: rgba(59, 130, 246, 0.1); /* Lighter blue glow */
+    box-shadow: 0 0 20px 10px rgba(59, 130, 246, 0.3); /* Softer glow effect */
+    transition: all 0.3s;
+}
+
+.profile-image-wrapper:hover .profile-image {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px 15px rgba(59, 130, 246, 0.7); /* Increased glow effect */
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s;
+}
+
+/* Media Queries for Responsiveness */
+
+/* For Tablets */
+@media (max-width: 1024px) {
+    .hero-container {
+        flex-direction: column;
+        padding: 4rem 2rem;
+    }
+    
+    .hero-text {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .profile-container {
+        margin-top: 2rem;
+    }
+
+    .profile-image-wrapper {
+        width: 20rem;
+        height: 20rem;
+    }
+
+    .hero-heading {
+        font-size: 2.5rem;
+    }
+
+    .hero-subheading {
+        font-size: 3rem;
+    }
+
+    .hero-description {
+        font-size: 1.125rem;
+    }
+
+    .hero-animation {
+        font-size: 1.25rem;
+    }
+
+    .hero-button {
+        padding: 1rem 1.5rem;
+    }
+}
+
+/* For Mobile Devices */
+@media (max-width: 768px) {
+    .hero-container {
+        flex-direction: column;
+        padding: 3rem 1.5rem;
+        align-items: center;
+    }
+
+    .hero-text {
+        text-align: center;
+        margin-left: 0;
+    }
+
+    .profile-container {
+        margin-top: 2rem;
+    }
+
+    .profile-image-wrapper {
+        width: 18rem;
+        height: 18rem;
+    }
+
+    .hero-heading {
+        font-size: 2rem;
+    }
+
+    .hero-subheading {
+        font-size: 2.5rem;
+    }
+
+    .hero-description {
+        font-size: 1rem;
+    }
+
+    .hero-animation {
+        font-size: 1.125rem;
+    }
+
+    .hero-button {
+        padding: 0.75rem 1.25rem;
+    }
+
+    .hero-icons {
+        justify-content: center;
+    }
+}
+
+/* For Very Small Devices (Portrait Phones) */
+@media (max-width: 480px) {
+    .hero-container {
+        padding: 2rem 1rem;
+    }
+
+    .hero-text {
+        text-align: center;
+        margin-left: 0;
+    }
+
+    .profile-image-wrapper {
+        width: 16rem;
+        height: 16rem;
+    }
+
+    .hero-heading {
+        font-size: 1.5rem;
+    }
+
+    .hero-subheading {
+        font-size: 2rem;
+    }
+
+    .hero-description {
+        font-size: 0.875rem;
+    }
+
+    .hero-animation {
+        font-size: 1rem;
+    }
+
+    .hero-button {
+        padding: 0.5rem 1rem;
+    }
+}
+
+/* Dark Mode Styling */
+body.dark-mode .hero-section {
+    background-color: #1a202c; /* Dark background */
+    color: white; /* White text for dark mode */
+}
+
+body.dark-mode .hero-subheading {
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6); /* Darker gradient for subheading */
+}
+
+body.dark-mode .hero-icons a {
+    background-color: #3b82f6; /* Blue icon background for dark mode */
+}
+
+body.dark-mode .hero-icons a:hover {
+    background-color: #2563eb; /* Slightly darker blue on hover */
+}
+
+body.dark-mode .hero-button {
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6); /* Darker gradient for button */
+}
+
+body.dark-mode .profile-image-wrapper {
+    background-color: rgba(59, 130, 246, 0.2); /* Glowing blue background */
+    box-shadow: 0 0 20px 10px rgba(59, 130, 246, 0.5); /* Initial glow */
+}
