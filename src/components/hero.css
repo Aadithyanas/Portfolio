@@ -6,7 +6,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f3f4f6; /* Light mode background */
+    background-color: #a1a1a1; /* Light mode background */
     color: #d4dff5; /* Dark text for light mode */
     position: relative;
     padding: 2rem;
@@ -45,7 +45,7 @@
 
 .hero-description {
     font-size: 1.25rem;
-    color: #4b5563; /* Dark gray text for description */
+    color: #848b99; /* Dark gray text for description */
     margin-bottom: 1.5rem;
 }
 
@@ -145,7 +145,7 @@
 }
 
 .education-details {
-    background-color: #f4f4f4;
+    background-color: #8686bf46;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -162,7 +162,11 @@
 .education-details p {
     margin: 8px 0;
     font-size: 1rem;
-    color: #333;
+    color: #b0b0b0;
+}
+.education-details strong{
+    color: #ffffff;
+    font-size: 1.1rem;
 }
 
 /* Responsive Design */

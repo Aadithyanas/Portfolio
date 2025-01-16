@@ -9,7 +9,7 @@ export const Navbar = ({ isDark, toggleTheme }) => {
   const backgroundColor = useTransform(
     scrollY,
     [0, 100],
-    ['rgba(255, 255, 255, 0)', isDark ? 'rgba(17, 24, 39, 0.9)' : 'rgba(255, 255, 255, 0.9)']
+    ['rgba(255, 255, 255, 0)', isDark ? 'rgba(17, 24, 39, 0.9)' : 'rgba(200, 200, 200, 0.9)']
   );
 
   return (

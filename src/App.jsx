@@ -23,7 +23,7 @@ function App() {
     <AnimatePresence>
       <motion.div
         className={`min-h-screen transition-colors duration-300 relative overflow-hidden ${
-          isDark ? 'dark bg-gray-900 text-white' : 'bg-white text-gray-900'
+          isDark ? 'dark bg-gray-900 text-white' : 'bg-gray-600 text-black'
         }`}
       >
         <BackgroundAnimation isDark={isDark} />
