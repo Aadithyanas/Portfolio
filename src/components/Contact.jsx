@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Send } from 'lucide-react';
+import emailjs from 'emailjs-com';
 
 export const Contact = () => {
   const [formState, setFormState] = useState({
@@ -9,9 +10,38 @@ export const Contact = () => {
     message: ''
   });
 
+  const [loading, setLoading] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('');
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formState);
+
+    setLoading(true);
+    setStatusMessage('');
+
+    // EmailJS setup
+    const serviceID = 'service_xpduv4d';  // Replace with your service ID from EmailJS
+    const templateID = 'template_tz9p3y6';  // Replace with your template ID from EmailJS
+    const userID = '_3Crr2g3hRmw88Vjr';  // Replace with your user ID from EmailJS
+
+    // Sending email via EmailJS
+    emailjs.sendForm(serviceID, templateID, e.target, userID)
+      .then((result) => {
+        console.log('Email sent successfully:', result.text);
+        setStatusMessage('Message sent successfully!');
+        setFormState({
+          name: '',
+          email: '',
+          message: ''
+        });
+      })
+      .catch((error) => {
+        console.log('Error sending email:', error.text);
+        setStatusMessage('There was an error sending the message. Please try again.');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -36,6 +66,7 @@ export const Contact = () => {
             <motion.input
               type="text"
               id="name"
+              name="name"
               value={formState.name}
               onChange={(e) => setFormState({ ...formState, name: e.target.value })}
               className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none peer"
@@ -53,6 +84,7 @@ export const Contact = () => {
             <motion.input
               type="email"
               id="email"
+              name="email"
               value={formState.email}
               onChange={(e) => setFormState({ ...formState, email: e.target.value })}
               className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none peer"
@@ -69,6 +101,7 @@ export const Contact = () => {
           <div className="relative">
             <motion.textarea
               id="message"
+              name="message"
               value={formState.message}
               onChange={(e) => setFormState({ ...formState, message: e.target.value })}
               rows={5}
@@ -83,13 +116,26 @@ export const Contact = () => {
             </label>
           </div>
 
+          {statusMessage && (
+            <div className={`text-center mt-4 ${statusMessage.includes('success') ? 'text-green-500' : 'text-red-500'}`}>
+              {statusMessage}
+            </div>
+          )}
+
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium flex items-center justify-center space-x-2"
+            disabled={loading}
           >
-            <span>Send Message</span>
-            <Send className="w-4 h-4" />
+            {loading ? (
+              <span>Sending...</span>
+            ) : (
+              <>
+                <span>Send Message</span>
+                <Send className="w-4 h-4" />
+              </>
+            )}
           </motion.button>
         </motion.form>
       </div>

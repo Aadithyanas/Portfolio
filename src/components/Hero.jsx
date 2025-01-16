@@ -6,14 +6,12 @@ import heroImage from '../imges/mypic.jpeg'
 import "./Hero.css";
 
 export const Hero = ({ isDark, toggleTheme }) => {
-  const [backgroundColor, setBackgroundColor] = useState("transparent");
-
   
 
   return (
     <section
-      className={`hero-section ${isDark ? "dark-mode" : "light-mode"}`}
-      style={{ backgroundColor }}
+     
+      style={{ backgroundColor:"transparent" }}
     >
       <div className="hero-container">
         {/* Right Section: Circular Image with Glow Effect */}
@@ -44,9 +42,31 @@ export const Hero = ({ isDark, toggleTheme }) => {
               repeat={Infinity}
             />
           </div>
+          
           <p className="hero-description">
           As a passionate Full Stack Developer, I specialize in building dynamic, user-friendly web applications. With expertise in both frontend and backend technologies, I craft seamless digital experiences using tools like React, Node.js, and SQL databases. I’m dedicated to delivering high-quality, efficient solutions and continuously improving my skills to stay ahead in the fast-evolving tech landscape
           </p>
+          <h3 className="education-heading">Education</h3>
+          <div className="hero-education">
+            
+            <div className="education-details">
+              <p>
+                <strong>Full Stack Developer</strong>
+              </p>
+              <p>Major:Fontend</p>
+              <p>Insitute: MasaiSchool</p>
+              <p>Year of Graduation: OnGoing...</p>
+            </div>
+            <div className="education-details">
+              <p>
+                <strong>Diploma in Computer Hardware</strong>
+              </p>
+              <p>Major: Computer Hardware/Software</p>
+              <p>University:  Department of Technical Education, Government of Kerala</p>
+              <p>Year of Graduation: 2024</p>
+            </div>
+          </div>
+
           <div className="hero-icons">
             <a href="" className="social-icon">
               <FaTwitter />
@@ -58,14 +78,17 @@ export const Hero = ({ isDark, toggleTheme }) => {
               <FaLinkedin />
             </a>
           </div>
+          <div className="download">
           <a href="#" className="hero-button">
             Download CV
           </a>
+          </div>
+          
         </div>
       </div>
 
       {/* Theme Toggle Button */}
-      <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} />
+     
     </section>
   );
 };

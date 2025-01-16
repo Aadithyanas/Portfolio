@@ -1,7 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { FaJs, FaReact, FaCss3Alt, FaNodeJs, FaGitAlt } from "react-icons/fa";
+import { FaJs, FaReact, FaCss3Alt, FaNodeJs, FaGitAlt, FaHtml5, FaJava } from "react-icons/fa";
+import { SiPython, SiArduino, SiMongodb, SiFirebase, SiTypescript,SiSqlite, SiAndroidstudio, SiC } from "react-icons/si";
 
 export const skills = [
   {
@@ -23,9 +24,15 @@ export const skills = [
     color: "#3b82f6",
   },
   {
+    name: "HTML",
+    icon: FaHtml5,
+    proficiency: 95,
+    color: "#e34c26",
+  },
+  {
     name: "Node.js",
     icon: FaNodeJs,
-    proficiency: 75,
+    proficiency: 50,
     color: "#10b981",
   },
   {
@@ -34,6 +41,60 @@ export const skills = [
     proficiency: 70,
     color: "#a855f7",
   },
+  {
+    name: "Python",
+    icon: SiPython,
+    proficiency: 80,
+    color: "#3776AB",
+  },
+  {
+    name: "Java",
+    icon: FaJava,
+    proficiency: 55,
+    color: "#f89820",
+  },
+  {
+    name: "C",
+    icon: SiC,
+    proficiency: 85,
+    color: "#00599C",
+  },
+  {
+    name: "MongoDB",
+    icon: SiMongodb,
+    proficiency: 80,
+    color: "#47A248",
+  },
+  {
+    name: "Firebase",
+    icon: SiFirebase,
+    proficiency: 70,
+    color: "#FFCA28",
+  },
+  {
+    name: "SQLite",
+    icon: SiSqlite,
+    proficiency: 75,
+    color: "#003B57",
+  },
+  {
+    name: "Arduino",
+    icon: SiArduino,
+    proficiency: 50,
+    color: "#00979D",
+  },
+  {
+    name: "Android Studio",
+    icon: SiAndroidstudio,
+    proficiency: 45,
+    color: "#3DDC84",
+  },
+  {
+    name: "TypeScript",
+    icon: SiTypescript,
+    proficiency: 75,
+    color: "#3178C6",
+},
 ];
 
 export const Skills = () => {
@@ -109,21 +170,17 @@ export const Skills = () => {
                     />
                   </svg>
 
-                  {/* Conditional Icon Animation */}
+                  {/* Icon Display */}
                   <motion.div
                     className="absolute inset-0 flex items-center justify-center"
                     animate={
                       skill.name === "React"
-                        ? { rotate: [0, 360] } // Rotate only React icon
+                        ? { rotate: [0, 360] }
                         : {}
                     }
                     transition={
                       skill.name === "React"
-                        ? {
-                            duration: 4,
-                            repeat: Infinity,
-                            ease: "linear",
-                          }
+                        ? { duration: 4, repeat: Infinity, ease: "linear" }
                         : {}
                     }
                   >
@@ -151,7 +208,6 @@ export const Skills = () => {
                       ease: "easeOut",
                     }}
                   >
-                    {/* Displaying Proficiency Percentage */}
                     <motion.span
                       initial={{ opacity: 0 }}
                       animate={inView ? { opacity: 1 } : {}}
