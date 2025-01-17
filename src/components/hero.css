@@ -6,7 +6,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #a1a1a1; /* Light mode background */
+    background-color: #cbc8c8; /* Light mode background */
     color: #d4dff5; /* Dark text for light mode */
     position: relative;
     padding: 2rem;
@@ -45,13 +45,17 @@
 
 .hero-description {
     font-size: 1.25rem;
-    color: #848b99; /* Dark gray text for description */
+   
+    background-color: rgba(255, 255, 255, 0.338);
+    padding: 10px;
+    border-radius: 10px;
+    color: #000000; /* Dark gray text for description */
     margin-bottom: 1.5rem;
 }
 
 .hero-animation {
     font-size: 1.5rem;
-    color: #2563eb; /* Lighter blue for animation */
+    color: #2454bc; /* Lighter blue for animation */
     margin-bottom: 1.5rem;
 }
 
@@ -147,6 +151,7 @@
 .education-details {
     background-color: #8686bf46;
     padding: 20px;
+    color: white;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -156,13 +161,14 @@
 
 .education-details:hover {
     transform: scale(1.05);
+    
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .education-details p {
     margin: 8px 0;
     font-size: 1rem;
-    color: #b0b0b0;
+    color: #000000;
 }
 .education-details strong{
     color: #ffffff;
