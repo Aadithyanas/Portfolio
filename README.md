@@ -12,7 +12,7 @@ Welcome to my personal portfolio! This website showcases my work, projects, and 
 ## Live Demo
 
 You can view my portfolio here:  
-[Live Demo](https://taupe-frangollo-00dad1.netlify.app/)
+[Live Demo](https://rococo-toffee-d3f073.netlify.app/)
 
 ## Technologies Used
 
