@@ -1,7 +1,7 @@
 import React from "react";
 import { TypeAnimation } from "react-type-animation";
 import { FaTwitter, FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
-import heroImage from '../imges/mypic.jpeg';
+import heroImage from '../imges/newPic4.jpeg';
 import myResume from '../imges/myResume.pdf';
 import './Hero.css';
 

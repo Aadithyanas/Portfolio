@@ -1,7 +1,7 @@
 import movie from './imges/movieApp.png'
 import lms from './imges/Lms.png'
 import Xox from './imges/XoxGame.png'
-
+import clone from './imges/flipkartclone.png'
 export const projects = [
   {
     title: 'Movie Trailer App',
@@ -18,6 +18,14 @@ export const projects = [
     techStack: ['React', 'Firebase', 'Tailwind','Css','JavaScript'],
     githubUrl: 'https://github.com/Aadithyanas/LibarayMangementSysytem',
     liveUrl: 'https://curious-chaja-48876c.netlify.app/'
+  },
+  {
+    title: 'Flipkart Clone',
+    description: 'The Flipkart Clone project is a modern e-commerce application that replicates the core functionalities of Flipkart. Built with React and Firebase, it offers a seamless user experience for browsing products, managing carts, and secure authentication. Let me know if you did like further adjustments!.',
+    image: clone,
+    techStack: ['React', 'Firebase', 'Mongodb','Css','JavaScript','Material-UI'],
+    githubUrl: 'https://github.com/Aadithyanas/MIT-Student-Marketplace',
+    liveUrl: 'https://frolicking-paletas-0dc756.netlify.app/'
   },
   {
     title: 'TicTacToe',
