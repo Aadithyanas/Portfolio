@@ -11,7 +11,7 @@ export const Hero = ({ isDark, toggleTheme }) => {
     // Trigger the file download
     const link = document.createElement('a');
     link.href = myResume; // Path to your resume file
-    link.download = 'Aadithyan_AS_Resume.pdf';
+    link.download = myResume;
     link.click();
 
     // Open the file in a new window
