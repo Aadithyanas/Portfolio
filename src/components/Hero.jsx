@@ -2,7 +2,7 @@ import React from "react";
 import { TypeAnimation } from "react-type-animation";
 import { FaTwitter, FaGithub, FaLinkedin, FaEnvelope, FaDownload } from "react-icons/fa";
 import heroImage from '../imges/resumepic.jpg';
-import myResume from '../imges/MyCv.pdf';
+import myResume from "../imges/Aadithyan_Resume.pdf"
 import './hero.css';
 
 export const Hero = ({ isDark, toggleTheme }) => {
@@ -11,7 +11,7 @@ export const Hero = ({ isDark, toggleTheme }) => {
     // Trigger the file download
     const link = document.createElement('a');
     link.href = myResume; // Path to your resume file
-    link.download = myResume;
+    link.download = "Aadithyan_Resume";
     link.click();
 
     // Open the file in a new window
