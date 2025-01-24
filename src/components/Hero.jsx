@@ -1,17 +1,21 @@
 import React from "react";
 import { TypeAnimation } from "react-type-animation";
-import { FaTwitter, FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
-import heroImage from '../imges/newPic4.jpeg';
-import myResume from '../imges/myResume.pdf';
+import { FaTwitter, FaGithub, FaLinkedin, FaEnvelope, FaDownload } from "react-icons/fa";
+import heroImage from '../imges/resumepic.jpg';
+import myResume from '../imges/MyCv.pdf';
 import './Hero.css';
 
 export const Hero = ({ isDark, toggleTheme }) => {
 
   const handleDownloadCV = () => {
+    // Trigger the file download
     const link = document.createElement('a');
-    link.href =myResume; // Replace with the actual path to your resume file
+    link.href = myResume; // Path to your resume file
     link.download = 'Aadithyan_AS_Resume.pdf';
     link.click();
+
+    // Open the file in a new window
+    window.open(myResume, '_blank');
   };
 
   return (
@@ -63,7 +67,6 @@ export const Hero = ({ isDark, toggleTheme }) => {
           </div>
 
           <div className="hero-icons">
-           
             <a href="https://github.com/Aadithyanas" className="social-icon">
               <FaGithub />
             </a>
@@ -77,7 +80,10 @@ export const Hero = ({ isDark, toggleTheme }) => {
 
           <div className="download">
             <button className="hero-button" onClick={handleDownloadCV}>
-              Download CV
+              <div className="button-content">
+                <FaDownload className="download-icon"/>
+                <span>Resume</span>
+              </div>
             </button>
           </div>
         </div>
