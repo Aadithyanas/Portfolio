@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Send } from 'lucide-react';
+import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'; // Import social icons
 import emailjs from 'emailjs-com';
+import './hero.css'
 
 export const Contact = () => {
   const [formState, setFormState] = useState({
@@ -20,12 +22,13 @@ export const Contact = () => {
     setStatusMessage('');
 
     // EmailJS setup
-    const serviceID = 'service_xpduv4d';  // Replace with your service ID from EmailJS
-    const templateID = 'template_tz9p3y6';  // Replace with your template ID from EmailJS
-    const userID = '_3Crr2g3hRmw88Vjr';  // Replace with your user ID from EmailJS
+    const serviceID = 'service_xpduv4d'; // Replace with your service ID from EmailJS
+    const templateID = 'template_tz9p3y6'; // Replace with your template ID from EmailJS
+    const userID = '_3Crr2g3hRmw88Vjr'; // Replace with your user ID from EmailJS
 
     // Sending email via EmailJS
-    emailjs.sendForm(serviceID, templateID, e.target, userID)
+    emailjs
+      .sendForm(serviceID, templateID, e.target, userID)
       .then((result) => {
         console.log('Email sent successfully:', result.text);
         setStatusMessage('Message sent successfully!');
@@ -117,7 +120,11 @@ export const Contact = () => {
           </div>
 
           {statusMessage && (
-            <div className={`text-center mt-4 ${statusMessage.includes('success') ? 'text-green-500' : 'text-red-500'}`}>
+            <div
+              className={`text-center mt-4 ${
+                statusMessage.includes('success') ? 'text-green-500' : 'text-red-500'
+              }`}
+            >
               {statusMessage}
             </div>
           )}
@@ -138,6 +145,33 @@ export const Contact = () => {
             )}
           </motion.button>
         </motion.form>
+
+        {/* Social Icons */}
+        <div className="hero-icons flex justify-center items-center mt-8 space-x-4">
+          <a
+            href="https://github.com/Aadithyanas"
+            className="social-icon text-gray-500 hover:text-black transition"
+          >
+            <FaGithub size={24} />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/aadithyanas"
+            className="social-icon text-blue-600 hover:text-blue-800 transition"
+          >
+            <FaLinkedin size={24} />
+          </a>
+          <a
+            href="mailto:adithyanas2694@gmail.com"
+            className="social-icon text-red-500 hover:text-red-700 transition"
+          >
+            <FaEnvelope size={24} />
+          </a>
+        </div>
+
+        {/* Phone Number */}
+        <div className="text-center mt-4 text-gray-700 dark:text-gray-300">
+          <p className="text-lg">Phone: +91 8848673615</p>
+        </div>
       </div>
     </section>
   );
