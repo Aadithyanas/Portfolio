@@ -2,7 +2,7 @@ import React from "react";
 import { TypeAnimation } from "react-type-animation";
 import { FaTwitter, FaGithub, FaLinkedin, FaEnvelope, FaDownload } from "react-icons/fa";
 import heroImage from '../imges/resumepic.jpg';
-import myResume from "../imges/Aadithyan (2).pdf"
+import myResume from "../imges/Aadithyan.pdf"
 import './hero.css';
 
 export const Hero = ({ isDark, toggleTheme }) => {
