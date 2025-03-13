@@ -4,6 +4,14 @@ import Xox from './imges/XoxGame.png'
 import clone from './imges/flipkartclone.png'
 export const projects = [
   {
+    title: 'CodeFit',
+    description: 'CodeFit is a candidate recruiting web application that validates a candidates GitHub profile to assist companies in hiring decisions. Companies can create accounts, add candidates by providing their GitHub URLs, set benchmarks, compare candidates, and analyze their commit and pull request histories through interactive graphs.',
+    image: movie,
+    techStack: ['React', 'tailwind','Javascript','typeScript','Node.js',"MongoDB",'RestApi'],
+    githubUrl: 'https://github.com/Aadithyanas/CodeFit',
+    liveUrl: 'https://code-fit.vercel.app/'
+  },
+  {
     title: 'Movie Trailer App',
     description: 'The Movie Trailer Application lets users easily discover and watch trailers for the latest movies and TV shows. With a simple, user-friendly interface, you can search for titles, explore trending content, and enjoy high-quality previews—all in one place. Stay updated on the newest blockbusters and find your next favorite film quickly',
     image: movie,
@@ -11,14 +19,7 @@ export const projects = [
     githubUrl: 'https://github.com/Aadithyanas/MovieTrailerApp',
     liveUrl: 'https://sensational-centaur-321178.netlify.app/'
   },
-  {
-    title: 'Library Management System',
-    description: 'The Library Management System is a web-based application designed to streamline the management of library resources. It allows users to easily search, borrow, and return books, while administrators can manage book inventory, track transactions, and monitor user activity. This system helps improve efficiency and organization within a library.',
-    image: lms,
-    techStack: ['React', 'Firebase', 'Tailwind','Css','JavaScript'],
-    githubUrl: 'https://github.com/Aadithyanas/LibarayMangementSysytem',
-    liveUrl: 'https://curious-chaja-48876c.netlify.app/'
-  },
+ 
   {
     title: 'Flipkart Clone',
     description: 'The Flipkart Clone project is a modern e-commerce application that replicates the core functionalities of Flipkart. Built with React and Firebase, it offers a seamless user experience for browsing products, managing carts, and secure authentication. Let me know if you did like further adjustments!.',
