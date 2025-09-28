@@ -15,7 +15,7 @@ export const Contact = ({ isDark }) => {
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     setLoading(true);
@@ -24,38 +24,73 @@ export const Contact = ({ isDark }) => {
     // EmailJS setup - Update these with your actual EmailJS credentials
     const serviceID = 'service_xpduv4d'; // Your EmailJS service ID
     const templateID = 'template_tz9p3y6'; // Your EmailJS template ID
-    const userID = 'AOeVaBH6xhYuUoxv2z1L8'; // Your EmailJS user ID
+    const userID = 'N4RyDhPGG4ICgi72i'; // Your EmailJS user ID
     
-    // Initialize EmailJS
-    emailjs.init(userID);
+    try {
+      // Initialize EmailJS with proper error handling
+      if (!userID) {
+        throw new Error('EmailJS User ID is not configured');
+      }
 
-    // Sending email via EmailJS
-    emailjs
-      .sendForm(serviceID, templateID, e.target, userID)
-      .then((result) => {
-        console.log('Email sent successfully:', result.text);
-        setStatusMessage('Message sent successfully! I\'ll get back to you soon!');
-        setFormState({
-          name: '',
-          email: '',
-          message: ''
-        });
-      })
-      .catch((error) => {
-        console.error('EmailJS Error:', error);
-        console.log('Error details:', error.text);
-        
-        // Fallback: Show contact information
-        setStatusMessage(`Email service temporarily unavailable. Please contact me directly at adithyanas2694@gmail.com or call +91 8848673615`);
-        
-        // Optional: Copy email to clipboard
-        if (navigator.clipboard) {
-          navigator.clipboard.writeText('adithyanas2694@gmail.com');
-        }
-      })
-      .finally(() => {
-        setLoading(false);
+      // Prepare template parameters
+      const templateParams = {
+        from_name: formState.name,
+        from_email: formState.email,
+        message: formState.message,
+        to_name: 'Aadithyan',
+        reply_to: formState.email
+      };
+
+      // Send email using the modern EmailJS API
+      const result = await emailjs.send(
+        serviceID,
+        templateID,
+        templateParams,
+        userID
+      );
+
+      console.log('Email sent successfully:', result);
+      setStatusMessage('✅ Message sent successfully! I\'ll get back to you soon!');
+      
+      // Reset form
+      setFormState({
+        name: '',
+        email: '',
+        message: ''
       });
+
+    } catch (error) {
+      console.error('EmailJS Error Details:', error);
+      
+      // More specific error handling
+      let errorMessage = '';
+      if (error.status === 400) {
+        errorMessage = '❌ Invalid email configuration. Please check your EmailJS settings.';
+      } else if (error.status === 401) {
+        errorMessage = '❌ EmailJS authentication failed. Please check your API key.';
+      } else if (error.status === 403) {
+        errorMessage = '❌ EmailJS service access denied. Please check your service configuration.';
+      } else if (error.status === 404) {
+        errorMessage = '❌ EmailJS service not found. Please check your service ID.';
+      } else if (error.status === 429) {
+        errorMessage = '❌ Too many requests. Please try again later.';
+      } else {
+        errorMessage = '❌ Email service temporarily unavailable. Please contact me directly:';
+      }
+      
+      setStatusMessage(`${errorMessage}\n📧 adithyanas2694@gmail.com\n📱 +91 8848673615`);
+      
+      // Copy email to clipboard as fallback
+      try {
+        if (navigator.clipboard) {
+          await navigator.clipboard.writeText('adithyanas2694@gmail.com');
+        }
+      } catch (clipboardError) {
+        console.log('Could not copy to clipboard:', clipboardError);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -136,11 +171,13 @@ export const Contact = ({ isDark }) => {
 
           {statusMessage && (
             <div
-              className={`text-center mt-4 ${
-                statusMessage.includes('success') ? 'text-green-500' : 'text-red-500'
+              className={`text-center mt-4 p-4 rounded-lg ${
+                statusMessage.includes('✅') 
+                  ? 'text-green-600 bg-green-50 dark:bg-green-900/20 dark:text-green-400' 
+                  : 'text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400'
               }`}
             >
-              {statusMessage}
+              <pre className="whitespace-pre-wrap font-sans">{statusMessage}</pre>
             </div>
           )}
 
@@ -187,6 +224,21 @@ export const Contact = ({ isDark }) => {
         <div className="text-center mt-4 text-gray-700 dark:text-gray-300">
           <p className="text-lg">Phone: +91 8848673615</p>
         </div>
+
+        {/* Debug Information (only in development) */}
+        {import.meta.env.DEV && (
+          <div className="mt-8 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+            <h3 className="text-sm font-semibold mb-2">🔧 Debug Info (Development Only)</h3>
+            <div className="text-xs space-y-1">
+              <p>Service ID: {import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_xpduv4d'}</p>
+              <p>Template ID: {import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_tz9p3y6'}</p>
+              <p>User ID: {import.meta.env.VITE_EMAILJS_USER_ID ? '✅ Set' : '❌ Not set'}</p>
+              <p className="text-yellow-600">
+                💡 If emails aren't working, check your EmailJS dashboard and update the credentials.
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
