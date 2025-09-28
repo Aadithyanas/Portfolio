@@ -24,7 +24,7 @@ export const Contact = ({ isDark }) => {
     // EmailJS setup - Update these with your actual EmailJS credentials
     const serviceID = 'service_xpduv4d'; // Your EmailJS service ID
     const templateID = 'template_tz9p3y6'; // Your EmailJS template ID
-    const userID = '_3Crr2g3hRmw88Vjr'; // Your EmailJS user ID
+    const userID = 'AOeVaBH6xhYuUoxv2z1L8'; // Your EmailJS user ID
     
     // Initialize EmailJS
     emailjs.init(userID);
