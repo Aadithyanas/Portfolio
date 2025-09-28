@@ -225,7 +225,7 @@ export const Contact = ({ isDark }) => {
           <p className="text-lg">Phone: +91 8848673615</p>
         </div>
 
-        {/* Debug Information (only in development) */}
+        {/* Debug Information (only in development)
         {import.meta.env.DEV && (
           <div className="mt-8 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
             <h3 className="text-sm font-semibold mb-2">🔧 Debug Info (Development Only)</h3>
@@ -238,7 +238,7 @@ export const Contact = ({ isDark }) => {
               </p>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </section>
   );
