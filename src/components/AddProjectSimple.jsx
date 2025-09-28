@@ -104,8 +104,20 @@ const AddProjectSimple = ({ isDark, onClose, onProjectAdded }) => {
             isDark ? 'bg-gray-800' : 'bg-white'
           }`}
         >
-          <div className="flex items-center justify-center mb-6">
-            <Lock className={`w-12 h-12 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-center">
+              <Lock className={`w-12 h-12 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
+            </div>
+            <button
+              onClick={onClose}
+              className={`p-2 rounded-lg transition-colors ${
+                isDark 
+                  ? 'hover:bg-gray-700 text-gray-400' 
+                  : 'hover:bg-gray-100 text-gray-500'
+              }`}
+            >
+              <X className="w-6 h-6" />
+            </button>
           </div>
           
           <h2 className={`text-2xl font-bold text-center mb-6 ${
