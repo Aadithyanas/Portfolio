@@ -1,0 +1,491 @@
+/* AI Brain Animation Styles */
+.ai-brain-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 450px;
+  max-height: 550px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Laptop Frame */
+.laptop-frame {
+  position: relative;
+  width: 250px;
+  height: 160px;
+  background: linear-gradient(145deg, #2d3748, #1a202c);
+  border-radius: 15px;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 2px solid #4a5568;
+  z-index: 2;
+}
+
+.laptop-screen {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Hacking Screen */
+.hacking-screen {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+  color: #00ff00;
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  padding: 8px;
+  position: relative;
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #333;
+}
+
+.terminal-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.btn {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.btn.red { background: #ff5f56; }
+.btn.yellow { background: #ffbd2e; }
+.btn.green { background: #27ca3f; }
+
+.terminal-title {
+  color: #888;
+  font-size: 8px;
+}
+
+.terminal-content {
+  line-height: 1.2;
+}
+
+.terminal-line {
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.prompt {
+  color: #00ff00;
+  margin-right: 4px;
+}
+
+.command {
+  color: #ffff00;
+}
+
+.output {
+  color: #00ffff;
+  margin-left: 12px;
+}
+
+.cursor {
+  color: #00ff00;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* AI Brain */
+.ai-brain {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.brain-core {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 0 30px rgba(102, 126, 234, 0.5),
+    inset 0 0 20px rgba(255, 255, 255, 0.1);
+  border: 3px solid rgba(255, 255, 255, 0.2);
+}
+
+.brain-icon {
+  font-size: 60px;
+  color: white;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+}
+
+.neural-line {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, #00ff00, transparent);
+  transform-origin: bottom center;
+  border-radius: 1px;
+}
+
+.data-point {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #00ff00;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #00ff00;
+}
+
+.click-hint {
+  display: none;
+}
+
+/* Mini Robot */
+.mini-robot {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  z-index: 4;
+}
+
+.robot-icon {
+  font-size: 40px;
+  color: #4a5568;
+  filter: drop-shadow(0 0 10px rgba(74, 85, 104, 0.5));
+}
+
+.robot-eyes {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  color: #00ff00;
+  font-size: 8px;
+}
+
+.robot-antenna {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ffd700;
+  font-size: 12px;
+}
+
+/* Warning Modal */
+.warning-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.warning-content {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  color: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  border: 3px solid #ffd700;
+}
+
+.warning-icon {
+  font-size: 40px;
+  margin-bottom: 15px;
+  animation: pulse 0.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.warning-content h3 {
+  margin: 10px 0;
+  font-size: 24px;
+}
+
+.warning-content p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+/* Explosion Effect */
+.explosion-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.explosion-particle {
+  position: absolute;
+  border-radius: 50%;
+  box-shadow: 0 0 10px currentColor;
+}
+
+.ai-explosion-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 48px;
+  font-weight: bold;
+  color: #ff6b6b;
+  text-shadow: 
+    0 0 10px #ff6b6b,
+    0 0 20px #ff6b6b,
+    0 0 30px #ff6b6b;
+  z-index: 6;
+}
+
+/* Floating Code Elements */
+.floating-code {
+  position: absolute;
+  color: #60a5fa;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* Dark Mode Adjustments */
+.dark .ai-brain-container {
+  background: transparent;
+}
+
+.dark .laptop-frame {
+  background: linear-gradient(145deg, #1a202c, #0f172a);
+  border-color: #374151;
+}
+
+.dark .hacking-screen {
+  background: linear-gradient(135deg, #000000, #0f0f23);
+}
+
+.dark .brain-core {
+  background: linear-gradient(135deg, #8b5cf6, #a855f7);
+  box-shadow: 
+    0 0 30px rgba(139, 92, 246, 0.5),
+    inset 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.dark .robot-icon {
+  color: #6b7280;
+}
+
+.dark .floating-code {
+  color: #8b5cf6;
+}
+
+/* Responsive Design */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .ai-brain-container {
+    min-height: 350px;
+    max-height: 400px;
+  }
+  
+  .laptop-frame {
+    width: 200px;
+    height: 130px;
+  }
+  
+  .hacking-screen {
+    font-size: 7px;
+    padding: 5px;
+  }
+  
+  .ai-brain {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .brain-icon {
+    font-size: 45px;
+  }
+  
+  .neural-line {
+    height: 60px;
+  }
+  
+  .mini-robot {
+    width: 50px;
+    height: 50px;
+    bottom: 15px;
+    right: 15px;
+  }
+  
+  .robot-icon {
+    font-size: 35px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .ai-brain-container {
+    min-height: 280px;
+    max-height: 320px;
+  }
+  
+  .laptop-frame {
+    width: 180px;
+    height: 120px;
+  }
+  
+  .hacking-screen {
+    font-size: 6px;
+    padding: 4px;
+  }
+  
+  .terminal-header {
+    margin-bottom: 4px;
+    padding-bottom: 2px;
+  }
+  
+  .terminal-title {
+    font-size: 6px;
+  }
+  
+  .terminal-line {
+    margin-bottom: 1px;
+  }
+  
+  .ai-brain {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .brain-icon {
+    font-size: 35px;
+  }
+  
+  .neural-line {
+    height: 50px;
+  }
+  
+  .data-point {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .mini-robot {
+    width: 35px;
+    height: 35px;
+    bottom: 8px;
+    right: 8px;
+  }
+  
+  .robot-icon {
+    font-size: 25px;
+  }
+  
+  .robot-eyes {
+    font-size: 6px;
+    gap: 4px;
+  }
+  
+  .robot-antenna {
+    font-size: 8px;
+  }
+  
+  .ai-explosion-text {
+    font-size: 24px;
+  }
+  
+  .floating-code {
+    font-size: 12px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .ai-brain-container {
+    min-height: 250px;
+    max-height: 280px;
+  }
+  
+  .laptop-frame {
+    width: 160px;
+    height: 100px;
+  }
+  
+  .hacking-screen {
+    font-size: 5px;
+    padding: 3px;
+  }
+  
+  .ai-brain {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .brain-icon {
+    font-size: 30px;
+  }
+  
+  .neural-line {
+    height: 40px;
+  }
+  
+  .data-point {
+    width: 4px;
+    height: 4px;
+  }
+  
+  .mini-robot {
+    width: 30px;
+    height: 30px;
+    bottom: 5px;
+    right: 5px;
+  }
+  
+  .robot-icon {
+    font-size: 20px;
+  }
+  
+  .ai-explosion-text {
+    font-size: 20px;
+  }
+}

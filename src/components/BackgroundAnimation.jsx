@@ -12,7 +12,7 @@ export const BackgroundAnimation = ({ isDark }) => {
         <motion.div
           key={`particle-${i}`}
           className={`absolute rounded-full ${
-            isDark ? 'bg-blue-500' : 'bg-blue-200'
+            isDark ? 'bg-blue-400' : 'bg-blue-300'
           }`}
           style={{
             width: Math.random() * 8 + 'px',
@@ -41,7 +41,7 @@ export const BackgroundAnimation = ({ isDark }) => {
         <motion.div
           key={`shape-${i}`}
           className={`absolute ${
-            isDark ? 'border-blue-500/20' : 'border-blue-200/20'
+            isDark ? 'border-blue-400/30' : 'border-blue-300/30'
           } border-[1px]`}
           style={{
             width: Math.random() * 300 + 100 + 'px',
@@ -68,8 +68,8 @@ export const BackgroundAnimation = ({ isDark }) => {
       <div 
         className={`absolute inset-0 ${
           isDark 
-            ? 'bg-gradient-to-br from-blue-900/30 via-purple-900/20 to-pink-900/30' 
-            : 'bg-gradient-to-br from-blue-100/50 via-purple-100/30 to-pink-100/50'
+            ? 'bg-gradient-to-br from-slate-900/20 via-blue-900/10 to-purple-900/20' 
+            : 'bg-gradient-to-br from-blue-50/30 via-indigo-50/20 to-purple-50/30'
         }`}
       />
     </div>

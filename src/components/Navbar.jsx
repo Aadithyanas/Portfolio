@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ThemeToggle } from './ThemeToggle';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import { FaBars, FaTimes, FaPlus, FaLock } from 'react-icons/fa';
 
-export const Navbar = ({ isDark, toggleTheme }) => {
+export const Navbar = ({ isDark, toggleTheme, themeMode, onAddProject }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showLockIcon, setShowLockIcon] = useState(false);
   const { scrollY } = useScroll();
   const backgroundColor = useTransform(
     scrollY,
@@ -53,7 +54,26 @@ export const Navbar = ({ isDark, toggleTheme }) => {
               />
             </motion.a>
           ))}
-          <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} />
+          <motion.button
+            onClick={onAddProject}
+            onMouseEnter={() => setShowLockIcon(true)}
+            onMouseLeave={() => setShowLockIcon(false)}
+            className={`p-2 rounded-full transition-all duration-300 ${
+              isDark
+                ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                : 'bg-blue-600 hover:bg-blue-700 text-white'
+            }`}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            title="Add Project (Password Protected)"
+          >
+            {showLockIcon ? (
+              <FaLock className="w-4 h-4" />
+            ) : (
+              <FaPlus className="w-4 h-4" />
+            )}
+          </motion.button>
+          <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} themeMode={themeMode} />
         </div>
       </div>
 
@@ -75,7 +95,24 @@ export const Navbar = ({ isDark, toggleTheme }) => {
               {item}
             </a>
           ))}
-          <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} />
+          <motion.button
+            onClick={() => {
+              onAddProject();
+              setIsOpen(false);
+            }}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
+              isDark
+                ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                : 'bg-blue-600 hover:bg-blue-700 text-white'
+            }`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            title="Add Project (Password Protected)"
+          >
+            <FaPlus className="w-4 h-4" />
+            Add Project
+          </motion.button>
+          <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} themeMode={themeMode} />
         </motion.div>
       )}
     </motion.nav>

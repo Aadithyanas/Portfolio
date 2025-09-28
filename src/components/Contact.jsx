@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Send } from 'lucide-react';
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'; // Import social icons
-import emailjs from 'emailjs-com';
+import emailjs from '@emailjs/browser';
 import './hero.css'
 
-export const Contact = () => {
+export const Contact = ({ isDark }) => {
   const [formState, setFormState] = useState({
     name: '',
     email: '',
@@ -21,17 +21,20 @@ export const Contact = () => {
     setLoading(true);
     setStatusMessage('');
 
-    // EmailJS setup
-    const serviceID = 'service_xpduv4d'; // Replace with your service ID from EmailJS
-    const templateID = 'template_tz9p3y6'; // Replace with your template ID from EmailJS
-    const userID = '_3Crr2g3hRmw88Vjr'; // Replace with your user ID from EmailJS
+    // EmailJS setup - Update these with your actual EmailJS credentials
+    const serviceID = 'service_xpduv4d'; // Your EmailJS service ID
+    const templateID = 'template_tz9p3y6'; // Your EmailJS template ID
+    const userID = '_3Crr2g3hRmw88Vjr'; // Your EmailJS user ID
+    
+    // Initialize EmailJS
+    emailjs.init(userID);
 
     // Sending email via EmailJS
     emailjs
       .sendForm(serviceID, templateID, e.target, userID)
       .then((result) => {
         console.log('Email sent successfully:', result.text);
-        setStatusMessage('Message sent successfully!');
+        setStatusMessage('Message sent successfully! I\'ll get back to you soon!');
         setFormState({
           name: '',
           email: '',
@@ -39,8 +42,16 @@ export const Contact = () => {
         });
       })
       .catch((error) => {
-        console.log('Error sending email:', error.text);
-        setStatusMessage('There was an error sending the message. Please try again.');
+        console.error('EmailJS Error:', error);
+        console.log('Error details:', error.text);
+        
+        // Fallback: Show contact information
+        setStatusMessage(`Email service temporarily unavailable. Please contact me directly at adithyanas2694@gmail.com or call +91 8848673615`);
+        
+        // Optional: Copy email to clipboard
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText('adithyanas2694@gmail.com');
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -53,7 +64,11 @@ export const Contact = () => {
         <motion.h2
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          className="text-4xl font-bold text-center mb-12"
+          className={`text-4xl font-bold text-center mb-12 bg-clip-text text-transparent ${
+            isDark 
+              ? 'bg-gradient-to-r from-blue-400 to-purple-400' 
+              : 'bg-gradient-to-r from-blue-600 to-purple-600'
+          }`}
         >
           Get In Touch
         </motion.h2>
