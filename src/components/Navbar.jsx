@@ -25,7 +25,7 @@ export const Navbar = ({ isDark, toggleTheme, themeMode, onAddProject }) => {
           className="text-2xl font-bold"
           whileHover={{ scale: 1.05 }}
         >
-          Portfolio
+          Aadithyan
         </motion.a>
 
         {/* Hamburger Menu for Mobile */}

@@ -54,8 +54,12 @@ export const Hero = ({ isDark }) => {
         {/* Top Section: Profile Image and Name */}
         <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-12 mb-12 lg:mb-16">
           {/* Profile Image */}
-          <div className="relative w-48 h-48 lg:w-56 lg:h-56 rounded-full overflow-hidden bg-blue-500/10 shadow-2xl shadow-blue-500/30 transition-all duration-300 hover:shadow-blue-500/50 flex-shrink-0">
-            <img src={heroImage} alt="Profile" className="w-full h-full object-cover hover:scale-110 transition-transform duration-300" />
+          <div className="relative w-48 h-48 lg:w-56 lg:h-56 rounded-full overflow-hidden bg-blue-500/10 shadow-2xl shadow-blue-500/30 transition-all duration-300 hover:shadow-blue-500/50 flex-shrink-0 ring-4 ring-blue-500/20">
+            <img 
+              src={heroImage} 
+              alt="Aadithyan A S - Full Stack Developer" 
+              className="profile-image-perfect hover:scale-110 transition-transform duration-300" 
+            />
             
             {/* Floating Stats Cards */}
             <motion.div
@@ -324,6 +328,7 @@ export const Hero = ({ isDark }) => {
                 </div>
               </div>
             </motion.div>
+
           </div>
         </div>
 

@@ -11,6 +11,7 @@ import AddProjectSimple from './components/AddProjectSimple';
 import AllProjects from './components/AllProjects';
 import NEXAA from './components/NEXAA';
 import NEXAAButton from './components/NEXAAButton';
+import GitHubStatsSection from './components/GitHubStatsSection';
 
 type ThemeMode = 'light' | 'dark' | 'system';
 
@@ -124,6 +125,7 @@ function App() {
           refreshTrigger={refreshTrigger} 
           onShowAllProjects={handleShowAllProjects}
         />
+        <GitHubStatsSection isDark={isDark} username="Aadithyanas" />
         {useEmailJS ? (
           <Contact isDark={isDark} />
         ) : (
