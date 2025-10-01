@@ -25,7 +25,7 @@ export const Navbar = ({ isDark, toggleTheme, themeMode, onAddProject }) => {
           className="text-2xl font-bold"
           whileHover={{ scale: 1.05 }}
         >
-          Aadithyan
+          Portfolio
         </motion.a>
 
         {/* Hamburger Menu for Mobile */}
@@ -44,14 +44,13 @@ export const Navbar = ({ isDark, toggleTheme, themeMode, onAddProject }) => {
           {['About', 'Skills', 'Projects', 'Contact'].map((item) => (
             <motion.a
               key={item}
-              href={`#${item.toLowerCase()}`}
-              className="relative group"
+              href={item === 'About' ? '#about' : `#${item.toLowerCase()}`}
+              className={`relative group ${
+                isDark ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
+              }`}
               whileHover={{ scale: 1.05 }}
             >
               {item}
-              <motion.span
-                
-              />
             </motion.a>
           ))}
           <motion.button
@@ -88,8 +87,10 @@ export const Navbar = ({ isDark, toggleTheme, themeMode, onAddProject }) => {
           {['About', 'Skills', 'Projects', 'Contact'].map((item) => (
             <a
               key={item}
-              href={`#${item.toLowerCase()}`}
-              className="text-lg font-medium"
+              href={item === 'About' ? '#about' : `#${item.toLowerCase()}`}
+              className={`text-lg font-medium ${
+                isDark ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
+              }`}
               onClick={() => setIsOpen(false)}
             >
               {item}

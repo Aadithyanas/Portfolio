@@ -46,7 +46,7 @@ export const ContactAlternative = ({ isDark }) => {
   };
 
   return (
-    <section id="contact" className={`py-20 ${
+    <section id="contact" className={`py-20 pt-24 ${
       isDark 
         ? 'bg-gradient-to-br from-slate-800 to-gray-900' 
         : 'bg-gradient-to-br from-gray-50 to-blue-50'

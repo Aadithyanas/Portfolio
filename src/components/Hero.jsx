@@ -14,7 +14,7 @@ export const Hero = ({ isDark }) => {
     // Trigger the file download
     const link = document.createElement('a');
     link.href = myResume; // Path to your resume file
-    link.download = "Aadithyan_Resume";
+    link.download = "Aadithyan-AS-Resume";
     link.click();
 
     // Open the file in a new window
@@ -22,7 +22,7 @@ export const Hero = ({ isDark }) => {
   };
 
   return (
-    <section style={{ backgroundColor: "transparent" }} className="relative overflow-hidden">
+    <section id="about" style={{ backgroundColor: "transparent" }} className="relative overflow-hidden pt-20">
       {/* Floating Elements */}
       <div className="absolute inset-0 pointer-events-none">
         {[...Array(6)].map((_, i) => (
@@ -88,7 +88,9 @@ export const Hero = ({ isDark }) => {
           {/* Name and Title */}
           <div className="text-center lg:text-left">
             <motion.h1 
-              className="text-3xl lg:text-4xl font-bold text-white mb-2"
+              className={`text-3xl lg:text-4xl font-bold mb-2 ${
+                isDark ? 'text-white' : 'text-gray-800'
+              }`}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
@@ -216,21 +218,21 @@ export const Hero = ({ isDark }) => {
                 isDark ? 'text-blue-300' : 'text-blue-700'
               }`}>Connect With Me</h4>
               <div className="flex gap-4 lg:gap-6">
-                <a href="https://github.com/Aadithyanas" className={`p-3 lg:p-4 rounded-full transition-all duration-300 hover:scale-110 ${
+                <a href="https://github.com/Aadithyanas" target="_blank" rel="noopener noreferrer" className={`p-3 lg:p-4 rounded-full transition-all duration-300 hover:scale-110 ${
                   isDark 
                     ? 'bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white' 
                     : 'bg-gray-200 text-gray-600 hover:bg-gray-300 hover:text-gray-900'
                 }`}>
                   <FaGithub className="text-xl lg:text-2xl" />
                 </a>
-                <a href="https://www.linkedin.com/in/aadithyanas" className={`p-3 lg:p-4 rounded-full transition-all duration-300 hover:scale-110 ${
+                <a href="https://www.linkedin.com/in/aadithyanas" target="_blank" rel="noopener noreferrer" className={`p-3 lg:p-4 rounded-full transition-all duration-300 hover:scale-110 ${
                   isDark 
                     ? 'bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white' 
                     : 'bg-gray-200 text-gray-600 hover:bg-gray-300 hover:text-gray-900'
                 }`}>
                   <FaLinkedin className="text-xl lg:text-2xl" />
                 </a>
-                <a href="mailto:adithyanas2694@gmail.com" className={`p-3 lg:p-4 rounded-full transition-all duration-300 hover:scale-110 ${
+                <a href="mailto:adithyanas2694@gmail.com" target="_blank" rel="noopener noreferrer" className={`p-3 lg:p-4 rounded-full transition-all duration-300 hover:scale-110 ${
                   isDark 
                     ? 'bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white' 
                     : 'bg-gray-200 text-gray-600 hover:bg-gray-300 hover:text-gray-900'

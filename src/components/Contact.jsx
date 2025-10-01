@@ -94,7 +94,7 @@ export const Contact = ({ isDark }) => {
   };
 
   return (
-    <section id="contact" className="py-20">
+    <section id="contact" className="py-20 pt-24">
       <div className="max-w-3xl mx-auto px-6">
         <motion.h2
           initial={{ opacity: 0 }}

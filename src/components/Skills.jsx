@@ -42,7 +42,7 @@ export const Skills = ({ isDark }) => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section id="skills" className="py-20 relative">
+    <section id="skills" className="py-20 pt-24 relative">
       <div className="max-w-7xl mx-auto px-6">
         <motion.h2
           className={`text-4xl font-bold text-center mb-12 bg-clip-text text-transparent ${

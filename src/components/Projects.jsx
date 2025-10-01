@@ -119,7 +119,7 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
   }
 
   return (
-    <section ref={sectionRef} id="projects" className={`py-20 ${
+    <section ref={sectionRef} id="projects" className={`py-20 pt-24 ${
       isDark 
         ? 'bg-gradient-to-br from-slate-800 to-gray-900' 
         : 'bg-gradient-to-br from-gray-50 to-blue-50'
@@ -137,7 +137,7 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
           Featured Projects
         </motion.h2>
 
-        <div ref={ref} className="grid md:grid-cols-2 gap-8">
+        <div ref={ref} className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 lg:gap-8">
           {latestProjects.map((project, index) => (
             <motion.div
               key={project.title}
@@ -182,9 +182,11 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
                   </motion.a>
                 </div>
               </div>
-              <div className="p-6 flex flex-col h-80">
+              <div className="p-4 sm:p-6 flex flex-col min-h-80">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-xl font-bold">{project.title}</h3>
+                  <h3 className={`text-lg sm:text-xl font-bold ${
+                    isDark ? 'text-white' : 'text-gray-900'
+                  }`}>{project.title}</h3>
                   {project.id && (
                     <span className={`px-2 py-1 text-xs rounded-full ${
                       isDark 
@@ -196,10 +198,12 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
                   )}
                 </div>
                 <div className="flex-1 overflow-hidden">
-                  <div className={`h-32 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 ${
+                  <div className={`h-24 sm:h-32 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 ${
                     isDark ? 'scrollbar-thumb-gray-600 scrollbar-track-gray-800' : ''
                   }`}>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                    <p className={`text-xs sm:text-sm leading-relaxed ${
+                      isDark ? 'text-gray-300' : 'text-gray-600'
+                    }`}>
                       {project.description}
                     </p>
                   </div>
@@ -210,7 +214,11 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
                       {project.techStack.map((tech, index) => (
                         <span
                           key={tech}
-                          className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full whitespace-nowrap flex-shrink-0"
+                          className={`px-2 sm:px-3 py-1 text-xs sm:text-sm rounded-full whitespace-nowrap flex-shrink-0 ${
+                            isDark 
+                              ? 'bg-blue-900 text-blue-100' 
+                              : 'bg-blue-100 text-blue-800'
+                          }`}
                         >
                           {tech}
                         </span>
@@ -219,7 +227,11 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
                       {project.techStack.map((tech, index) => (
                         <span
                           key={`${tech}-duplicate`}
-                          className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full whitespace-nowrap flex-shrink-0"
+                          className={`px-2 sm:px-3 py-1 text-xs sm:text-sm rounded-full whitespace-nowrap flex-shrink-0 ${
+                            isDark 
+                              ? 'bg-blue-900 text-blue-100' 
+                              : 'bg-blue-100 text-blue-800'
+                          }`}
                         >
                           {tech}
                         </span>

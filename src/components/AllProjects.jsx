@@ -204,7 +204,9 @@ const AllProjects = ({ isDark, onBack, toggleTheme, themeMode }) => {
               </div>
               <div className="p-6 flex flex-col h-80">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-xl font-bold">{project.title}</h3>
+                  <h3 className={`text-xl font-bold ${
+                    isDark ? 'text-white' : 'text-gray-900'
+                  }`}>{project.title}</h3>
                   {project.id && (
                     <span className={`px-2 py-1 text-xs rounded-full ${
                       isDark 
@@ -219,7 +221,9 @@ const AllProjects = ({ isDark, onBack, toggleTheme, themeMode }) => {
                   <div className={`h-32 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 ${
                     isDark ? 'scrollbar-thumb-gray-600 scrollbar-track-gray-800' : ''
                   }`}>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                    <p className={`text-sm leading-relaxed ${
+                      isDark ? 'text-gray-300' : 'text-gray-600'
+                    }`}>
                       {project.description}
                     </p>
                   </div>
