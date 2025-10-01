@@ -121,8 +121,7 @@ export const Hero = ({ isDark }) => {
                 2000,
                 "React Enthusiast",
                 2000,
-                "UI/UX Designer",
-                2000,
+                
                   "Rust Developer",
                   2000,
                   "Next.js Expert",
@@ -173,14 +172,7 @@ export const Hero = ({ isDark }) => {
                   isDark ? 'text-gray-400' : 'text-gray-600'
                 }`}>Projects</span>
             </div>
-              <div className="text-center p-4 rounded-lg bg-gradient-to-br from-green-500/10 to-blue-500/10 border border-green-500/20">
-                <span className={`block text-2xl lg:text-3xl font-bold ${
-                  isDark ? 'text-green-400' : 'text-green-600'
-                }`}>2+</span>
-                <span className={`text-sm lg:text-base ${
-                  isDark ? 'text-gray-400' : 'text-gray-600'
-                }`}>Years Experience</span>
-            </div>
+             
             </motion.div>
 
             {/* Featured Technologies */}
@@ -300,7 +292,7 @@ export const Hero = ({ isDark }) => {
                   }`}>Full Stack Developer</p>
                   <p className={`text-sm lg:text-base ${
                     isDark ? 'text-gray-300' : 'text-gray-600'
-                  }`}>Major: Frontend</p>
+                  }`}>Major: Full Stack Development</p>
                   <p className={`text-sm lg:text-base ${
                     isDark ? 'text-gray-300' : 'text-gray-600'
                   }`}>Institute: Masai School</p>
