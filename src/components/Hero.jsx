@@ -4,7 +4,8 @@ import { FaTwitter, FaGithub, FaLinkedin, FaEnvelope, FaDownload, FaCode, FaRock
 import { motion } from "framer-motion";
 import { AIBrainAnimation } from './AIBrainAnimation';
 import heroImage from '../imges/resumepic.jpg';
-import myResume from "../imges/Aadithyan.pdf"
+// Using public folder for PDF to avoid hash naming
+const myResume = "/assets/Aadithyan.pdf"
 import './hero.css';
 import './ai-brain.css';
 

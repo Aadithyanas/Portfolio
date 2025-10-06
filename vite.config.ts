@@ -7,4 +7,18 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  build: {
+    rollupOptions: {
+      output: {
+        assetFileNames: (assetInfo) => {
+          // Keep original names for PDF files
+          if (assetInfo.name && assetInfo.name.endsWith('.pdf')) {
+            return 'assets/[name][extname]';
+          }
+          // Add hash for other assets
+          return 'assets/[name]-[hash][extname]';
+        }
+      }
+    }
+  }
 });
