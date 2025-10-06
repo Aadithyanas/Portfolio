@@ -13,6 +13,18 @@ export const Navbar = ({ isDark, toggleTheme, themeMode, onAddProject }) => {
     ['rgba(255, 255, 255, 0)', isDark ? 'rgba(17, 24, 39, 0.9)' : 'rgba(200, 200, 200, 0.9)']
   );
 
+  // Smooth scroll function
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+    setIsOpen(false); // Close mobile menu after navigation
+  };
+
   return (
     <motion.nav
       style={{ backgroundColor }}
@@ -41,18 +53,21 @@ export const Navbar = ({ isDark, toggleTheme, themeMode, onAddProject }) => {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-8">
-          {['About', 'Skills', 'Projects', 'Contact'].map((item) => (
-            <motion.a
-              key={item}
-              href={item === 'About' ? '#about' : `#${item.toLowerCase()}`}
-              className={`relative group ${
-                isDark ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
-              }`}
-              whileHover={{ scale: 1.05 }}
-            >
-              {item}
-            </motion.a>
-          ))}
+          {['About', 'Skills', 'Projects', 'Contact'].map((item) => {
+            const sectionId = item === 'About' ? 'about' : item.toLowerCase();
+            return (
+              <motion.button
+                key={item}
+                onClick={() => scrollToSection(sectionId)}
+                className={`relative group ${
+                  isDark ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
+                }`}
+                whileHover={{ scale: 1.05 }}
+              >
+                {item}
+              </motion.button>
+            );
+          })}
           <motion.button
             onClick={onAddProject}
             onMouseEnter={() => setShowLockIcon(true)}
@@ -84,18 +99,20 @@ export const Navbar = ({ isDark, toggleTheme, themeMode, onAddProject }) => {
           transition={{ duration: 0.3 }}
           className="md:hidden flex flex-col items-center space-y-4 mt-4"
         >
-          {['About', 'Skills', 'Projects', 'Contact'].map((item) => (
-            <a
-              key={item}
-              href={item === 'About' ? '#about' : `#${item.toLowerCase()}`}
-              className={`text-lg font-medium ${
-                isDark ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              {item}
-            </a>
-          ))}
+          {['About', 'Skills', 'Projects', 'Contact'].map((item) => {
+            const sectionId = item === 'About' ? 'about' : item.toLowerCase();
+            return (
+                <button
+                  key={item}
+                  onClick={() => scrollToSection(sectionId)}
+                  className={`text-lg font-medium ${
+                    isDark ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
+                  }`}
+                >
+                  {item}
+                </button>
+            );
+          })}
           <motion.button
             onClick={() => {
               onAddProject();

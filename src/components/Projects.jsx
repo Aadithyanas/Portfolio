@@ -35,65 +35,50 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
   const latestProjects = projects.slice(0, 4);
 
   // GSAP animations
-  useEffect(() => {
-    if (latestProjects.length === 0) return;
+  // useEffect(() => {
+  //   if (latestProjects.length === 0) return;
 
-    const ctx = gsap.context(() => {
-      // Animate projects from top to bottom
-      gsap.fromTo(projectsRef.current, 
-        {
-          y: 100,
-          opacity: 0,
-          scale: 0.8
-        },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.8,
-          stagger: 0.2,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 80%",
-            end: "bottom 20%",
-            toggleActions: "play none none reverse"
-          }
-        }
-      );
+  //   const ctx = gsap.context(() => {
+  //     // Animate projects from top to bottom
+  //     gsap.fromTo(projectsRef.current, 
+  //       {
+  //         y: 100,
+  //         opacity: 0,
+  //         scale: 0.8
+  //       },
+  //       {
+  //         y: 0,
+  //         opacity: 1,
+  //         scale: 1,
+  //         duration: 0.8,
+  //         stagger: 0.2,
+  //         ease: "power2.out",
+  //         scrollTrigger: {
+  //           trigger: sectionRef.current,
+  //           start: "top 80%",
+  //           end: "bottom 20%",
+  //           toggleActions: "play none none reverse"
+  //         }
+  //       }
+  //     );
 
-      // Animate project images on hover
-      projectsRef.current.forEach((projectEl, index) => {
-        if (projectEl) {
-          const imageEl = projectEl.querySelector('.project-image');
-          
-          if (imageEl) {
-            projectEl.addEventListener('mouseenter', () => {
-              gsap.to(imageEl, { scale: 1.1, duration: 0.3, ease: "power2.out" });
-            });
-            
-            projectEl.addEventListener('mouseleave', () => {
-              gsap.to(imageEl, { scale: 1, duration: 0.3, ease: "power2.out" });
-            });
-          }
-        }
-      });
-    }, sectionRef);
+  //     // Image hover effects are now handled by Tailwind CSS classes
+  //   }, sectionRef);
 
-    return () => ctx.revert();
-  }, [latestProjects.length]);
+  //   return () => ctx.revert();
+  // }, [latestProjects.length]);
 
   if (loading) {
     return (
-      <section id="projects" className={`py-20 ${
+      <section  className={`py-8 sm:py-12 md:py-16 lg:py-20 ${
         isDark 
           ? 'bg-gradient-to-br from-slate-800 to-gray-900' 
           : 'bg-gradient-to-br from-gray-50 to-blue-50'
       }`}>
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
-            <p className={`mt-4 text-lg ${
+            <div className="animate-spin rounded-full h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 border-b-2 border-blue-500 mx-auto"></div>
+            <p className={`mt-3 sm:mt-4 text-sm sm:text-base md:text-lg ${
               isDark ? 'text-gray-300' : 'text-gray-600'
             }`}>Loading projects...</p>
           </div>
@@ -104,14 +89,14 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
 
   if (error) {
     return (
-      <section id="projects" className={`py-20 ${
+      <section  className={`py-8 sm:py-12 md:py-16 lg:py-20 ${
         isDark 
           ? 'bg-gradient-to-br from-slate-800 to-gray-900' 
           : 'bg-gradient-to-br from-gray-50 to-blue-50'
       }`}>
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12">
           <div className="text-center">
-            <p className={`text-lg text-red-500`}>{error}</p>
+            <p className={`text-sm sm:text-base md:text-lg text-red-500`}>{error}</p>
           </div>
         </div>
       </section>
@@ -119,14 +104,14 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
   }
 
   return (
-    <section ref={sectionRef} id="projects" className={`py-20 pt-24 ${
+    <section ref={sectionRef} id="projects" className={`py-8 sm:py-12 md:py-16 lg:py-20 pt-12 sm:pt-16 md:pt-20 lg:pt-24 ${
       isDark 
         ? 'bg-gradient-to-br from-slate-800 to-gray-900' 
         : 'bg-gradient-to-br from-gray-50 to-blue-50'
     }`}>
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12">
         <motion.h2
-          className={`text-4xl font-bold text-center mb-12 bg-clip-text text-transparent ${
+          className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-center mb-6 sm:mb-8 md:mb-10 lg:mb-12 bg-clip-text text-transparent ${
             isDark 
               ? 'bg-gradient-to-r from-blue-400 to-purple-400' 
               : 'bg-gradient-to-r from-blue-600 to-purple-600'
@@ -137,7 +122,7 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
           Featured Projects
         </motion.h2>
 
-        <div ref={ref} className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 lg:gap-8">
+        <div ref={ref} className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-3 sm:gap-4 md:gap-6 lg:gap-8">
           {latestProjects.map((project, index) => (
             <motion.div
               key={project.title}
@@ -145,50 +130,52 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
               initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ delay: index * 0.2 }}
-              className={`group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ${
+              className={`group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 w-full ${
                 isDark 
                   ? 'bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 hover:border-gray-600' 
                   : 'bg-gradient-to-br from-white to-gray-50 border border-gray-200 hover:border-gray-300'
               }`}
             >
-              <div className="relative h-80 overflow-hidden">
+              <div className="relative h-40 sm:h-48 md:h-56 lg:h-64 xl:h-72 overflow-hidden">
                 <motion.img
                   src={getImageUrl(project.imageUrl || project.image)}
                   alt={project.title}
-                  className="project-image w-full h-full object-cover transition-transform duration-300"
-                      onError={(e) => {
-                        // Fallback to base64 placeholder if image fails to load
-                        e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNGY0NmV1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iI2ZmZmZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlByb2plY3QgSW1hZ2U8L3RleHQ+PC9zdmc+';
-                      }}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  onError={(e) => {
+                    // Fallback to base64 placeholder if image fails to load
+                    e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNGY0NmV1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iI2ZmZmZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlByb2plY3QgSW1hZ2U8L3RleHQ+PC9zdmc+';
+                  }}
                 />
-                <div className="project-overlay absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
+                <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-2 sm:space-x-3 md:space-x-4">
                   <motion.a
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.1 }}
-                    className="p-2 bg-white rounded-full"
+                    className="p-1.5 sm:p-2 md:p-2.5 bg-white rounded-full"
                   >
-                    <Github className="w-6 h-6 text-gray-900" />
+                    <Github className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-gray-900" />
                   </motion.a>
                   <motion.a
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.1 }}
-                    className="p-2 bg-white rounded-full"
+                    className="p-1.5 sm:p-2 md:p-2.5 bg-white rounded-full"
                   >
-                    <ExternalLink className="w-6 h-6 text-gray-900" />
+                    <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-gray-900" />
                   </motion.a>
                 </div>
               </div>
-              <div className="p-4 sm:p-6 flex flex-col min-h-80">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className={`text-lg sm:text-xl font-bold ${
+              <div className="p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col h-full">
+                <div className="flex items-start justify-between mb-2 sm:mb-3 gap-2">
+                  <h3 className={`text-sm sm:text-base md:text-lg lg:text-xl font-bold flex-1 min-w-0 ${
                     isDark ? 'text-white' : 'text-gray-900'
-                  }`}>{project.title}</h3>
+                  }`}>
+                    <span className="truncate block">{project.title}</span>
+                  </h3>
                   {project.id && (
-                    <span className={`px-2 py-1 text-xs rounded-full ${
+                    <span className={`px-2 py-0.5 sm:py-1 text-xs rounded-full flex-shrink-0 ${
                       isDark 
                         ? 'bg-green-900/20 text-green-400 border border-green-500' 
                         : 'bg-green-100 text-green-700 border border-green-200'
@@ -197,37 +184,22 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
                     </span>
                   )}
                 </div>
-                <div className="flex-1 overflow-hidden">
-                  <div className={`h-24 sm:h-32 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 ${
-                    isDark ? 'scrollbar-thumb-gray-600 scrollbar-track-gray-800' : ''
-                  }`}>
-                    <p className={`text-xs sm:text-sm leading-relaxed ${
+                <div className="flex-1 overflow-hidden mb-3 sm:mb-4 min-h-0">
+                  <div className="h-16 sm:h-20 md:h-24 overflow-y-auto">
+                    <p className={`text-xs sm:text-sm md:text-base leading-relaxed ${
                       isDark ? 'text-gray-300' : 'text-gray-600'
                     }`}>
                       {project.description}
                     </p>
                   </div>
                 </div>
-                <div className="mt-4 overflow-hidden">
-                  <div className="tech-stack-container relative">
-                    <div className="tech-stack-scroll flex gap-2 animate-scroll">
+                <div className="overflow-hidden mt-auto">
+                  <div className="relative">
+                    <div className="flex gap-1 sm:gap-1.5 md:gap-2 overflow-x-auto pb-2">
                       {project.techStack.map((tech, index) => (
                         <span
                           key={tech}
-                          className={`px-2 sm:px-3 py-1 text-xs sm:text-sm rounded-full whitespace-nowrap flex-shrink-0 ${
-                            isDark 
-                              ? 'bg-blue-900 text-blue-100' 
-                              : 'bg-blue-100 text-blue-800'
-                          }`}
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                      {/* Duplicate for seamless loop */}
-                      {project.techStack.map((tech, index) => (
-                        <span
-                          key={`${tech}-duplicate`}
-                          className={`px-2 sm:px-3 py-1 text-xs sm:text-sm rounded-full whitespace-nowrap flex-shrink-0 ${
+                          className={`px-1.5 sm:px-2 md:px-2.5 lg:px-3 py-0.5 sm:py-1 text-xs sm:text-sm rounded-full whitespace-nowrap flex-shrink-0 ${
                             isDark 
                               ? 'bg-blue-900 text-blue-100' 
                               : 'bg-blue-100 text-blue-800'
@@ -244,17 +216,17 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
           ))}
         </div>
 
-        {/* Show More Button */}
+        Show More Button
         {projects.length > 4 && (
           <motion.div
-            className="text-center mt-12"
+            className="text-center mt-6 sm:mt-8 md:mt-10 lg:mt-12"
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.8 }}
           >
             <motion.button
               onClick={onShowAllProjects}
-              className={`px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 ${
+              className={`px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-lg font-semibold text-sm sm:text-base md:text-lg transition-all duration-300 ${
                 isDark
                   ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-600 hover:to-purple-600'
                   : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700'
@@ -264,7 +236,7 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
             >
               View All Projects ({projects.length})
             </motion.button>
-            <p className={`mt-2 text-sm ${
+            <p className={`mt-2 text-xs sm:text-sm ${
               isDark ? 'text-gray-400' : 'text-gray-600'
             }`}>
               Showing 4 of {projects.length} projects
