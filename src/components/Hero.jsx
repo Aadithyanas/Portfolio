@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { AIBrainAnimation } from './AIBrainAnimation';
 import heroImage from '../imges/resumepic.jpg';
 // Using public folder for PDF to avoid hash naming
-const myResume = "/assets/Aadithyan.pdf"
+const myResume = "/assets/Aadithyan-AS-Resume.pdf"
 import './hero.css';
 import './ai-brain.css';
 
