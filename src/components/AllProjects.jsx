@@ -190,7 +190,7 @@ const AllProjects = ({ isDark, onBack, toggleTheme, themeMode }) => {
                   </motion.a>
                 </div>
               </div>
-              <div className="p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col h-full">
+              <div className="p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col min-h-[200px]">
                 <div className="flex items-start justify-between mb-2 sm:mb-3 gap-2">
                   <h3 className={`text-sm sm:text-base md:text-lg lg:text-xl font-bold flex-1 min-w-0 ${
                     isDark ? 'text-white' : 'text-gray-900'
@@ -207,8 +207,8 @@ const AllProjects = ({ isDark, onBack, toggleTheme, themeMode }) => {
                     </span>
                   )}
                 </div>
-                <div className="flex-1 overflow-hidden mb-3 sm:mb-4 min-h-0">
-                  <div className="h-16 sm:h-20 md:h-24 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
+                <div className="flex-1 mb-4">
+                  <div className="h-20 sm:h-24 md:h-28 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
                     <p className={`text-xs sm:text-sm md:text-base leading-relaxed ${
                       isDark ? 'text-gray-300' : 'text-gray-600'
                     }`}>
@@ -216,16 +216,23 @@ const AllProjects = ({ isDark, onBack, toggleTheme, themeMode }) => {
                     </p>
                   </div>
                 </div>
-                <div className="overflow-hidden mt-auto">
-                  <div className="relative">
-                    <div className="flex gap-1 sm:gap-1.5 md:gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-                      {project.techStack.map((tech, index) => (
+                {project.techStack && project.techStack.length > 0 && (
+                  <div className="mt-auto">
+                    <div className="mb-2">
+                      <h4 className={`text-sm font-bold mb-2 ${
+                        isDark ? 'text-white' : 'text-gray-800'
+                      }`}>
+                        🛠️ Tech Stack
+                      </h4>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                      {project.techStack.map((tech, techIndex) => (
                         <span
-                          key={tech}
-                          className={`px-1.5 sm:px-2 md:px-2.5 lg:px-3 py-0.5 sm:py-1 text-xs sm:text-sm rounded-full whitespace-nowrap flex-shrink-0 ${
+                          key={techIndex}
+                          className={`px-2 sm:px-3 py-1 text-xs sm:text-sm rounded-lg font-medium ${
                             isDark 
-                              ? 'bg-blue-900 text-blue-100' 
-                              : 'bg-blue-100 text-blue-800'
+                              ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white border border-blue-500' 
+                              : 'bg-gradient-to-r from-blue-500 to-purple-500 text-white border border-blue-400'
                           }`}
                         >
                           {tech}
@@ -233,7 +240,7 @@ const AllProjects = ({ isDark, onBack, toggleTheme, themeMode }) => {
                       ))}
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             </motion.div>
           ))}

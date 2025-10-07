@@ -139,20 +139,7 @@ export const AIBrainAnimation = ({ isDark }) => {
           />
         ))}
 
-        {/* Click Hint */}
-        <motion.div
-          className="click-hint"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.7, 1, 0.7],
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-          }}
-        >
-          Click Me!
-        </motion.div>
+       
       </motion.div>
 
       {/* Mini Robot */}
@@ -194,76 +181,9 @@ export const AIBrainAnimation = ({ isDark }) => {
         </motion.div>
       </motion.div>
 
-      {/* Warning Modal */}
-      <AnimatePresence>
-        {showWarning && (
-          <motion.div
-            className="warning-modal"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-          >
-            <div className="warning-content">
-              <FaBolt className="warning-icon" />
-              <h3>⚠️ WARNING ⚠️</h3>
-              <p>AI Brain Activation in Progress...</p>
-              <p>Prepare for Neural Explosion!</p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      
 
-      {/* Explosion Effect */}
-      <AnimatePresence>
-        {isExploded && (
-          <motion.div
-            className="explosion-container"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            {particles.map((particle) => (
-              <motion.div
-                key={particle.id}
-                className="explosion-particle"
-                style={{
-                  left: `50%`,
-                  top: `50%`,
-                  width: particle.size,
-                  height: particle.size,
-                  backgroundColor: particle.color,
-                }}
-                initial={{ x: 0, y: 0, scale: 0 }}
-                animate={{
-                  x: particle.x,
-                  y: particle.y,
-                  scale: [0, 1, 0],
-                  opacity: [1, 1, 0],
-                }}
-                transition={{
-                  duration: 2,
-                  delay: particle.delay,
-                }}
-              />
-            ))}
-            
-            {/* AI Text Explosion */}
-            <motion.div
-              className="ai-explosion-text"
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-            >
-              <motion.div
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                AI EXPLOSION!
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      
 
       {/* Floating Code Elements */}
       {[...Array(6)].map((_, i) => (

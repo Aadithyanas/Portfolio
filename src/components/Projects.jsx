@@ -11,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Helper function to convert GitHub blob URLs to raw URLs
 const getImageUrl = (url) => {
-  if (!url) return 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNGY0NmV1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iI2ZmZmZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlByb2plY3QgSW1hZ2U8L3RleHQ+PC9zdmc+';
+  if (!url) return 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNGY0NmU1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iI2ZmZmZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlByb2plY3QgSW1hZ2U8L3RleHQ+PC9zdmc+';
   
   // Convert GitHub blob URL to raw URL
   if (url.includes('github.com') && url.includes('/blob/')) {
@@ -30,47 +30,14 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
   const { projects, loading, error } = useProjects(refreshTrigger);
   const sectionRef = useRef(null);
   const projectsRef = useRef([]);
+  console.log("Projects", projects[0]?.techStack);
   
   // Show only the latest 4 projects
   const latestProjects = projects.slice(0, 4);
 
-  // GSAP animations
-  // useEffect(() => {
-  //   if (latestProjects.length === 0) return;
-
-  //   const ctx = gsap.context(() => {
-  //     // Animate projects from top to bottom
-  //     gsap.fromTo(projectsRef.current, 
-  //       {
-  //         y: 100,
-  //         opacity: 0,
-  //         scale: 0.8
-  //       },
-  //       {
-  //         y: 0,
-  //         opacity: 1,
-  //         scale: 1,
-  //         duration: 0.8,
-  //         stagger: 0.2,
-  //         ease: "power2.out",
-  //         scrollTrigger: {
-  //           trigger: sectionRef.current,
-  //           start: "top 80%",
-  //           end: "bottom 20%",
-  //           toggleActions: "play none none reverse"
-  //         }
-  //       }
-  //     );
-
-  //     // Image hover effects are now handled by Tailwind CSS classes
-  //   }, sectionRef);
-
-  //   return () => ctx.revert();
-  // }, [latestProjects.length]);
-
   if (loading) {
     return (
-      <section  className={`py-8 sm:py-12 md:py-16 lg:py-20 ${
+      <section className={`py-8 sm:py-12 md:py-16 lg:py-20 ${
         isDark 
           ? 'bg-gradient-to-br from-slate-800 to-gray-900' 
           : 'bg-gradient-to-br from-gray-50 to-blue-50'
@@ -89,7 +56,7 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
 
   if (error) {
     return (
-      <section  className={`py-8 sm:py-12 md:py-16 lg:py-20 ${
+      <section className={`py-8 sm:py-12 md:py-16 lg:py-20 ${
         isDark 
           ? 'bg-gradient-to-br from-slate-800 to-gray-900' 
           : 'bg-gradient-to-br from-gray-50 to-blue-50'
@@ -142,8 +109,7 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
                   alt={project.title}
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                   onError={(e) => {
-                    // Fallback to base64 placeholder if image fails to load
-                    e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNGY0NmV1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iI2ZmZmZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlByb2plY3QgSW1hZ2U8L3RleHQ+PC9zdmc+';
+                    e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNGY0NmU1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iI2ZmZmZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlByb2plY3QgSW1hZ2U8L3RleHQ+PC9zdmc+';
                   }}
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-2 sm:space-x-3 md:space-x-4">
@@ -167,7 +133,7 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
                   </motion.a>
                 </div>
               </div>
-              <div className="p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col h-full">
+              <div className="p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col min-h-[200px]">
                 <div className="flex items-start justify-between mb-2 sm:mb-3 gap-2">
                   <h3 className={`text-sm sm:text-base md:text-lg lg:text-xl font-bold flex-1 min-w-0 ${
                     isDark ? 'text-white' : 'text-gray-900'
@@ -184,8 +150,8 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
                     </span>
                   )}
                 </div>
-                <div className="flex-1 overflow-hidden mb-3 sm:mb-4 min-h-0">
-                  <div className="h-16 sm:h-20 md:h-24 overflow-y-auto">
+                <div className="flex-1 mb-4">
+                  <div className="h-20 sm:h-24 md:h-28 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
                     <p className={`text-xs sm:text-sm md:text-base leading-relaxed ${
                       isDark ? 'text-gray-300' : 'text-gray-600'
                     }`}>
@@ -193,16 +159,23 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
                     </p>
                   </div>
                 </div>
-                <div className="overflow-hidden mt-auto">
-                  <div className="relative">
-                    <div className="flex gap-1 sm:gap-1.5 md:gap-2 overflow-x-auto pb-2">
-                      {project.techStack.map((tech, index) => (
+                {project.techStack && project.techStack.length > 0 && (
+                  <div className="mt-auto">
+                    <div className="mb-2">
+                      <h4 className={`text-sm font-bold mb-2 ${
+                        isDark ? 'text-white' : 'text-gray-800'
+                      }`}>
+                        🛠️ Tech Stack
+                      </h4>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                      {project.techStack.map((tech, techIndex) => (
                         <span
-                          key={tech}
-                          className={`px-1.5 sm:px-2 md:px-2.5 lg:px-3 py-0.5 sm:py-1 text-xs sm:text-sm rounded-full whitespace-nowrap flex-shrink-0 ${
+                          key={techIndex}
+                          className={`px-2 sm:px-3 py-1 text-xs sm:text-sm rounded-lg font-medium ${
                             isDark 
-                              ? 'bg-blue-900 text-blue-100' 
-                              : 'bg-blue-100 text-blue-800'
+                              ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white border border-blue-500' 
+                              : 'bg-gradient-to-r from-blue-500 to-purple-500 text-white border border-blue-400'
                           }`}
                         >
                           {tech}
@@ -210,13 +183,13 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
                       ))}
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             </motion.div>
           ))}
         </div>
 
-        Show More Button
+        {/* Show More Button */}
         {projects.length > 4 && (
           <motion.div
             className="text-center mt-6 sm:mt-8 md:mt-10 lg:mt-12"
@@ -236,11 +209,6 @@ export const Projects = ({ isDark, refreshTrigger = 0, onShowAllProjects }) => {
             >
               View All Projects ({projects.length})
             </motion.button>
-            <p className={`mt-2 text-xs sm:text-sm ${
-              isDark ? 'text-gray-400' : 'text-gray-600'
-            }`}>
-              Showing 4 of {projects.length} projects
-            </p>
           </motion.div>
         )}
       </div>

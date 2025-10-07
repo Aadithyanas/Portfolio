@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ThemeToggle } from './ThemeToggle';
-import { FaBars, FaTimes, FaPlus, FaLock } from 'react-icons/fa';
-
-export const Navbar = ({ isDark, toggleTheme, themeMode, onAddProject }) => {
+import { FaBars, FaTimes, FaDownload } from 'react-icons/fa';
+const myResume = "/assets/Aadithyan_AS_Resume.pdf"
+export const Navbar = ({ isDark, toggleTheme, themeMode }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [showLockIcon, setShowLockIcon] = useState(false);
   const { scrollY } = useScroll();
   const backgroundColor = useTransform(
     scrollY,
@@ -25,6 +24,17 @@ export const Navbar = ({ isDark, toggleTheme, themeMode, onAddProject }) => {
     setIsOpen(false); // Close mobile menu after navigation
   };
 
+  // Resume download function
+  const downloadResume = () => {
+    // Trigger the file download
+    const link = document.createElement('a');
+    link.href = myResume; // Path to your resume file
+    link.download = "Aadithyan_AS_Resume";
+    link.click();
+
+    // Open the file in a new window
+    window.open(myResume, '_blank');
+  };
   return (
     <motion.nav
       style={{ backgroundColor }}
@@ -37,7 +47,7 @@ export const Navbar = ({ isDark, toggleTheme, themeMode, onAddProject }) => {
           className="text-2xl font-bold"
           whileHover={{ scale: 1.05 }}
         >
-          Portfolio
+          Aadithyan AS
         </motion.a>
 
         {/* Hamburger Menu for Mobile */}
@@ -69,23 +79,18 @@ export const Navbar = ({ isDark, toggleTheme, themeMode, onAddProject }) => {
             );
           })}
           <motion.button
-            onClick={onAddProject}
-            onMouseEnter={() => setShowLockIcon(true)}
-            onMouseLeave={() => setShowLockIcon(false)}
-            className={`p-2 rounded-full transition-all duration-300 ${
+            onClick={downloadResume}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 ${
               isDark
-                ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                : 'bg-blue-600 hover:bg-blue-700 text-white'
+                ? 'bg-green-600 hover:bg-green-700 text-white'
+                : 'bg-green-600 hover:bg-green-700 text-white'
             }`}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            title="Add Project (Password Protected)"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            title="Download Resume"
           >
-            {showLockIcon ? (
-              <FaLock className="w-4 h-4" />
-            ) : (
-              <FaPlus className="w-4 h-4" />
-            )}
+            <FaDownload className="w-4 h-4" />
+            Resume
           </motion.button>
           <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} themeMode={themeMode} />
         </div>
@@ -102,33 +107,33 @@ export const Navbar = ({ isDark, toggleTheme, themeMode, onAddProject }) => {
           {['About', 'Skills', 'Projects', 'Contact'].map((item) => {
             const sectionId = item === 'About' ? 'about' : item.toLowerCase();
             return (
-                <button
-                  key={item}
-                  onClick={() => scrollToSection(sectionId)}
-                  className={`text-lg font-medium ${
-                    isDark ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
-                  }`}
-                >
-                  {item}
-                </button>
+              <button
+                key={item}
+                onClick={() => scrollToSection(sectionId)}
+                className={`text-lg font-medium ${
+                  isDark ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
+                }`}
+              >
+                {item}
+              </button>
             );
           })}
           <motion.button
             onClick={() => {
-              onAddProject();
+              downloadResume();
               setIsOpen(false);
             }}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
               isDark
-                ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                : 'bg-blue-600 hover:bg-blue-700 text-white'
+                ? 'bg-green-600 hover:bg-green-700 text-white'
+                : 'bg-green-600 hover:bg-green-700 text-white'
             }`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            title="Add Project (Password Protected)"
+            title="Download Resume"
           >
-            <FaPlus className="w-4 h-4" />
-            Add Project
+            <FaDownload className="w-4 h-4" />
+            Resume
           </motion.button>
           <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} themeMode={themeMode} />
         </motion.div>

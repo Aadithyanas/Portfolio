@@ -68,9 +68,6 @@ function App() {
     localStorage.setItem('theme', newTheme);
   };
 
-  const handleAddProject = () => {
-    setShowAddProject(true);
-  };
 
   const handleProjectAdded = () => {
     setShowAddProject(false);
@@ -116,7 +113,6 @@ function App() {
           isDark={isDark} 
           toggleTheme={toggleTheme} 
           themeMode={themeMode} 
-          onAddProject={handleAddProject}
         />
         <Hero isDark={isDark} />
         <Skills isDark={isDark} />

@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { AIBrainAnimation } from './AIBrainAnimation';
 import heroImage from '../imges/resumepic.jpg';
 // Using public folder for PDF to avoid hash naming
-const myResume = "/assets/Aadithyan-AS-Resume.pdf"
+const myResume = "/assets/Aadithyan_AS_Resume.pdf"
 import './hero.css';
 import './ai-brain.css';
 
@@ -15,7 +15,7 @@ export const Hero = ({ isDark }) => {
     // Trigger the file download
     const link = document.createElement('a');
     link.href = myResume; // Path to your resume file
-    link.download = "Aadithyan-AS-Resume";
+    link.download = "Aadithyan_AS_Resume";
     link.click();
 
     // Open the file in a new window
