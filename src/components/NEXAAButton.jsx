@@ -8,29 +8,25 @@ const NEXAAButton = ({ isDark, onClick, isOpen }) => {
       onClick={onClick}
       className={`fixed bottom-6 right-6 z-40 p-4 rounded-full shadow-2xl transition-all duration-300 ${
         isDark
-          ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700'
-          : 'bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600'
+          ? 'bg-[#0a0a0a] border border-white/10 hover:bg-[#111]'
+          : 'bg-white border border-black/10 hover:bg-gray-50'
       } ${isOpen ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}`}
       whileHover={{ 
-        scale: 1.15,
-        rotate: 5,
+        scale: 1.1,
         transition: { duration: 0.2 }
       }}
       whileTap={{ 
-        scale: 0.85,
-        rotate: -5,
+        scale: 0.95,
         transition: { duration: 0.1 }
       }}
-      initial={{ scale: 0, rotate: -180 }}
+      initial={{ scale: 0 }}
       animate={{ 
         scale: isOpen ? 0 : 1,
-        rotate: isOpen ? -180 : 0
       }}
       transition={{ 
         type: "spring", 
-        stiffness: 300, 
-        damping: 25,
-        duration: 0.6
+        stiffness: 400, 
+        damping: 30,
       }}
     >
       <div className="relative">

@@ -321,295 +321,194 @@ RESPOND AS NEXAA:`;
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0, scale: 0.8, y: 20, rotateY: -15 }}
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ 
           opacity: 1, 
           scale: 1, 
           y: 0, 
-          rotateY: 0,
           transition: {
-            type: "spring",
-            stiffness: 300,
-            damping: 30,
-            duration: 0.6
+            duration: 0.4,
+            ease: [0.23, 1, 0.32, 1]
           }
         }}
         exit={{ 
           opacity: 0, 
-          scale: 0.8, 
+          scale: 0.95, 
           y: 20, 
-          rotateY: 15,
           transition: { duration: 0.3 }
-        }}
-        whileHover={{ 
-          scale: 1.02,
-          transition: { duration: 0.2 }
         }}
         className={`fixed bottom-4 right-4 z-50 ${
           isMinimized ? 'w-80 h-16' : 'w-96 h-[600px]'
         }`}
+        style={{ fontFamily: "'Outfit', sans-serif" }}
       >
-        <div className={`rounded-2xl shadow-2xl border transition-all duration-300 ${
+        <div className={`h-full rounded-2xl shadow-2xl border transition-all duration-300 overflow-hidden flex flex-col ${
           isDark 
-            ? 'bg-gray-900 border-gray-700' 
-            : 'bg-white border-gray-200'
+            ? 'bg-[#0a0a0a] border-white/10' 
+            : 'bg-white border-black/10'
         }`}>
           {/* Header */}
-          <motion.div 
-            className={`flex items-center justify-between p-4 rounded-t-2xl ${
-              isDark 
-                ? 'bg-gradient-to-r from-blue-600 to-purple-600' 
-                : 'bg-gradient-to-r from-blue-500 to-purple-500'
-            }`}
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-          >
+          <div className={`flex items-center justify-between p-4 border-b ${
+            isDark ? 'border-white/5 bg-white/5' : 'border-black/5 bg-black/5'
+          }`}>
             <div className="flex items-center gap-3">
               <div className="relative">
-                <Bot className="w-8 h-8 text-white" />
-                <div className={`absolute -top-1 -right-1 w-3 h-3 rounded-full animate-pulse ${
-                  isGeminiEnabled ? 'bg-green-400' : 'bg-yellow-400'
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isDark ? 'bg-white/10' : 'bg-black/10'}`}>
+                  <Bot className={`w-5 h-5 ${isDark ? 'text-white' : 'text-black'}`} />
+                </div>
+                <div className={`absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full border-2 ${isDark ? 'border-[#0a0a0a]' : 'border-white'} ${
+                  isGeminiEnabled ? 'bg-green-500' : 'bg-yellow-500'
                 }`}></div>
               </div>
               <div>
-                <h3 className="text-white font-bold text-lg">NEXAA</h3>
-                <p className="text-blue-100 text-xs">
-                  {isGeminiEnabled ? 'AI Assistant (Gemini)' : 'AI Assistant (Fallback)'}
+                <h3 className={`font-bold text-sm tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>NEXAA</h3>
+                <p className={`text-[10px] font-medium opacity-50 uppercase tracking-widest ${isDark ? 'text-white' : 'text-black'}`}>
+                  {isGeminiEnabled ? 'Gemini AI' : 'Predefined'}
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               <button
                 onClick={() => setIsMuted(!isMuted)}
                 className={`p-2 rounded-lg transition-colors ${
-                  isMuted ? 'bg-white/20' : 'bg-white/10 hover:bg-white/20'
+                  isDark ? 'hover:bg-white/10 text-white/60 hover:text-white' : 'hover:bg-black/10 text-black/60 hover:text-black'
                 }`}
               >
-                {isMuted ? <VolumeX className="w-4 h-4 text-white" /> : <Volume2 className="w-4 h-4 text-white" />}
+                {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
               </button>
               <button
                 onClick={() => setIsMinimized(!isMinimized)}
-                className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
+                className={`p-2 rounded-lg transition-colors ${
+                  isDark ? 'hover:bg-white/10 text-white/60 hover:text-white' : 'hover:bg-black/10 text-black/60 hover:text-black'
+                }`}
               >
-                {isMinimized ? <Maximize2 className="w-4 h-4 text-white" /> : <Minimize2 className="w-4 h-4 text-white" />}
+                {isMinimized ? <Maximize2 className="w-4 h-4" /> : <Minimize2 className="w-4 h-4" />}
               </button>
               <button
                 onClick={onToggle}
-                className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
+                className={`p-2 rounded-lg transition-colors ${
+                  isDark ? 'hover:bg-white/10 text-white/60 hover:text-white' : 'hover:bg-black/10 text-black/60 hover:text-black'
+                }`}
               >
-                <X className="w-4 h-4 text-white" />
+                <X className="w-4 h-4" />
               </button>
             </div>
-          </motion.div>
+          </div>
 
           {!isMinimized && (
             <>
-              {/* Messages */}
-              <motion.div 
-                className={`h-96 overflow-y-auto p-4 space-y-4 ${
-                  isDark ? 'bg-gray-900' : 'bg-gray-50'
+              {/* Messages Area */}
+              <div 
+                className={`flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth ${
+                  isDark ? 'scrollbar-white' : 'scrollbar-black'
                 }`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
               >
-                {messages.map((message, index) => (
+                {messages.map((message) => (
                   <motion.div
                     key={message.id}
-                    initial={{ opacity: 0, y: 20, scale: 0.9 }}
-                    animate={{ 
-                      opacity: 1, 
-                      y: 0, 
-                      scale: 1,
-                      transition: {
-                        type: "spring",
-                        stiffness: 200,
-                        damping: 20,
-                        delay: index * 0.1
-                      }
-                    }}
-                    whileHover={{ 
-                      scale: 1.02,
-                      transition: { duration: 0.2 }
-                    }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
                     className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
-                    <div className={`flex gap-2 max-w-[80%] ${
+                    <div className={`flex gap-2 max-w-[85%] ${
                       message.type === 'user' ? 'flex-row-reverse' : 'flex-row'
                     }`}>
-                      {message.type === 'ai' && (
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                          isDark ? 'bg-blue-600' : 'bg-blue-500'
-                        }`}>
-                          <Bot className="w-4 h-4 text-white" />
-                        </div>
-                      )}
-                      <motion.div 
-                        className={`px-4 py-2 rounded-2xl ${
-                          message.type === 'user'
-                            ? isDark
-                              ? 'bg-blue-600 text-white'
-                              : 'bg-blue-500 text-white'
-                            : isDark
-                              ? 'bg-gray-800 text-gray-100'
-                              : 'bg-white text-gray-900 border border-gray-200'
-                        }`}
-                        whileHover={{ 
-                          scale: 1.05,
-                          transition: { duration: 0.2 }
-                        }}
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ 
-                          type: "spring",
-                          stiffness: 300,
-                          damping: 25
-                        }}
-                      >
-                        <p className="text-sm">{message.content}</p>
-                        <p className={`text-xs mt-1 ${
-                          message.type === 'user' ? 'text-blue-100' : 'text-gray-500'
+                      <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed ${
+                        message.type === 'user'
+                          ? isDark
+                            ? 'bg-blue-600/10 text-blue-100 border border-blue-500/20'
+                            : 'bg-blue-500 text-white'
+                          : isDark
+                            ? 'bg-white/5 text-white/90 border border-white/5 shadow-sm'
+                            : 'bg-white text-gray-900 border border-black/5 shadow-sm'
+                      }`}>
+                        <p>{message.content}</p>
+                        <div className={`text-[10px] mt-2 opacity-40 font-medium uppercase tracking-tighter ${
+                          message.type === 'user' ? (isDark ? 'text-blue-200' : 'text-white/80') : (isDark ? 'text-white' : 'text-black')
                         }`}>
                           {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                        </p>
-                      </motion.div>
-                      {message.type === 'user' && (
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                          isDark ? 'bg-gray-700' : 'bg-gray-200'
-                        }`}>
-                          <MessageCircle className="w-4 h-4 text-gray-600" />
                         </div>
-                      )}
+                      </div>
                     </div>
                   </motion.div>
                 ))}
                 
                 {isTyping && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.9 }}
-                    animate={{ 
-                      opacity: 1, 
-                      y: 0, 
-                      scale: 1,
-                      transition: {
-                        type: "spring",
-                        stiffness: 200,
-                        damping: 20
-                      }
-                    }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     className="flex justify-start"
                   >
-                    <div className="flex gap-2">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                        isDark ? 'bg-blue-600' : 'bg-blue-500'
-                      }`}>
-                        <Bot className="w-4 h-4 text-white" />
-                      </div>
-                      <div className={`px-4 py-2 rounded-2xl ${
-                        isDark ? 'bg-gray-800' : 'bg-white border border-gray-200'
-                      }`}>
-                        <div className="flex gap-1">
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                        </div>
+                    <div className={`px-4 py-3 rounded-2xl ${isDark ? 'bg-white/5 border border-white/5' : 'bg-gray-100'}`}>
+                      <div className="flex gap-1.5 item-center h-4">
+                        <div className="w-1.5 h-1.5 bg-current opacity-40 rounded-full animate-bounce"></div>
+                        <div className="w-1.5 h-1.5 bg-current opacity-40 rounded-full animate-bounce delay-75"></div>
+                        <div className="w-1.5 h-1.5 bg-current opacity-40 rounded-full animate-bounce delay-150"></div>
                       </div>
                     </div>
                   </motion.div>
                 )}
                 <div ref={messagesEndRef} />
-              </motion.div>
+              </div>
 
-              {/* Input */}
-              <motion.div 
-                className={`p-4 border-t ${
-                  isDark ? 'border-gray-700 bg-gray-900' : 'border-gray-200 bg-white'
-                }`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.5 }}
-              >
-                <div className="flex gap-2">
-                  <div className="flex-1 relative">
-                    <motion.textarea
-                      value={inputValue}
-                      onChange={(e) => setInputValue(e.target.value)}
-                      onKeyPress={handleKeyPress}
-                      placeholder="Ask NEXAA about Aadithyan"
-                      className={`w-full px-4 py-3 pr-12 rounded-xl border resize-none ${
-                        isDark 
-                          ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400' 
-                          : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-500'
-                      } focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                      rows="1"
-                      style={{ minHeight: '48px', maxHeight: '120px' }}
-                      whileFocus={{ 
-                        scale: 1.02,
-                        transition: { duration: 0.2 }
-                      }}
-                      initial={{ scale: 0.95, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ delay: 0.5, duration: 0.3 }}
-                    />
-                    <motion.button
-                      onClick={handleVoiceInput}
-                      className={`absolute right-3 top-1/2 transform -translate-y-1/2 p-2 rounded-lg transition-colors ${
-                        isListening
-                          ? 'bg-red-500 text-white'
-                          : isDark
-                            ? 'bg-gray-700 hover:bg-gray-600 text-gray-300'
-                            : 'bg-gray-200 hover:bg-gray-300 text-gray-600'
+              {/* Input Area */}
+              <div className={`p-4 border-t ${isDark ? 'border-white/5 bg-white/5' : 'border-black/5 bg-black/5'}`}>
+                <div className="flex flex-col gap-2">
+                  <div className="flex gap-2 items-end">
+                    <div className="flex-1 relative">
+                      <textarea
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        onKeyPress={handleKeyPress}
+                        placeholder="Ask anything..."
+                        className={`w-full px-4 py-3 pr-10 rounded-xl border appearance-none resize-none text-sm transition-all duration-200 focus:outline-none ${
+                          isDark 
+                            ? 'bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-white/30 focus:bg-white/[0.08]' 
+                            : 'bg-white border-black/10 text-black placeholder-black/30 focus:border-black/30'
+                        }`}
+                        rows="1"
+                        style={{ minHeight: '46px', maxHeight: '120px' }}
+                      />
+                      <button
+                        onClick={handleVoiceInput}
+                        className={`absolute right-2 bottom-2 p-2 rounded-lg transition-all ${
+                          isListening
+                            ? 'text-red-500 bg-red-500/10'
+                            : isDark ? 'text-white/40 hover:text-white' : 'text-black/40 hover:text-black'
+                        }`}
+                        title="Voice Input"
+                      >
+                        {isListening ? <MicOff className="w-4 h-4 animate-pulse" /> : <Mic className="w-4 h-4" />}
+                      </button>
+                    </div>
+                    <button
+                      onClick={handleSendMessage}
+                      disabled={!inputValue.trim()}
+                      className={`p-3 rounded-xl transition-all duration-300 ${
+                        inputValue.trim()
+                          ? 'bg-white text-black'
+                          : isDark ? 'bg-white/5 text-white/20' : 'bg-black/5 text-black/20'
                       }`}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ delay: 0.6, duration: 0.3 }}
                     >
-                      {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
-                    </motion.button>
+                      <Send className="w-4.5 h-4.5" />
+                    </button>
                   </div>
-                  <motion.button
-                    onClick={handleSendMessage}
-                    disabled={!inputValue.trim()}
-                    className={`px-4 py-3 rounded-xl transition-all duration-200 ${
-                      inputValue.trim()
-                        ? 'bg-blue-500 hover:bg-blue-600 text-white'
-                        : isDark
-                          ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
-                          : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                    }`}
-                    whileHover={{ 
-                      scale: inputValue.trim() ? 1.05 : 1,
-                      transition: { duration: 0.2 }
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.7, duration: 0.3 }}
-                  >
-                    <Send className="w-4 h-4" />
-                  </motion.button>
+                  
+                  <div className="flex justify-between items-center px-1">
+                    <p className={`text-[10px] font-medium uppercase tracking-widest opacity-30 ${isDark ? 'text-white' : 'text-black'}`}>
+                      {messages.length > 1 ? `${messages.filter(m => m.type==='user').length} queries asked` : 'Start a conversation'}
+                    </p>
+                    <button
+                      onClick={clearChat}
+                      className={`text-[10px] font-bold uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity ${
+                        isDark ? 'text-white' : 'text-black'
+                      }`}
+                    >
+                      Reset
+                    </button>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center mt-2">
-                  <p className={`text-xs ${
-                    isDark ? 'text-gray-400' : 'text-gray-500'
-                  }`}>
-                    Press Enter to send, Shift+Enter for new line
-                  </p>
-                  <button
-                    onClick={clearChat}
-                    className={`text-xs px-2 py-1 rounded ${
-                      isDark 
-                        ? 'text-gray-400 hover:text-gray-300 hover:bg-gray-800' 
-                        : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
-                    }`}
-                  >
-                    Clear chat
-                  </button>
-                </div>
-              </motion.div>
+              </div>
             </>
           )}
         </div>

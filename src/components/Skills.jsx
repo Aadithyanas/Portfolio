@@ -1,138 +1,292 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  FaJs,
-  FaReact,
-  FaCss3Alt,
-  FaNodeJs,
-  FaGitAlt,
-  FaHtml5,
-  FaPython,
-  FaJava,
-  FaAndroid,
-  FaDatabase,
+  FaJs, FaReact, FaCss3Alt, FaNodeJs, FaGitAlt,
+  FaHtml5, FaPython, FaJava, FaAndroid, FaDatabase, FaDocker,
+  FaAws, FaCode
 } from "react-icons/fa";
-import { SiArduino, SiMongodb, SiFirebase, SiRust, SiNextdotjs, SiTypescript, SiPostgresql, SiTauri } from "react-icons/si";
-import { FaCode } from "react-icons/fa";
+import {
+  SiMongodb, SiFirebase, SiRust,
+  SiNextdotjs, SiTypescript, SiPostgresql,
+  SiMysql, SiRedis, SiElasticsearch, SiSqlite,
+  SiDjango, SiFastapi, SiExpress, SiNestjs,
+  SiTailwindcss, SiBun, SiNginx, SiArduino, SiTauri
+} from "react-icons/si";
 
-export const skills = [
-  { name: "JavaScript", icon: FaJs, proficiency: 90, color: "#fbbf24" },
-  { name: "React", icon: FaReact, proficiency: 85, color: "#14b8a6" },
-  { name: "CSS", icon: FaCss3Alt, proficiency: 80, color: "#3b82f6" },
-  { name: "HTML", icon: FaHtml5, proficiency: 95, color: "#ff5722" },
-  { name: "Node.js", icon: FaNodeJs, proficiency: 75, color: "#10b981" },
-  { name: "Python", icon: FaPython, proficiency: 70, color: "#3776ab" },
-  { name: "Java", icon: FaJava, proficiency: 65, color: "#b07219" },
-  { name: "Git", icon: FaGitAlt, proficiency: 70, color: "#a855f7" },
-  { name: "Android ", icon: FaAndroid, proficiency: 60, color: "#3ddc84" },
-  { name: "Firebase", icon: SiFirebase, proficiency: 75, color: "#ffca28" },
-  { name: "MongoDB", icon: SiMongodb, proficiency: 65, color: "#47a248" },
-  { name: "SQL", icon: FaDatabase, proficiency: 85, color: "#00758f" },
-  { name: "Arduino", icon: SiArduino, proficiency: 60, color: "#00979c" },
-  { name: "TypeScript", icon: SiTypescript, proficiency: 88, color: "#3178c6" },
-  { name: "Next.js", icon: SiNextdotjs, proficiency: 82, color: "#000000" },
-  { name: "Rust", icon: SiRust, proficiency: 70, color: "#ce422b" },
-  { name: "PostgreSQL", icon: SiPostgresql, proficiency: 80, color: "#336791" },
-  { name: "Tauri", icon: SiTauri, proficiency: 65, color: "#ffc131" },
-  { name: "Plasmo", icon: FaCode, proficiency: 60, color: "#8b5cf6" },
+/* ─── Data ───────────────────────────────────────────────────────────── */
+const stack = [
+  {
+    group: "Languages",
+    items: [
+      { name: "JavaScript", icon: FaJs,         color: "#fbbf24" },
+      { name: "TypeScript", icon: SiTypescript, color: "#3178c6" },
+      { name: "Python",     icon: FaPython,     color: "#3776ab" },
+      { name: "Rust",       icon: SiRust,       color: "#ce422b" },
+      { name: "Java",       icon: FaJava,       color: "#b07219" },
+    ],
+  },
+  {
+    group: "Frontend",
+    items: [
+      { name: "React",        icon: FaReact,       color: "#14b8a6" },
+      { name: "Next.js",      icon: SiNextdotjs,   color: "#ffffff" },
+      { name: "Tailwind CSS", icon: SiTailwindcss, color: "#38bdf8" },
+      { name: "HTML5",        icon: FaHtml5,       color: "#ea580c" },
+      { name: "CSS3",         icon: FaCss3Alt,     color: "#3b82f6" },
+    ],
+  },
+  {
+    group: "Backend",
+    items: [
+      { name: "Node.js",     icon: FaNodeJs,  color: "#22c55e" },
+      { name: "Bun",         icon: SiBun,     color: "#fbc02d" },
+      { name: "Express",     icon: SiExpress, color: "#9ca3af" },
+      { name: "NestJS",      icon: SiNestjs,  color: "#e0234e" },
+      { name: "Django",      icon: SiDjango,  color: "#092e20" },
+      { name: "FastAPI",     icon: SiFastapi, color: "#009688" },
+    ],
+  },
+  {
+    group: "Databases",
+    items: [
+      { name: "PostgreSQL",    icon: SiPostgresql,    color: "#336791" },
+      { name: "MySQL",         icon: SiMysql,         color: "#4479a1" },
+      { name: "MongoDB",       icon: SiMongodb,       color: "#47a248" },
+      { name: "SQLite",        icon: SiSqlite,        color: "#003b57" },
+      { name: "Redis",         icon: SiRedis,         color: "#dc382d" },
+      { name: "Elasticsearch", icon: SiElasticsearch, color: "#005571" },
+    ],
+  },
+  {
+    group: "Cloud & Ops",
+    items: [
+      { name: "AWS",    icon: FaAws,      color: "#ff9900" },
+      { name: "Docker", icon: FaDocker,   color: "#2496ed" },
+      { name: "Git",    icon: FaGitAlt,   color: "#f05032" },
+      { name: "Nginx",  icon: SiNginx,    color: "#009639" },
+      { name: "Firebase", icon: SiFirebase, color: "#ffca28" },
+    ],
+  },
+  {
+    group: "Other",
+    items: [
+      { name: "Tauri",   icon: SiTauri,   color: "#ffc131" },
+      { name: "Android", icon: FaAndroid, color: "#3ddc84" },
+      { name: "Arduino", icon: SiArduino, color: "#00979c" },
+      { name: "Plasmo",  icon: FaCode,    color: "#8b5cf6" },
+    ],
+  },
 ];
 
-export const Skills = ({ isDark }) => {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
+/* ─── IconButton ─────────────────────────────────────────────────────── */
+const IconButton = ({ name, icon: Icon, color }) => {
+  const [hovered, setHovered] = useState(false);
 
   return (
-    <section id="skills" className="py-20 pt-24 relative">
-      <div className="max-w-7xl mx-auto px-6">
-        <motion.h2
-          className={`text-4xl font-bold text-center mb-12 bg-clip-text text-transparent ${
-            isDark 
-              ? 'bg-gradient-to-r from-blue-400 to-purple-400' 
-              : 'bg-gradient-to-r from-blue-600 to-purple-600'
-          }`}
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
+    <div 
+      style={{ position: "relative", display: "flex", justifyContent: "center" }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <motion.div
+        whileHover={{ scale: 1.15, y: -4 }}
+        whileTap={{ scale: 0.95 }}
+        style={{
+          width: "56px",
+          height: "56px",
+          borderRadius: "16px",
+          backgroundColor: hovered ? `${color}15` : "rgba(255,255,255,0.03)",
+          border: `1.5px solid ${hovered ? `${color}44` : "rgba(255,255,255,0.06)"}`,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "pointer",
+          transition: "background-color 0.3s, border-color 0.3s, box-shadow 0.3s",
+          boxShadow: hovered ? `0 8px 24px ${color}33` : "none",
+        }}
+      >
+        <Icon 
+          style={{ 
+            fontSize: "24px", 
+            color: hovered ? color : "rgba(255,255,255,0.55)",
+            transition: "color 0.3s",
+          }} 
+        />
+      </motion.div>
+
+      {/* Tooltip */}
+      <AnimatePresence>
+        {hovered && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 5, scale: 0.9 }}
+            transition={{ duration: 0.15 }}
+            style={{
+              position: "absolute",
+              bottom: "-36px",
+              backgroundColor: "rgba(10,10,10,0.9)",
+              border: `1px solid ${color}44`,
+              color: "#fff",
+              padding: "4px 10px",
+              borderRadius: "6px",
+              fontSize: "0.75rem",
+              fontWeight: 600,
+              fontFamily: "'Outfit', sans-serif",
+              whiteSpace: "nowrap",
+              pointerEvents: "none",
+              zIndex: 10,
+              boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
+            }}
+          >
+            {name}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+/* ─── GroupSection ───────────────────────────────────────────────────── */
+const GroupSection = ({ group, items }) => (
+  <motion.div 
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-50px" }}
+    transition={{ duration: 0.5 }}
+    style={{ 
+      display: "flex", 
+      flexDirection: "column", 
+      gap: "20px",
+      alignItems: "center",
+      backgroundColor: "rgba(255,255,255,0.015)",
+      border: "1px solid rgba(255,255,255,0.04)",
+      borderRadius: "24px",
+      padding: "28px 20px",
+    }}
+  >
+    <p style={{
+      fontFamily: "'Outfit', sans-serif",
+      fontWeight: 600,
+      fontSize: "0.9rem",
+      color: "rgba(255,255,255,0.85)",
+      margin: 0,
+      letterSpacing: "0.01em",
+    }}>
+      {group}
+    </p>
+    <div style={{ 
+      display: "flex", 
+      flexWrap: "wrap", 
+      gap: "16px",
+      justifyContent: "center",
+      maxWidth: "320px",
+    }}>
+      {items.map(s => <IconButton key={s.name} {...s} />)}
+    </div>
+  </motion.div>
+);
+
+/* ─── Section ────────────────────────────────────────────────────────── */
+export const Skills = () => {
+  // inject fonts once
+  if (typeof document !== "undefined" && !document.getElementById("ts-fonts")) {
+    const el = document.createElement("link");
+    el.id = "ts-fonts";
+    el.rel = "stylesheet";
+    el.href = "https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap";
+    document.head.appendChild(el);
+  }
+
+  return (
+    <section 
+      id="skills"
+      style={{
+        backgroundColor: "#050505",
+        padding: "100px 0 120px",
+        fontFamily: "'Outfit', sans-serif",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* Subtle Background Glows */}
+      <div style={{
+        position: "absolute", top: "10%", left: "-10%",
+        width: "500px", height: "500px", borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(96,165,250,0.03) 0%, transparent 70%)",
+        pointerEvents: "none",
+      }} />
+      <div style={{
+        position: "absolute", bottom: "10%", right: "-10%",
+        width: "500px", height: "500px", borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(167,139,250,0.03) 0%, transparent 70%)",
+        pointerEvents: "none",
+      }} />
+
+      <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 24px", position: "relative" }}>
+
+        {/* Heading */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          style={{ textAlign: "center", marginBottom: "64px" }}
         >
-          Skills & Technologies
-        </motion.h2>
+          <p style={{
+            fontFamily: "'Courier New', monospace",
+            fontSize: "0.82rem",
+            fontWeight: 700,
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            color: "#60a5fa",
+            marginBottom: "12px",
+          }}>
+            What I work with
+          </p>
+          <h2 style={{
+            fontSize: "clamp(2rem, 4vw, 3rem)",
+            fontWeight: 900,
+            fontFamily: "'Arial Black', sans-serif",
+            color: "#ffffff",
+            margin: 0,
+          }}>
+            Tech Stack
+          </h2>
+        </motion.div>
 
-        {/* Responsive Grid Layout */}
-        <div
-          ref={ref}
-          className={`grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-6 rounded-lg shadow-xl ${
-            isDark 
-              ? 'bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700' 
-              : 'bg-gradient-to-br from-gray-50 to-white border border-gray-200'
-          }`}
-        >
-          {skills.map((skill, index) => {
-            const Icon = skill.icon;
-            return (
-              <motion.div
-                key={skill.name}
-                className={`flex flex-col items-center text-center p-4 rounded-lg shadow-md transition-all duration-300 ${
-                  isDark 
-                    ? 'bg-gradient-to-br from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700' 
-                    : 'bg-gradient-to-br from-white to-gray-50 hover:from-gray-50 hover:to-white'
-                }`}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={inView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
-              >
-                {/* Circular Progress Bar */}
-                <div className="relative w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28">
-                  <svg className="absolute inset-0 w-full h-full" viewBox="0 0 36 36">
-                    <circle
-                      cx="18"
-                      cy="18"
-                      r="16"
-                      stroke="#e5e7eb"
-                      strokeWidth="4"
-                      fill="none"
-                    />
-                    <motion.circle
-                      cx="18"
-                      cy="18"
-                      r="16"
-                      stroke={skill.color}
-                      strokeWidth="4"
-                      strokeDasharray="100"
-                      strokeDashoffset="100"
-                      strokeLinecap="round"
-                      fill="none"
-                      initial={{ strokeDashoffset: 100 }}
-                      animate={inView ? { strokeDashoffset: 100 - skill.proficiency } : {}}
-                      transition={{ duration: 1.5, delay: index * 0.2, ease: "easeOut" }}
-                    />
-                  </svg>
-
-                  {/* Skill Icon */}
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center"
-                    animate={skill.name === "React" ? { rotate: [0, 360] } : {}}
-                    transition={skill.name === "React" ? { duration: 4, repeat: Infinity } : {}}
-                  >
-                    <Icon className="w-10 h-10 sm:w-12 sm:h-12" style={{ color: skill.color }} />
-                  </motion.div>
-                </div>
-
-                {/* Skill Name & Proficiency */}
-                <div className="mt-4">
-                  <span className="font-medium text-lg">{skill.name}</span>
-                  <motion.p
-                    className="text-sm text-gray-500"
-                    initial={{ opacity: 0 }}
-                    animate={inView ? { opacity: 1 } : {}}
-                    transition={{ duration: 1, delay: index * 0.2 }}
-                  >
-                    {skill.proficiency}%
-                  </motion.p>
-                </div>
-              </motion.div>
-            );
-          })}
+        {/* Grid: Responsive Columns */}
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gap: "24px",
+        }}>
+          {stack.map(g => <GroupSection key={g.group} {...g} />)}
         </div>
+
+        {/* Footer note */}
+        <motion.p 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+          style={{
+            marginTop: "80px",
+            fontFamily: "'Outfit', sans-serif",
+            fontStyle: "italic",
+            fontWeight: 300,
+            fontSize: "0.82rem",
+            color: "rgba(255,255,255,0.25)",
+            textAlign: "center",
+            letterSpacing: "0.02em",
+          }}
+        >
+          Not an exhaustive list. I adapt to whatever the project requires.
+        </motion.p>
+
       </div>
     </section>
   );
 };
+
+export default Skills;

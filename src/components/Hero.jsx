@@ -1,332 +1,331 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { TypeAnimation } from "react-type-animation";
-import { FaTwitter, FaGithub, FaLinkedin, FaEnvelope, FaDownload, FaCode, FaRocket, FaStar } from "react-icons/fa";
+import {
+  FaGithub,
+  FaLinkedin,
+  FaEnvelope,
+  FaDownload,
+  FaRocket,
+  FaStar,
+  FaCode,
+} from "react-icons/fa";
 import { motion } from "framer-motion";
-import { AIBrainAnimation } from './AIBrainAnimation';
-import heroImage from '../imges/resumepic.jpg';
-// Using public folder for PDF to avoid hash naming
-const myResume = "/assets/Aadithyan_AS_Resume.pdf"
-import './hero.css';
-import './ai-brain.css';
+import Spline from "@splinetool/react-spline";
+
+const myResume = "/assets/Aadithyan_AS_Resume.pdf";
+
+/* ── responsive hook ── */
+function useWindowWidth() {
+  const [width, setWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1200
+  );
+  useEffect(() => {
+    const handle = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handle);
+    return () => window.removeEventListener("resize", handle);
+  }, []);
+  return width;
+}
 
 export const Hero = ({ isDark }) => {
+  const width = useWindowWidth();
+  const isMobile  = width < 640;
+  const isTablet  = width >= 640 && width < 1024;
+  const isDesktop = width >= 1024;
 
   const handleDownloadCV = () => {
-    // Trigger the file download
-    const link = document.createElement('a');
-    link.href = myResume; // Path to your resume file
+    const link = document.createElement("a");
+    link.href = myResume;
     link.download = "Aadithyan_AS_Resume";
     link.click();
-
-    // Open the file in a new window
-    window.open(myResume, '_blank');
+    window.open(myResume, "_blank");
   };
 
+  /* ── layout values by breakpoint ── */
+  const layout = isMobile
+    ? { grid: "1fr", robotH: "55vw", textPad: "0 20px 32px", nameSz: "2.8rem" }
+    : isTablet
+    ? { grid: "1fr", robotH: "60vw", textPad: "0 32px 48px", nameSz: "3.8rem" }
+    : { grid: "1fr 1fr", robotH: "100vh", textPad: "0 0 0 48px", nameSz: "clamp(3.5rem,5vw,6rem)" };
+
   return (
-    <section id="about" style={{ backgroundColor: "transparent" }} className="relative overflow-hidden pt-20">
-      {/* Floating Elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            className={`absolute ${
-              isDark ? 'text-blue-400' : 'text-blue-600'
-            } opacity-20`}
+    <section
+      id="about"
+      style={{
+        backgroundColor: "#0a0a0a",
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: isDesktop ? "center" : "flex-start",
+        overflow: "hidden",
+        position: "relative",
+      }}
+    >
+      {/* ── grid ── */}
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "1400px",
+          margin: "0 auto",
+          padding: isDesktop ? "0 48px" : "0",
+          display: "grid",
+          gridTemplateColumns: layout.grid,
+          alignItems: "center",
+          minHeight: isDesktop ? "100vh" : "auto",
+        }}
+      >
+        {/* ══ ROBOT ══ */}
+        <motion.div
+          initial={{ opacity: 0, x: isDesktop ? -50 : 0, y: isDesktop ? 0 : -20, scale: 0.85 }}
+          animate={{ opacity: 1, x: 0, y: 0, scale: 0.85 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          style={{
+            width: "100%",
+            height: layout.robotH,
+            position: "relative",
+            backgroundColor: "#000000",
+            mixBlendMode: "lighten",
+            clipPath: "inset(0 0 52px 0)",
+            transformOrigin: isDesktop ? "center left" : "center",
+            ...(isDesktop ? {} : { margin: "0 auto" }),
+          }}
+        >
+          <Spline
+            scene="https://prod.spline.design/fCbzvhwnIheIyptC/scene.splinecode"
+            style={{ width: "100%", height: "100%" }}
+          />
+        </motion.div>
+
+        {/* ══ TEXT ══ */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: layout.textPad,
+            /* on mobile/tablet, add horizontal padding and center */
+            ...(isDesktop
+              ? {}
+              : { alignItems: "flex-start", padding: isMobile ? "24px 24px 48px" : "24px 48px 48px" }),
+          }}
+        >
+          {/* HELLO I'M */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
             style={{
-              left: `${20 + i * 15}%`,
-              top: `${10 + i * 12}%`,
-            }}
-            animate={{
-              y: [0, -20, 0],
-              rotate: [0, 180, 360],
-            }}
-            transition={{
-              duration: 4 + i,
-              repeat: Infinity,
-              ease: "easeInOut",
+              color: "#ffffff",
+              fontSize: isMobile ? "0.8rem" : "1rem",
+              fontWeight: "600",
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              marginBottom: "8px",
+              fontFamily: "'Segoe UI', sans-serif",
             }}
           >
-            <FaCode size={24 + i * 4} />
-          </motion.div>
-        ))}
-      </div>
+            Hello, I'm
+          </motion.p>
 
-      <div className="max-w-7xl mx-auto px-6 py-16 lg:py-20">
-        {/* Top Section: Profile Image and Name */}
-        <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-12 mb-12 lg:mb-16">
-          {/* Profile Image */}
-          <div className="relative w-48 h-48 lg:w-56 lg:h-56 rounded-full overflow-hidden bg-blue-500/10 shadow-2xl shadow-blue-500/30 transition-all duration-300 hover:shadow-blue-500/50 flex-shrink-0 ring-4 ring-blue-500/20">
-            <img 
-              src={heroImage} 
-              alt="Aadithyan A S - Full Stack Developer" 
-              className="profile-image-perfect hover:scale-110 transition-transform duration-300" 
-            />
-            
-            {/* Floating Stats Cards */}
-            <motion.div
-              className="absolute -top-3 -right-3 lg:-top-4 lg:-right-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white p-3 lg:p-4 rounded-lg shadow-lg"
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              <div className="flex items-center gap-2">
-                <FaRocket className="text-sm lg:text-base" />
-                <span className="text-sm lg:text-base font-bold">2+ Years</span>
-              </div>
-            </motion.div>
+          {/* NAME */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.08 }}
+            style={{
+              color: "#ffffff",
+              fontSize: layout.nameSz,
+              fontWeight: "900",
+              lineHeight: "1",
+              marginBottom: "12px",
+              fontFamily: "'Arial Black', 'Impact', sans-serif",
+              letterSpacing: "-0.02em",
+              whiteSpace: isMobile ? "normal" : "nowrap",
+            }}
+          >
+            Aadithyan{" "}
+            <span style={{ fontWeight: "400", fontSize: "0.75em", letterSpacing: "0" }}>
+              A S
+            </span>
+          </motion.h1>
 
-            <motion.div
-              className="absolute -bottom-3 -left-3 lg:-bottom-4 lg:-left-4 bg-gradient-to-r from-green-500 to-blue-500 text-white p-3 lg:p-4 rounded-lg shadow-lg"
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2.5, repeat: Infinity }}
-            >
-              <div className="flex items-center gap-2">
-                <FaStar className="text-sm lg:text-base" />
-                <span className="text-sm lg:text-base font-bold">19 Skills</span>
-          </div>
-            </motion.div>
-        </div>
-
-          {/* Name and Title */}
-          <div className="text-center lg:text-left">
-            <motion.h1 
-              className={`text-3xl lg:text-4xl font-bold mb-2 ${
-                isDark ? 'text-white' : 'text-gray-800'
-              }`}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              Hello, I'm
-            </motion.h1>
-            <motion.h2 
-              className={`text-4xl lg:text-6xl font-bold mb-4 bg-clip-text text-transparent ${
-                isDark 
-                  ? 'bg-gradient-to-r from-blue-400 to-purple-400' 
-                  : 'bg-gradient-to-r from-blue-600 to-purple-600'
-              }`}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              Aadithyan A S
-            </motion.h2>
-            <motion.div 
-              className={`text-xl lg:text-2xl font-semibold ${
-                isDark ? 'text-blue-300' : 'text-blue-600'
-              }`}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
+          {/* Typing */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.16 }}
+            style={{
+              fontSize: isMobile ? "1.05rem" : "clamp(1.1rem,1.6vw,1.5rem)",
+              fontWeight: "600",
+              color: "#60a5fa",
+              marginBottom: "18px",
+              fontFamily: "'Courier New', monospace",
+              minHeight: "36px",
+            }}
+          >
             <TypeAnimation
               sequence={[
-                  "Full Stack Developer",
-                2000,
-                "React Enthusiast",
-                2000,
-                
-                  "Rust Developer",
-                  2000,
-                  "Next.js Expert",
-                  2000,
+                "Full Stack Developer", 2000,
+                "React Enthusiast",    2000,
+                "Rust Developer",      2000,
+                "Next.js Expert",      2000,
               ]}
               repeat={Infinity}
             />
-            </motion.div>
-          </div>
-          </div>
+          </motion.div>
 
-        {/* Main Content: Two columns */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-          {/* Left Section: Description and Stats */}
-          <div className="space-y-8">
-            {/* Description */}
-            <motion.p
-              className={`text-lg lg:text-xl leading-relaxed ${
-                isDark ? 'text-gray-300' : 'text-gray-700'
-              }`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              As a passionate Full Stack Developer, I specialize in building dynamic, user-friendly web applications. With expertise in both frontend and backend technologies, I craft seamless digital experiences using tools like React, Node.js, TypeScript, and modern databases. I'm dedicated to delivering high-quality, efficient solutions and continuously improving my skills to stay ahead in the fast-evolving tech landscape.
-            </motion.p>
+          {/* Description */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.24 }}
+            style={{
+              color: "#a0a0a0",
+              fontSize: isMobile ? "0.88rem" : "clamp(0.9rem,1.1vw,1.05rem)",
+              lineHeight: "1.75",
+              marginBottom: "28px",
+              maxWidth: isMobile ? "100%" : "420px",
+              fontFamily: "'Segoe UI', sans-serif",
+            }}
+          >
+            As a passionate Full Stack Developer, I specialize in building
+            dynamic, user-friendly web applications. With expertise in both
+            frontend and backend technologies, I craft seamless digital
+            experiences.
+          </motion.p>
 
-            {/* Quick Stats */}
-            <motion.div
-              className="grid grid-cols-3 gap-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+          {/* Buttons + Social */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.32 }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
+              marginBottom: "28px",
+              flexWrap: isMobile ? "wrap" : "nowrap",
+            }}
+          >
+            {/* Download CV */}
+            <button
+              onClick={handleDownloadCV}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                backgroundColor: "#ffffff",
+                color: "#000000",
+                border: "none",
+                borderRadius: "999px",
+                padding: isMobile ? "11px 22px" : "13px 28px",
+                fontSize: isMobile ? "0.88rem" : "0.95rem",
+                fontWeight: "700",
+                cursor: "pointer",
+                transition: "all 0.22s ease",
+                fontFamily: "'Segoe UI', sans-serif",
+                whiteSpace: "nowrap",
+                flexShrink: 0,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "#e2e8f0";
+                e.currentTarget.style.transform = "scale(1.04) translateY(-2px)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "#ffffff";
+                e.currentTarget.style.transform = "scale(1) translateY(0)";
+              }}
             >
-              <div className="text-center p-4 rounded-lg bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-blue-500/20">
-                <span className={`block text-2xl lg:text-3xl font-bold ${
-                  isDark ? 'text-blue-400' : 'text-blue-600'
-                }`}>19+</span>
-                <span className={`text-sm lg:text-base ${
-                  isDark ? 'text-gray-400' : 'text-gray-600'
-                }`}>Technologies</span>
-              </div>
-              <div className="text-center p-4 rounded-lg bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20">
-                <span className={`block text-2xl lg:text-3xl font-bold ${
-                  isDark ? 'text-purple-400' : 'text-purple-600'
-                }`}>4+</span>
-                <span className={`text-sm lg:text-base ${
-                  isDark ? 'text-gray-400' : 'text-gray-600'
-                }`}>Projects</span>
-            </div>
-             
-            </motion.div>
+              <FaDownload size={13} />
+              Download CV
+            </button>
 
-            {/* Featured Technologies */}
-            <motion.div
-              className="mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-            >
-              <h4 className={`text-xl lg:text-2xl font-bold mb-4 ${
-                isDark ? 'text-blue-300' : 'text-blue-700'
-              }`}>Featured Technologies</h4>
-              <div className="flex flex-wrap gap-2 lg:gap-3">
-                {['React', 'TypeScript', 'Next.js', 'Rust', 'PostgreSQL', 'Node.js'].map((tech, index) => (
-                  <motion.span
-                    key={tech}
-                    className={`px-3 py-1 lg:px-4 lg:py-2 rounded-full text-sm lg:text-base font-medium transition-all duration-300 ${
-                      isDark 
-                        ? 'bg-blue-500/20 text-blue-300 hover:bg-blue-500/30' 
-                        : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
-                    }`}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-                    whileHover={{ scale: 1.1 }}
-                  >
-                    {tech}
-                  </motion.span>
-                ))}
-          </div>
-            </motion.div>
-
-            {/* Social Links */}
-            <motion.div
-              className="flex flex-col gap-4 mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.0 }}
-            >
-              <h4 className={`text-xl lg:text-2xl font-bold ${
-                isDark ? 'text-blue-300' : 'text-blue-700'
-              }`}>Connect With Me</h4>
-              <div className="flex gap-4 lg:gap-6">
-                <a href="https://github.com/Aadithyanas" target="_blank" rel="noopener noreferrer" className={`p-3 lg:p-4 rounded-full transition-all duration-300 hover:scale-110 ${
-                  isDark 
-                    ? 'bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white' 
-                    : 'bg-gray-200 text-gray-600 hover:bg-gray-300 hover:text-gray-900'
-                }`}>
-                  <FaGithub className="text-xl lg:text-2xl" />
-                </a>
-                <a href="https://www.linkedin.com/in/aadithyanas" target="_blank" rel="noopener noreferrer" className={`p-3 lg:p-4 rounded-full transition-all duration-300 hover:scale-110 ${
-                  isDark 
-                    ? 'bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white' 
-                    : 'bg-gray-200 text-gray-600 hover:bg-gray-300 hover:text-gray-900'
-                }`}>
-                  <FaLinkedin className="text-xl lg:text-2xl" />
-                </a>
-                <a href="mailto:adithyanas2694@gmail.com" target="_blank" rel="noopener noreferrer" className={`p-3 lg:p-4 rounded-full transition-all duration-300 hover:scale-110 ${
-                  isDark 
-                    ? 'bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white' 
-                    : 'bg-gray-200 text-gray-600 hover:bg-gray-300 hover:text-gray-900'
-                }`}>
-                  <FaEnvelope className="text-xl lg:text-2xl" />
-            </a>
-          </div>
-            </motion.div>
-
-            <motion.div
-              className="mt-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.2 }}
-            >
-              <button 
-                className={`w-full px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold text-lg lg:text-xl transition-all duration-300 hover:scale-105 flex items-center justify-center gap-3 ${
-                  isDark
-                    ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-600 hover:to-purple-600'
-                    : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700'
-                }`}
-                onClick={handleDownloadCV}
+            {/* Social icons */}
+            {[
+              { href: "https://github.com/Aadithyanas",            icon: <FaGithub   size={17} />, label: "GitHub"   },
+              { href: "https://www.linkedin.com/in/aadithyanas",   icon: <FaLinkedin size={17} />, label: "LinkedIn" },
+              { href: "mailto:adithyanas2694@gmail.com",            icon: <FaEnvelope size={17} />, label: "Email"    },
+            ].map(({ href, icon, label }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: isMobile ? "40px" : "46px",
+                  height: isMobile ? "40px" : "46px",
+                  borderRadius: "50%",
+                  backgroundColor: "rgba(255,255,255,0.07)",
+                  color: "#ffffff",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  transition: "all 0.22s ease",
+                  textDecoration: "none",
+                  flexShrink: 0,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = "rgba(96,165,250,0.2)";
+                  e.currentTarget.style.borderColor = "#60a5fa";
+                  e.currentTarget.style.color = "#60a5fa";
+                  e.currentTarget.style.transform = "scale(1.12) translateY(-2px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.07)";
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
+                  e.currentTarget.style.color = "#ffffff";
+                  e.currentTarget.style.transform = "scale(1) translateY(0)";
+                }}
               >
-                <FaDownload className="text-lg lg:text-xl"/>
-                <span>Download Resume</span>
-              </button>
-            </motion.div>
-          </div>
+                {icon}
+              </a>
+            ))}
+          </motion.div>
 
-          {/* Right Section: AI Animation and Education */}
-          <div className="space-y-8">
-            {/* AI Animation */}
-            <div className="flex justify-center lg:justify-start">
-              <div className="w-full max-w-md lg:max-w-lg h-80 lg:h-96 flex items-center justify-center">
-                <AIBrainAnimation isDark={isDark} />
-              </div>
-            </div>
-
-            {/* Education Section - Below AI Animation */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              <h3 className={`text-2xl lg:text-3xl font-bold mb-6 ${
-                isDark ? 'text-blue-300' : 'text-blue-700'
-              }`}>
-                Education
-              </h3>
-              
-              <div className="space-y-6">
-                <div className={`p-4 lg:p-6 rounded-lg ${
-                  isDark 
-                    ? 'bg-gray-800/50 border border-gray-700' 
-                    : 'bg-gray-100 border border-gray-200'
-                }`}>
-                  <p className={`font-bold text-lg lg:text-xl mb-2 ${
-                    isDark ? 'text-white' : 'text-gray-900'
-                  }`}>Full Stack Developer</p>
-                  <p className={`text-sm lg:text-base ${
-                    isDark ? 'text-gray-300' : 'text-gray-600'
-                  }`}>Major: Full Stack Development</p>
-                  <p className={`text-sm lg:text-base ${
-                    isDark ? 'text-gray-300' : 'text-gray-600'
-                  }`}>Institute: Masai School</p>
-                  <p className={`text-sm lg:text-base ${
-                    isDark ? 'text-gray-300' : 'text-gray-600'
-                  }`}>Year of Graduation: Ongoing...</p>
+          {/* Stats — bullet separated */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.40 }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexWrap: isMobile ? "wrap" : "nowrap",
+              gap: isMobile ? "12px" : "0",
+            }}
+          >
+            {[
+              { icon: <FaRocket size={13} />, value: "2+ Years",    color: "#60a5fa" },
+              { icon: <FaStar   size={13} />, value: "19 Skills",   color: "#a78bfa" },
+              { icon: <FaCode   size={13} />, value: "4+ Projects", color: "#34d399" },
+            ].map(({ icon, value, color }, i) => (
+              <React.Fragment key={value}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    color: "#ffffff",
+                    fontSize: isMobile ? "0.85rem" : "0.95rem",
+                    fontWeight: "700",
+                    fontFamily: "'Segoe UI', sans-serif",
+                    whiteSpace: "nowrap",
+                    padding: isMobile ? "0" : i === 0 ? "0 16px 0 0" : "0 16px",
+                  }}
+                >
+                  <span style={{ color }}>{icon}</span>
+                  {value}
                 </div>
-                <div className={`p-4 lg:p-6 rounded-lg ${
-                  isDark 
-                    ? 'bg-gray-800/50 border border-gray-700' 
-                    : 'bg-gray-100 border border-gray-200'
-                }`}>
-                  <p className={`font-bold text-lg lg:text-xl mb-2 ${
-                    isDark ? 'text-white' : 'text-gray-900'
-                  }`}>Diploma in Computer Hardware</p>
-                  <p className={`text-sm lg:text-base ${
-                    isDark ? 'text-gray-300' : 'text-gray-600'
-                  }`}>Major: Computer Hardware/Software</p>
-                  <p className={`text-sm lg:text-base ${
-                    isDark ? 'text-gray-300' : 'text-gray-600'
-                  }`}>University: Department of Technical Education, Government of Kerala</p>
-                  <p className={`text-sm lg:text-base ${
-                    isDark ? 'text-gray-300' : 'text-gray-600'
-                  }`}>Year of Graduation: 2024</p>
-                </div>
-              </div>
-            </motion.div>
-
-          </div>
+                {i < 2 && !isMobile && (
+                  <span style={{ color: "#444", fontSize: "1.1rem", flexShrink: 0 }}>
+                    •
+                  </span>
+                )}
+              </React.Fragment>
+            ))}
+          </motion.div>
         </div>
-
       </div>
     </section>
   );

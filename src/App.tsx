@@ -5,13 +5,15 @@ import { Hero } from './components/Hero';
 import { Skills } from './components/Skills';
 import { Projects } from './components/Projects';
 import { Contact } from './components/Contact';
-import { ContactAlternative } from './components/ContactAlternative';
 import { BackgroundAnimation } from './components/BackgroundAnimation';
 import AddProjectSimple from './components/AddProjectSimple';
 import AllProjects from './components/AllProjects';
 import NEXAA from './components/NEXAA';
 import NEXAAButton from './components/NEXAAButton';
 import GitHubStatsSection from './components/GitHubStatsSection';
+import { EducationExperience } from './components/EducationExperience';
+import { Footer } from './components/Footer';
+
 
 type ThemeMode = 'light' | 'dark' | 'system';
 
@@ -22,7 +24,6 @@ function App() {
   const [showAllProjects, setShowAllProjects] = useState(false);
   const [showNEXAA, setShowNEXAA] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
-  const [useEmailJS, setUseEmailJS] = useState(true);
 
   useEffect(() => {
     // Get saved theme from localStorage or default to system
@@ -63,7 +64,7 @@ function App() {
     } else {
       newTheme = 'light';
     }
-    
+
     setThemeMode(newTheme);
     localStorage.setItem('theme', newTheme);
   };
@@ -90,8 +91,8 @@ function App() {
   // Show all projects page
   if (showAllProjects) {
     return (
-      <AllProjects 
-        isDark={isDark} 
+      <AllProjects
+        isDark={isDark}
         onBack={handleBackToPortfolio}
         toggleTheme={toggleTheme}
         themeMode={themeMode}
@@ -102,69 +103,54 @@ function App() {
   return (
     <AnimatePresence>
       <motion.div
-        className={`min-h-screen transition-all duration-500 relative overflow-hidden ${
-          isDark 
-            ? 'dark bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 text-gray-100' 
+        className={`min-h-screen transition-all duration-500 relative ${isDark
+            ? 'dark bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 text-gray-100'
             : 'bg-gradient-to-br from-blue-50 via-white to-indigo-50 text-gray-900'
-        }`}
+          }`}
       >
         <BackgroundAnimation isDark={isDark} />
-        <Navbar 
-          isDark={isDark} 
-          toggleTheme={toggleTheme} 
-          themeMode={themeMode} 
+        <Navbar
+          isDark={isDark}
+          toggleTheme={toggleTheme}
+          themeMode={themeMode}
         />
         <Hero isDark={isDark} />
         <Skills isDark={isDark} />
-        <Projects 
-          isDark={isDark} 
-          refreshTrigger={refreshTrigger} 
+        <EducationExperience isDark={isDark} />
+        <Projects
+          isDark={isDark}
+          refreshTrigger={refreshTrigger}
           onShowAllProjects={handleShowAllProjects}
         />
         <GitHubStatsSection isDark={isDark} username="Aadithyanas" />
-        {useEmailJS ? (
-          <Contact isDark={isDark} />
-        ) : (
-          <ContactAlternative isDark={isDark} />
-        )}
-        
-        {/* Email Method Toggle */}
-        <div className="text-center py-4">
-          <button
-            onClick={() => setUseEmailJS(!useEmailJS)}
-            className={`px-4 py-2 rounded-lg text-sm transition-all duration-300 ${
-              isDark
-                ? 'bg-gray-800 hover:bg-gray-700 text-gray-300'
-                : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-            }`}
-          >
-            {useEmailJS ? 'Switch to Direct Email' : 'Switch to EmailJS'}
-          </button>
-        </div>
-        
+        <Contact isDark={isDark} />
+
         {/* NEXAA AI Assistant */}
-        <NEXAAButton 
-          isDark={isDark} 
+        <NEXAAButton
+          isDark={isDark}
           onClick={handleToggleNEXAA}
           isOpen={showNEXAA}
         />
-        
-        <NEXAA 
+
+        <NEXAA
           isDark={isDark}
           isOpen={showNEXAA}
           onToggle={handleToggleNEXAA}
         />
-        
+
         {showAddProject && (
-          <AddProjectSimple 
-            isDark={isDark} 
+          <AddProjectSimple
+            isDark={isDark}
             onClose={() => setShowAddProject(false)}
             onProjectAdded={handleProjectAdded}
           />
         )}
+        <Footer />
+
       </motion.div>
     </AnimatePresence>
   );
 }
 
 export default App;
+

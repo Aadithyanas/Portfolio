@@ -1,244 +1,266 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Send } from 'lucide-react';
-import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'; // Import social icons
-import emailjs from '@emailjs/browser';
-import './hero.css'
+import { FaGithub, FaLinkedin, FaEnvelope, FaPhone, FaArrowRight } from 'react-icons/fa';
 
+/* ── Minimal Design Field ── */
+function Field({ label, type = 'text', name, value, onChange, multiline, rows = 5, required, isDark }) {
+  const [focused, setFocused] = useState(false);
+  const Tag = multiline ? 'textarea' : 'input';
+  
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <label style={{
+        color: isDark ? (focused ? '#fff' : 'rgba(255,255,255,0.5)') : (focused ? '#000' : 'rgba(0,0,0,0.5)'),
+        fontSize: '0.8rem',
+        fontWeight: '600',
+        letterSpacing: '0.04em',
+        textTransform: 'uppercase',
+        transition: 'color 0.2s',
+        fontFamily: "'Outfit', sans-serif",
+      }}>
+        {label}
+      </label>
+      <Tag
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        rows={multiline ? rows : undefined}
+        required={required}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        style={{
+          width: '100%',
+          padding: '16px 20px',
+          borderRadius: '8px',
+          border: `1px solid ${isDark ? (focused ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.06)') : (focused ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.06)')}`,
+          backgroundColor: isDark ? (focused ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.01)') : (focused ? 'rgba(0,0,0,0.02)' : 'rgba(0,0,0,0.01)'),
+          color: isDark ? '#fff' : '#000',
+          fontSize: '0.95rem',
+          fontFamily: "'Outfit', sans-serif",
+          outline: 'none',
+          boxSizing: 'border-box',
+          transition: 'all 0.25s ease',
+          resize: multiline ? 'vertical' : 'none',
+        }}
+      />
+    </div>
+  );
+}
+
+/* ── Minimal Social Icon Button ── */
+function SocialBtn({ href, icon: Icon, label, isDark }) {
+  const [hovered, setHovered] = useState(false);
+  
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      title={label}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+        padding: '12px 24px', borderRadius: '8px',
+        backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.03)',
+        border: `1px solid ${isDark ? (hovered ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.05)') : (hovered ? 'rgba(0,0,0,0.15)' : 'rgba(0,0,0,0.05)')}`,
+        color: isDark ? (hovered ? '#fff' : 'rgba(255,255,255,0.6)') : (hovered ? '#000' : 'rgba(0,0,0,0.6)'),
+        textDecoration: 'none',
+        fontWeight: '500', fontSize: '0.85rem',
+        fontFamily: "'Outfit', sans-serif",
+        transition: 'all 0.2s ease',
+        flex: '1 1 auto',
+      }}
+    >
+      <Icon style={{ fontSize: '1.1rem', flexShrink: 0 }} />
+      <span>{label}</span>
+    </a>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   MAIN COMPONENT
+───────────────────────────────────────────── */
 export const Contact = ({ isDark }) => {
-  const [formState, setFormState] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
-
+  const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [loading, setLoading] = useState(false);
-  const [statusMessage, setStatusMessage] = useState('');
+  const [status, setStatus] = useState(null);
 
+  const set = (key) => (e) => setForm(prev => ({ ...prev, [key]: e.target.value }));
+
+  // Using formsubmit.co as standard fallback alternative when emailjs fails
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setLoading(true);
-    setStatusMessage('');
+    setStatus(null);
 
-    // EmailJS setup - Update these with your actual EmailJS credentials
-    const serviceID = 'service_xpduv4d'; // Your EmailJS service ID
-    const templateID = 'template_tz9p3y6'; // Your EmailJS template ID
-    const userID = 'N4RyDhPGG4ICgi72i'; // Your EmailJS user ID
-    
     try {
-      // Initialize EmailJS with proper error handling
-      if (!userID) {
-        throw new Error('EmailJS User ID is not configured');
-      }
-
-      // Prepare template parameters
-      const templateParams = {
-        from_name: formState.name,
-        from_email: formState.email,
-        message: formState.message,
-        to_name: 'Aadithyan',
-        reply_to: formState.email
-      };
-
-      // Send email using the modern EmailJS API
-      const result = await emailjs.send(
-        serviceID,
-        templateID,
-        templateParams,
-        userID
-      );
-
-      console.log('Email sent successfully:', result);
-      setStatusMessage('✅ Message sent successfully! I\'ll get back to you soon!');
-      
-      // Reset form
-      setFormState({
-        name: '',
-        email: '',
-        message: ''
+      const response = await fetch("https://formsubmit.co/ajax/adithyanas2694@gmail.com", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        body: JSON.stringify({
+            name: form.name,
+            email: form.email,
+            message: form.message,
+        }),
       });
 
-    } catch (error) {
-      console.error('EmailJS Error Details:', error);
-      
-      // More specific error handling
-      let errorMessage = '';
-      if (error.status === 400) {
-        errorMessage = '❌ Invalid email configuration. Please check your EmailJS settings.';
-      } else if (error.status === 401) {
-        errorMessage = '❌ EmailJS authentication failed. Please check your API key.';
-      } else if (error.status === 403) {
-        errorMessage = '❌ EmailJS service access denied. Please check your service configuration.';
-      } else if (error.status === 404) {
-        errorMessage = '❌ EmailJS service not found. Please check your service ID.';
-      } else if (error.status === 429) {
-        errorMessage = '❌ Too many requests. Please try again later.';
+      if (response.ok) {
+        setStatus({ ok: true, msg: "Message sent! I'll get back to you soon." });
+        setForm({ name: '', email: '', message: '' });
       } else {
-        errorMessage = '❌ Email service temporarily unavailable. Please contact me directly:';
+        throw new Error("Failed to send");
       }
-      
-      setStatusMessage(`${errorMessage}\n📧 adithyanas2694@gmail.com\n📱 +91 8848673615`);
-      
-      // Copy email to clipboard as fallback
-      try {
-        if (navigator.clipboard) {
-          await navigator.clipboard.writeText('adithyanas2694@gmail.com');
-        }
-      } catch (clipboardError) {
-        console.log('Could not copy to clipboard:', clipboardError);
-      }
+    } catch (err) {
+      setStatus({
+        ok: false,
+        msg: "Couldn't send right now. Please email me directly at adithyanas2694@gmail.com",
+      });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <section id="contact" className="py-20 pt-24">
-      <div className="max-w-3xl mx-auto px-6">
-        <motion.h2
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          className={`text-4xl font-bold text-center mb-12 bg-clip-text text-transparent ${
-            isDark 
-              ? 'bg-gradient-to-r from-blue-400 to-purple-400' 
-              : 'bg-gradient-to-r from-blue-600 to-purple-600'
-          }`}
-        >
-          Get In Touch
-        </motion.h2>
+    <section
+      id="contact"
+      style={{
+        backgroundColor: isDark ? '#050505' : '#fafafa',
+        padding: '96px 0 112px',
+        position: 'relative',
+        fontFamily: "'Outfit', sans-serif",
+      }}
+    >
+      <div style={{ maxWidth: '820px', margin: '0 auto', padding: '0 32px' }}>
 
-        <motion.form
-          initial={{ opacity: 0, y: 20 }}
+        {/* Minimal Heading */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          onSubmit={handleSubmit}
-          className="space-y-6"
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          style={{ marginBottom: '48px' }}
         >
-          <div className="relative">
-            <motion.input
-              type="text"
-              id="name"
-              name="name"
-              value={formState.name}
-              onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none peer"
-              placeholder=" "
-            />
-            <label
-              htmlFor="name"
-              className="absolute left-4 -top-2.5 bg-white dark:bg-gray-900 px-1 text-sm text-gray-600 dark:text-gray-400 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-2.5 peer-focus:text-sm"
-            >
-              Name
-            </label>
-          </div>
+          <p style={{
+            fontFamily: "'Outfit', monospace",
+            fontSize: '0.68rem',
+            fontWeight: 500,
+            letterSpacing: '0.22em',
+            textTransform: 'uppercase',
+            color: isDark ? 'rgba(255,255,255,0.28)' : 'rgba(0,0,0,0.3)',
+            margin: '0 0 14px 0',
+          }}>
+            Get in touch
+          </p>
+          <h2 style={{
+            fontFamily: "'Outfit', sans-serif",
+            fontSize: '2rem',
+            fontWeight: 600,
+            color: isDark ? '#f0f0f0' : '#0f0f0f',
+            margin: '0 0 14px 0',
+            letterSpacing: '-0.01em',
+          }}>
+            Let's Collaborate
+          </h2>
+          <p style={{
+            fontWeight: 300,
+            fontSize: '0.92rem',
+            color: isDark ? 'rgba(255,255,255,0.38)' : 'rgba(0,0,0,0.42)',
+            margin: 0,
+            lineHeight: 1.65,
+            maxWidth: '500px',
+          }}>
+            Have a project in mind, a question, or just want to say hi? I'd love to hear from you.
+          </p>
+        </motion.div>
 
-          <div className="relative">
-            <motion.input
-              type="email"
-              id="email"
-              name="email"
-              value={formState.email}
-              onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none peer"
-              placeholder=" "
-            />
-            <label
-              htmlFor="email"
-              className="absolute left-4 -top-2.5 bg-white dark:bg-gray-900 px-1 text-sm text-gray-600 dark:text-gray-400 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-2.5 peer-focus:text-sm"
-            >
-              Email
-            </label>
-          </div>
-
-          <div className="relative">
-            <motion.textarea
-              id="message"
-              name="message"
-              value={formState.message}
-              onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-              rows={5}
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none peer"
-              placeholder=" "
-            />
-            <label
-              htmlFor="message"
-              className="absolute left-4 -top-2.5 bg-white dark:bg-gray-900 px-1 text-sm text-gray-600 dark:text-gray-400 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-2.5 peer-focus:text-sm"
-            >
-              Message
-            </label>
-          </div>
-
-          {statusMessage && (
-            <div
-              className={`text-center mt-4 p-4 rounded-lg ${
-                statusMessage.includes('✅') 
-                  ? 'text-green-600 bg-green-50 dark:bg-green-900/20 dark:text-green-400' 
-                  : 'text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400'
-              }`}
-            >
-              <pre className="whitespace-pre-wrap font-sans">{statusMessage}</pre>
-            </div>
-          )}
-
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium flex items-center justify-center space-x-2"
-            disabled={loading}
+        {/* Form & Info Grid Layout */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '48px' }}>
+          
+          {/* Social Quick Links */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}
           >
-            {loading ? (
-              <span>Sending...</span>
-            ) : (
-              <>
-                <span>Send Message</span>
-                <Send className="w-4 h-4" />
-              </>
-            )}
-          </motion.button>
-        </motion.form>
+            <SocialBtn href="https://github.com/Aadithyanas"          icon={FaGithub}   label="GitHub"   isDark={isDark} />
+            <SocialBtn href="https://www.linkedin.com/in/aadithyanas" icon={FaLinkedin} label="LinkedIn" isDark={isDark} />
+            <SocialBtn href="mailto:adithyanas2694@gmail.com"         icon={FaEnvelope} label="Email"    isDark={isDark} />
+            <SocialBtn href="tel:+918848673615"                       icon={FaPhone}    label="Call"     isDark={isDark} />
+          </motion.div>
 
-        {/* Social Icons */}
-        <div className="hero-icons flex justify-center items-center mt-8 space-x-4">
-          <a
-            href="https://github.com/Aadithyanas"
-            className="social-icon text-gray-500 hover:text-black transition"
+          {/* Form Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            style={{
+              backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
+              border: `1px solid ${isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}`,
+              borderRadius: '12px',
+              padding: '40px',
+            }}
           >
-            <FaGithub size={24} />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/aadithyanas"
-            className="social-icon text-blue-600 hover:text-blue-800 transition"
-          >
-            <FaLinkedin size={24} />
-          </a>
-          <a
-            href="mailto:adithyanas2694@gmail.com"
-            className="social-icon text-red-500 hover:text-red-700 transition"
-          >
-            <FaEnvelope size={24} />
-          </a>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px' }}>
+                <Field label="Name"  name="name"  value={form.name}  onChange={set('name')}  isDark={isDark} required />
+                <Field label="Email" name="email" value={form.email} onChange={set('email')} isDark={isDark} type="email" required />
+              </div>
+              
+              <Field label="Message" name="message" value={form.message} onChange={set('message')} isDark={isDark} multiline required />
+
+              {/* Status Message */}
+              {status && (
+                <div style={{
+                  padding: '16px', borderRadius: '8px',
+                  backgroundColor: status.ok ? (isDark ? 'rgba(16, 185, 129, 0.05)' : 'rgba(16, 185, 129, 0.1)') : (isDark ? 'rgba(239, 68, 68, 0.05)' : 'rgba(239, 68, 68, 0.1)'),
+                  border: `1px solid ${status.ok ? (isDark ? 'rgba(16, 185, 129, 0.2)' : 'rgba(16, 185, 129, 0.3)') : (isDark ? 'rgba(239, 68, 68, 0.2)' : 'rgba(239, 68, 68, 0.3)')}`,
+                  color: status.ok ? (isDark ? '#34d399' : '#059669') : (isDark ? '#f87171' : '#dc2626'),
+                  fontSize: '0.85rem', fontWeight: 500, fontFamily: "'Outfit', sans-serif"
+                }}>
+                  {status.msg}
+                </div>
+              )}
+
+              {/* Submit Button */}
+              <div style={{ marginTop: '8px' }}>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
+                    padding: '14px 32px', borderRadius: '8px', border: 'none',
+                    backgroundColor: isDark ? (loading ? 'rgba(255,255,255,0.05)' : '#fff') : (loading ? 'rgba(0,0,0,0.05)' : '#000'),
+                    color: isDark ? (loading ? '#fff' : '#000') : (loading ? '#000' : '#fff'),
+                    fontWeight: 600, fontSize: '0.9rem', fontFamily: "'Outfit', sans-serif",
+                    cursor: loading ? 'not-allowed' : 'pointer',
+                    transition: 'all 0.2s',
+                    opacity: loading ? 0.7 : 1,
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!loading) e.currentTarget.style.opacity = '0.85';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!loading) e.currentTarget.style.opacity = '1';
+                  }}
+                >
+                  {loading ? 'Sending...' : 'Send Message'}
+                  {!loading && <FaArrowRight size={12} />}
+                </button>
+              </div>
+
+            </form>
+          </motion.div>
+
         </div>
-
-        {/* Phone Number */}
-        <div className="text-center mt-4 text-gray-700 dark:text-gray-300">
-          <p className="text-lg">Phone: +91 8848673615</p>
-        </div>
-
-        {/* Debug Information (only in development)
-        {import.meta.env.DEV && (
-          <div className="mt-8 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
-            <h3 className="text-sm font-semibold mb-2">🔧 Debug Info (Development Only)</h3>
-            <div className="text-xs space-y-1">
-              <p>Service ID: {import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_xpduv4d'}</p>
-              <p>Template ID: {import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_tz9p3y6'}</p>
-              <p>User ID: {import.meta.env.VITE_EMAILJS_USER_ID ? '✅ Set' : '❌ Not set'}</p>
-              <p className="text-yellow-600">
-                💡 If emails aren't working, check your EmailJS dashboard and update the credentials.
-              </p>
-            </div>
-          </div>
-        )} */}
       </div>
     </section>
   );
