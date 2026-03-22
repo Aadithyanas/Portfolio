@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom scrollbar styles */
+/* ─── Dark scrollbar (always) ─── */
 .scrollbar-thin {
   scrollbar-width: thin;
 }
@@ -12,33 +12,20 @@
 }
 
 .scrollbar-thin::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #0a0a0a;
   border-radius: 3px;
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #2a2a2a;
   border-radius: 3px;
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #3a3a3a;
 }
 
-/* Dark mode scrollbar */
-.dark .scrollbar-thin::-webkit-scrollbar-track {
-  background: #1e293b;
-}
-
-.dark .scrollbar-thin::-webkit-scrollbar-thumb {
-  background: #475569;
-}
-
-.dark .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: #64748b;
-}
-
-/* Auto-moving tech stack animation */
+/* ─── Tech stack ticker animation ─── */
 @keyframes scroll {
   0% {
     transform: translateX(0);
@@ -63,16 +50,12 @@
   animation: scroll 20s linear infinite;
 }
 
-.tech-stack-scroll:hover {
-  animation-play-state: paused;
-}
-
-/* Pause animation on hover for better UX */
+.tech-stack-scroll:hover,
 .tech-stack-container:hover .tech-stack-scroll {
   animation-play-state: paused;
 }
 
-/* Custom utilities */
+/* ─── Utilities ─── */
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -80,23 +63,39 @@
   overflow: hidden;
 }
 
+/* ─── Base layer: dark-locked ─── */
 @layer base {
   html {
     scroll-behavior: smooth;
+    background-color: #0a0a0a;
+    overscroll-behavior: none;
+    color-scheme: dark;
   }
 
   body {
     @apply antialiased;
+    background-color: #0a0a0a;
+    margin: 0;
+    padding: 0;
+    overscroll-behavior: none;
+  }
+
+  #root {
+    background-color: #0a0a0a;
+    min-height: 100vh;
   }
 }
+
+/* ─── Global scrollbar (dark) ─── */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #3a3a3a; }
 
 .dark {
   color-scheme: dark;
 }
 
-/* Smooth transitions for theme changes */
-* {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
-}
+/* ─── NOTE: The old global * { transition } block was REMOVED.
+   It was causing white flashes on fast scroll by animating
+   background-color on every element from transparent → dark. ─── */

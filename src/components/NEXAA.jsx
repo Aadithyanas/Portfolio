@@ -337,8 +337,10 @@ RESPOND AS NEXAA:`;
           y: 20, 
           transition: { duration: 0.3 }
         }}
-        className={`fixed bottom-4 right-4 z-50 ${
-          isMinimized ? 'w-80 h-16' : 'w-96 h-[600px]'
+        className={`fixed z-50 bottom-4 transition-all duration-300 ${
+          isMinimized 
+            ? 'right-4 w-72 sm:w-80 h-16' 
+            : 'inset-x-4 sm:left-auto sm:right-4 sm:w-96 h-[80vh] sm:h-[600px]'
         }`}
         style={{ fontFamily: "'Outfit', sans-serif" }}
       >

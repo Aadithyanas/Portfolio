@@ -276,7 +276,6 @@ const GitHubStatsSection = ({ isDark, username = 'Aadithyanas' }) => {
     padding: '96px 0 112px',
     fontFamily: "'Outfit', sans-serif",
     position: 'relative',
-    zIndex: 50,
   };
 
   if (stats.loading) {

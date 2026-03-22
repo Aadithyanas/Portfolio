@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Skills } from './components/Skills';
 import { Projects } from './components/Projects';
 import { Contact } from './components/Contact';
-import { BackgroundAnimation } from './components/BackgroundAnimation';
 import AddProjectSimple from './components/AddProjectSimple';
 import AllProjects from './components/AllProjects';
 import NEXAA from './components/NEXAA';
@@ -14,106 +13,46 @@ import GitHubStatsSection from './components/GitHubStatsSection';
 import { EducationExperience } from './components/EducationExperience';
 import { Footer } from './components/Footer';
 
-
-type ThemeMode = 'light' | 'dark' | 'system';
+/* ─── Site is permanently dark ─── */
+const isDark = true;
 
 function App() {
-  const [themeMode, setThemeMode] = useState<ThemeMode>('system');
-  const [isDark, setIsDark] = useState(false);
   const [showAddProject, setShowAddProject] = useState(false);
   const [showAllProjects, setShowAllProjects] = useState(false);
   const [showNEXAA, setShowNEXAA] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-  useEffect(() => {
-    // Get saved theme from localStorage or default to system
-    const savedTheme = localStorage.getItem('theme') as ThemeMode || 'system';
-    setThemeMode(savedTheme);
-  }, []);
-
-  useEffect(() => {
-    const updateTheme = () => {
-      if (themeMode === 'system') {
-        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        setIsDark(systemPrefersDark);
-      } else {
-        setIsDark(themeMode === 'dark');
-      }
-    };
-
-    updateTheme();
-
-    // Listen for system theme changes
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = () => {
-      if (themeMode === 'system') {
-        updateTheme();
-      }
-    };
-
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, [themeMode]);
-
-  const toggleTheme = () => {
-    let newTheme: ThemeMode;
-    if (themeMode === 'light') {
-      newTheme = 'dark';
-    } else if (themeMode === 'dark') {
-      newTheme = 'system';
-    } else {
-      newTheme = 'light';
-    }
-
-    setThemeMode(newTheme);
-    localStorage.setItem('theme', newTheme);
-  };
-
-
   const handleProjectAdded = () => {
     setShowAddProject(false);
-    // Trigger refresh of projects
     setRefreshTrigger(prev => prev + 1);
   };
 
-  const handleShowAllProjects = () => {
-    setShowAllProjects(true);
-  };
+  const handleShowAllProjects = () => setShowAllProjects(true);
+  const handleBackToPortfolio = () => setShowAllProjects(false);
+  const handleToggleNEXAA = () => setShowNEXAA(!showNEXAA);
 
-  const handleBackToPortfolio = () => {
-    setShowAllProjects(false);
-  };
-
-  const handleToggleNEXAA = () => {
-    setShowNEXAA(!showNEXAA);
-  };
-
-  // Show all projects page
   if (showAllProjects) {
     return (
       <AllProjects
         isDark={isDark}
         onBack={handleBackToPortfolio}
-        toggleTheme={toggleTheme}
-        themeMode={themeMode}
+        toggleTheme={() => {}}
+        themeMode="dark"
       />
     );
   }
 
   return (
     <AnimatePresence>
-      <motion.div
-        className={`min-h-screen transition-all duration-500 relative ${isDark
-            ? 'dark bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 text-gray-100'
-            : 'bg-gradient-to-br from-blue-50 via-white to-indigo-50 text-gray-900'
-          }`}
+      <div
+        style={{
+          backgroundColor: '#0a0a0a',
+          minHeight: '100vh',
+          position: 'relative',
+          color: '#f0f0f0',
+        }}
       >
-        <BackgroundAnimation isDark={isDark} />
-        <Navbar
-          isDark={isDark}
-          toggleTheme={toggleTheme}
-          themeMode={themeMode}
-        />
+        <Navbar />
         <Hero isDark={isDark} />
         <Skills isDark={isDark} />
         <EducationExperience isDark={isDark} />
@@ -131,7 +70,6 @@ function App() {
           onClick={handleToggleNEXAA}
           isOpen={showNEXAA}
         />
-
         <NEXAA
           isDark={isDark}
           isOpen={showNEXAA}
@@ -146,11 +84,9 @@ function App() {
           />
         )}
         <Footer />
-
-      </motion.div>
+      </div>
     </AnimatePresence>
   );
 }
 
 export default App;
-

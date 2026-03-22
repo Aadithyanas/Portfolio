@@ -145,11 +145,11 @@ export const Footer: React.FC = () => {
           gap: '20px'
         }}>
           <p style={{
-            color: 'rgba(255,255,255,0.3)',
+            color: 'rgba(255, 255, 255, 0.79)',
             fontSize: '0.85rem',
             margin: 0
           }}>
-            © {currentYear} Aadithyan. Built with ❤️ and Code.
+            © {currentYear} Aadithyan
           </p>
 
           <motion.button

@@ -6,37 +6,36 @@ const NEXAAButton = ({ isDark, onClick, isOpen }) => {
   return (
     <motion.button
       onClick={onClick}
-      className={`fixed bottom-6 right-6 z-40 p-4 rounded-full shadow-2xl transition-all duration-300 ${
-        isDark
+      className={`fixed bottom-6 right-6 z-40 p-4 rounded-full shadow-2xl transition-all duration-300 ${isDark
           ? 'bg-[#0a0a0a] border border-white/10 hover:bg-[#111]'
           : 'bg-white border border-black/10 hover:bg-gray-50'
-      } ${isOpen ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}`}
-      whileHover={{ 
+        } ${isOpen ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}`}
+      whileHover={{
         scale: 1.1,
         transition: { duration: 0.2 }
       }}
-      whileTap={{ 
+      whileTap={{
         scale: 0.95,
         transition: { duration: 0.1 }
       }}
       initial={{ scale: 0 }}
-      animate={{ 
+      animate={{
         scale: isOpen ? 0 : 1,
       }}
-      transition={{ 
-        type: "spring", 
-        stiffness: 400, 
+      transition={{
+        type: "spring",
+        stiffness: 400,
         damping: 30,
       }}
     >
       <div className="relative">
         <motion.div
-          animate={{ 
+          animate={{
             y: [0, -5, 0],
             rotate: [0, 5, 0]
           }}
-          transition={{ 
-            duration: 3, 
+          transition={{
+            duration: 3,
             repeat: Infinity,
             ease: "easeInOut"
           }}
@@ -45,12 +44,12 @@ const NEXAAButton = ({ isDark, onClick, isOpen }) => {
         </motion.div>
         <motion.div
           className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full flex items-center justify-center"
-          animate={{ 
+          animate={{
             scale: [1, 1.3, 1],
             rotate: [0, 360, 0]
           }}
-          transition={{ 
-            duration: 2, 
+          transition={{
+            duration: 2,
             repeat: Infinity,
             ease: "easeInOut"
           }}
@@ -58,10 +57,10 @@ const NEXAAButton = ({ isDark, onClick, isOpen }) => {
           <Sparkles className="w-2 h-2 text-white" />
         </motion.div>
       </div>
-      
-      {/* Tooltip */}
+
+      {/* Tooltip - Hidden on mobile or if empty */}
       <motion.div
-        className={`absolute right-full mr-3 top-1/2 transform -translate-y-1/2 px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap ${
+        className={`hidden sm:block absolute right-full mr-3 top-1/2 transform -translate-y-1/2 px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap ${
           isDark 
             ? 'bg-gray-800 text-white' 
             : 'bg-white text-gray-900 shadow-lg'
@@ -70,7 +69,7 @@ const NEXAAButton = ({ isDark, onClick, isOpen }) => {
         whileHover={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.2 }}
       >
-        Chat with NEXAA - Aadithyan's AI Assistant
+        Chat with NEXAA
         <div className={`absolute left-full top-1/2 transform -translate-y-1/2 w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 ${
           isDark ? 'border-t-gray-800' : 'border-t-white'
         }`}></div>

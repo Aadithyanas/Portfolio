@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   FaGraduationCap,
   FaBriefcase,
   FaCalendarAlt,
   FaMapMarkerAlt,
   FaCode,
-  FaCertificate,
+  FaRobot,
+  FaExternalLinkAlt,
 } from "react-icons/fa";
 
 /* ─────────────────── DATA ─────────────────── */
@@ -15,7 +16,7 @@ const education = [
     degree: "Full Stack Development",
     institution: "Masai School",
     location: "Bangalore, India",
-    period: "2023 – Ongoing",
+    period: "2023 – 2024",
     description:
       "Intensive full-stack bootcamp covering React, Node.js, TypeScript, PostgreSQL, Rust, and Next.js. Building real-world projects with industry best practices.",
     tags: ["React", "TypeScript", "Node.js", "PostgreSQL", "Next.js"],
@@ -37,10 +38,32 @@ const education = [
 
 const experience = [
   {
-    role: "Full Stack Developer (Trainee)",
+    role: "Robotics Engineer",
+    company: "Aju ED Solution",
+    location: "Hybrid / Kerala",
+    period: "Present",
+    description:
+      "Designed and built intelligent robotics systems leveraging Raspberry Pi and embedded technologies. Developed end-to-end solutions integrating sensors, real-time control, and software logic for automation and smart applications.",
+    tags: ["Raspberry Pi", "Robotics", "Python", "IoT", "Automation"],
+    icon: <FaRobot />,
+    color: "#60a5fa",
+  },
+  {
+    role: "Full Stack Developer",
+    company: "KodingKorp",
+    location: "Hybrid / Delhi",
+    period: "5 Months",
+    description:
+      "Engineered a high-performance desktop application using Tauri and Rust. Developed a travel experience app with API integrations, real-time data handling, and efficient state management. Focused on lightweight builds and seamless cross-platform functionality.",
+    tags: ["React", "Next.js", "Rust", "PostgreSQL", "Vercel"],
+    icon: <FaBriefcase />,
+    color: "#34d399",
+  },
+  {
+    role: "Full Stack Developer",
     company: "Masai School",
     location: "Remote / Bangalore",
-    period: "2023 – Ongoing",
+    period: "6 Months",
     description:
       "Developed and shipped 4+ production-grade web applications. Led team sprints, performed code reviews, integrated REST APIs, and deployed projects to cloud platforms.",
     tags: ["React", "Next.js", "Rust", "PostgreSQL", "Vercel"],
@@ -49,147 +72,111 @@ const experience = [
   },
 ];
 
-const certifications = [
-  { label: "Full Stack Web Development", issuer: "Masai School" },
-  { label: "React Developer Certification", issuer: "Udemy" },
-];
+/* ─────────────────── STYLES ─────────────────── */
+const glassStyles = {
+  background: "rgba(17, 17, 17, 0.4)",
+  backdropFilter: "blur(12px)",
+  WebkitBackdropFilter: "blur(12px)",
+  border: "1px solid rgba(255, 255, 255, 0.08)",
+  borderRadius: "24px",
+};
 
-/* ─────────────────── CARD ─────────────────── */
-const Card = ({ item, isDark, index }) => (
+/* ─────────────────── CARD COMPONENT ─────────────────── */
+const ExperienceCard = ({ item, index }) => (
   <motion.div
-    initial={{ opacity: 0, y: 30 }}
+    initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
-    transition={{ duration: 0.5, delay: index * 0.12 }}
+    transition={{ duration: 0.5, delay: index * 0.1 }}
     style={{
-      backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.03)",
-      border: `1px solid ${isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.08)"}`,
-      borderRadius: "20px",
-      padding: "28px 32px",
+      ...glassStyles,
+      padding: "32px",
       position: "relative",
       overflow: "hidden",
-      transition: "border-color 0.3s ease, box-shadow 0.3s ease",
+      marginBottom: "20px",
+      display: "flex",
+      flexDirection: "column",
+      gap: "20px",
+      transition: "all 0.3s ease",
     }}
     whileHover={{
-      boxShadow: `0 0 32px ${item.color}22`,
       borderColor: `${item.color}55`,
+      boxShadow: `0 20px 40px -20px ${item.color}33`,
+      transform: "translateY(-4px)",
     }}
   >
-    {/* accent glow */}
+    {/* Decorative background glow */}
     <div
       style={{
         position: "absolute",
-        top: 0,
-        left: 0,
-        width: "4px",
-        height: "100%",
-        background: `linear-gradient(180deg, ${item.color}, transparent)`,
-        borderRadius: "0 0 0 20px",
+        top: "-10%",
+        right: "-10%",
+        width: "150px",
+        height: "150px",
+        background: `radial-gradient(circle, ${item.color}11 0%, transparent 70%)`,
+        borderRadius: "50%",
+        pointerEvents: "none",
       }}
     />
 
-    {/* header */}
-    <div style={{ display: "flex", alignItems: "flex-start", gap: "16px", marginBottom: "14px" }}>
-      <div
-        style={{
-          width: "44px",
-          height: "44px",
-          borderRadius: "12px",
-          backgroundColor: `${item.color}18`,
-          border: `1px solid ${item.color}33`,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color: item.color,
-          fontSize: "1.1rem",
-          flexShrink: 0,
-        }}
-      >
-        {item.icon}
-      </div>
-
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <h3
-          style={{
-            color: isDark ? "#ffffff" : "#111827",
-            fontSize: "clamp(1rem, 1.5vw, 1.2rem)",
-            fontWeight: "800",
-            marginBottom: "4px",
-            fontFamily: "'Segoe UI', sans-serif",
-          }}
-        >
-          {item.degree || item.role}
-        </h3>
-        <p
-          style={{
-            color: item.color,
-            fontWeight: "600",
-            fontSize: "0.9rem",
-            marginBottom: "4px",
-          }}
-        >
-          {item.institution || item.company}
-        </p>
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "16px" }}>
+      <div style={{ display: "flex", gap: "20px" }}>
         <div
           style={{
+            width: "56px",
+            height: "56px",
+            borderRadius: "16px",
+            background: `linear-gradient(135deg, ${item.color}22, ${item.color}08)`,
+            border: `1px solid ${item.color}33`,
             display: "flex",
-            flexWrap: "wrap",
-            gap: "12px",
+            alignItems: "center",
+            justifyContent: "center",
+            color: item.color,
+            fontSize: "1.5rem",
+            flexShrink: 0,
           }}
         >
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "5px",
-              color: isDark ? "#6b7280" : "#9ca3af",
-              fontSize: "0.8rem",
-            }}
-          >
-            <FaCalendarAlt size={11} />
-            {item.period}
-          </span>
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "5px",
-              color: isDark ? "#6b7280" : "#9ca3af",
-              fontSize: "0.8rem",
-            }}
-          >
-            <FaMapMarkerAlt size={11} />
-            {item.location}
-          </span>
+          {item.icon}
+        </div>
+        <div>
+          <h3 style={{ color: "#ffffff", fontSize: "1.25rem", fontWeight: "700", marginBottom: "4px", letterSpacing: "-0.01em" }}>
+            {item.role || item.degree}
+          </h3>
+          <p style={{ color: item.color, fontWeight: "600", fontSize: "0.95rem" }}>
+            {item.company || item.institution}
+          </p>
+        </div>
+      </div>
+      
+      <div style={{ textAlign: "right", minWidth: "120px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "rgba(255,255,255,0.4)", fontSize: "0.85rem", fontWeight: "500", justifyContent: "flex-end", marginBottom: "4px" }}>
+          <FaCalendarAlt size={12} />
+          {item.period}
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "rgba(255,255,255,0.4)", fontSize: "0.85rem", fontWeight: "500", justifyContent: "flex-end" }}>
+          <FaMapMarkerAlt size={12} />
+          {item.location}
         </div>
       </div>
     </div>
 
-    {/* description */}
-    <p
-      style={{
-        color: isDark ? "#9ca3af" : "#6b7280",
-        fontSize: "0.9rem",
-        lineHeight: "1.7",
-        marginBottom: "16px",
-      }}
-    >
+    <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "1rem", lineHeight: "1.6", margin: "0" }}>
       {item.description}
     </p>
 
-    {/* tags */}
     <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
       {item.tags.map((tag) => (
         <span
           key={tag}
           style={{
-            backgroundColor: `${item.color}14`,
-            color: item.color,
-            border: `1px solid ${item.color}30`,
-            borderRadius: "999px",
-            padding: "3px 12px",
-            fontSize: "0.78rem",
+            padding: "6px 14px",
+            borderRadius: "99px",
+            fontSize: "0.75rem",
             fontWeight: "600",
+            background: "rgba(255,255,255,0.03)",
+            border: "1px solid rgba(255,255,255,0.08)",
+            color: "rgba(255,255,255,0.8)",
+            transition: "all 0.2s ease",
           }}
         >
           {tag}
@@ -200,234 +187,135 @@ const Card = ({ item, isDark, index }) => (
 );
 
 /* ─────────────────── MAIN COMPONENT ─────────────────── */
-export const EducationExperience = ({ isDark }) => {
-  const [activeTab, setActiveTab] = useState("education");
+export const EducationExperience = () => {
+  const [activeTab, setActiveTab] = useState("experience");
 
   const tabs = [
-    { id: "education",   label: "Education",    icon: <FaGraduationCap />, count: education.length },
-    { id: "experience",  label: "Experience",   icon: <FaBriefcase />,     count: experience.length },
-    { id: "certs",       label: "Certifications", icon: <FaCertificate />, count: certifications.length },
+    { id: "experience", label: "Experience", icon: <FaBriefcase />, count: experience.length },
+    { id: "education", label: "Education", icon: <FaGraduationCap />, count: education.length },
   ];
 
   return (
     <section
-      id="education"
+      id="experience"
       style={{
-        backgroundColor: isDark ? "#0a0a0a" : "#f8fafc",
-        padding: "96px 0",
+        backgroundColor: "#0a0a0a",
+        padding: "120px 0",
         position: "relative",
-        overflowX: "hidden",
+        overflow: "hidden",
       }}
     >
-      {/* faint bg accent */}
+      {/* Background decoration */}
       <div
         style={{
           position: "absolute",
-          top: "10%",
-          left: "-10%",
-          width: "500px",
-          height: "500px",
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(96,165,250,0.05) 0%, transparent 70%)",
+          top: "20%",
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "100%",
+          height: "100%",
+          background: "radial-gradient(circle at 50% 50%, rgba(96, 165, 250, 0.03) 0%, transparent 60%)",
           pointerEvents: "none",
         }}
       />
 
-      <div
-        style={{
-          maxWidth: "900px",
-          margin: "0 auto",
-          padding: "0 24px",
-        }}
-      >
-        {/* Section heading */}
+      <div style={{ maxWidth: "1000px", margin: "0 auto", padding: "0 24px", position: "relative", zIndex: 1 }}>
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.55 }}
-          style={{ textAlign: "center", marginBottom: "48px" }}
+          style={{ textAlign: "center", marginBottom: "64px" }}
         >
-          <p
+          <span
             style={{
               color: "#60a5fa",
-              fontSize: "0.82rem",
+              fontSize: "0.85rem",
               fontWeight: "700",
-              letterSpacing: "0.18em",
+              letterSpacing: "0.2em",
               textTransform: "uppercase",
-              marginBottom: "10px",
-              fontFamily: "'Courier New', monospace",
+              display: "block",
+              marginBottom: "16px",
             }}
           >
-            Background
-          </p>
+            Journey
+          </span>
           <h2
             style={{
-              color: isDark ? "#ffffff" : "#111827",
-              fontSize: "clamp(2rem, 4vw, 3rem)",
+              color: "#ffffff",
+              fontSize: "clamp(2.5rem, 5vw, 4rem)",
               fontWeight: "900",
-              fontFamily: "'Arial Black', sans-serif",
-              marginBottom: "12px",
+              marginBottom: "20px",
+              fontFamily: "'Outfit', sans-serif",
+              letterSpacing: "-0.02em",
             }}
           >
-            Education &amp; Experience
+            Experience & Education
           </h2>
-          <p
-            style={{
-              color: isDark ? "#6b7280" : "#9ca3af",
-              fontSize: "1rem",
-              maxWidth: "480px",
-              margin: "0 auto",
-              lineHeight: "1.7",
-            }}
-          >
-            My academic journey and hands-on development experience.
-          </p>
+          <div style={{ width: "60px", height: "4px", background: "#60a5fa", margin: "0 auto", borderRadius: "2px" }} />
         </motion.div>
 
-        {/* Tab bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.45, delay: 0.1 }}
+        {/* Custom Tab Switcher */}
+        <div
           style={{
+            ...glassStyles,
+            padding: "8px",
+            maxWidth: "400px",
+            margin: "0 auto 48px",
             display: "flex",
             gap: "8px",
-            backgroundColor: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)",
-            border: `1px solid ${isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)"}`,
-            borderRadius: "16px",
-            padding: "6px",
-            marginBottom: "36px",
           }}
         >
           {tabs.map((tab) => {
-            const active = activeTab === tab.id;
+            const isActive = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 style={{
                   flex: 1,
+                  padding: "12px 20px",
+                  borderRadius: "18px",
+                  border: "none",
+                  background: isActive ? "#60a5fa" : "transparent",
+                  color: isActive ? "#000000" : "rgba(255,255,255,0.4)",
+                  fontSize: "0.95rem",
+                  fontWeight: "700",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: "8px",
-                  padding: "10px 16px",
-                  borderRadius: "12px",
-                  border: "none",
+                  gap: "10px",
                   cursor: "pointer",
-                  fontWeight: "700",
-                  fontSize: "0.88rem",
-                  fontFamily: "'Segoe UI', sans-serif",
-                  transition: "all 0.22s ease",
-                  backgroundColor: active
-                    ? isDark ? "rgba(96,165,250,0.18)" : "rgba(96,165,250,0.12)"
-                    : "transparent",
-                  color: active
-                    ? "#60a5fa"
-                    : isDark ? "#6b7280" : "#9ca3af",
-                  boxShadow: active ? "0 0 16px rgba(96,165,250,0.2)" : "none",
+                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                 }}
               >
-                <span style={{ fontSize: "0.9rem" }}>{tab.icon}</span>
-                <span>{tab.label}</span>
-                <span
-                  style={{
-                    backgroundColor: active ? "#60a5fa22" : isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)",
-                    color: active ? "#60a5fa" : isDark ? "#6b7280" : "#9ca3af",
-                    borderRadius: "999px",
-                    padding: "1px 8px",
-                    fontSize: "0.75rem",
-                    fontWeight: "700",
-                  }}
-                >
-                  {tab.count}
-                </span>
+                {tab.icon}
+                {tab.label}
               </button>
             );
           })}
-        </motion.div>
-
-        {/* Content */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-          {activeTab === "education" &&
-            education.map((item, i) => (
-              <Card key={item.degree} item={item} isDark={isDark} index={i} />
-            ))}
-
-          {activeTab === "experience" &&
-            experience.map((item, i) => (
-              <Card key={item.role} item={item} isDark={isDark} index={i} />
-            ))}
-
-          {activeTab === "certs" && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              style={{ display: "flex", flexDirection: "column", gap: "14px" }}
-            >
-              {certifications.map((cert, i) => (
-                <motion.div
-                  key={cert.label}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "16px",
-                    padding: "20px 24px",
-                    backgroundColor: isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.03)",
-                    border: `1px solid ${isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)"}`,
-                    borderRadius: "16px",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      borderRadius: "10px",
-                      backgroundColor: "rgba(52,211,153,0.12)",
-                      border: "1px solid rgba(52,211,153,0.25)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "#34d399",
-                      flexShrink: 0,
-                    }}
-                  >
-                    <FaCertificate />
-                  </div>
-                  <div>
-                    <p style={{ color: isDark ? "#fff" : "#111827", fontWeight: "700", fontSize: "0.95rem" }}>
-                      {cert.label}
-                    </p>
-                    <p style={{ color: "#6b7280", fontSize: "0.82rem", marginTop: "2px" }}>
-                      {cert.issuer}
-                    </p>
-                  </div>
-                  <div style={{ marginLeft: "auto" }}>
-                    <span
-                      style={{
-                        backgroundColor: "rgba(52,211,153,0.12)",
-                        color: "#34d399",
-                        border: "1px solid rgba(52,211,153,0.25)",
-                        borderRadius: "999px",
-                        padding: "3px 12px",
-                        fontSize: "0.75rem",
-                        fontWeight: "700",
-                      }}
-                    >
-                      Verified
-                    </span>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
         </div>
+
+        {/* Content Area */}
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          style={{ minHeight: "400px" }}
+        >
+          {activeTab === "experience" ? (
+            experience.map((item, i) => (
+              <ExperienceCard key={`${item.role}-${i}`} item={item} index={i} />
+            ))
+          ) : (
+            education.map((item, i) => (
+              <ExperienceCard key={`${item.degree}-${i}`} item={item} index={i} />
+            ))
+          )}
+        </motion.div>
       </div>
     </section>
   );
 };
+

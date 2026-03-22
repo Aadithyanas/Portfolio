@@ -202,7 +202,7 @@ export const Skills = () => {
     <section 
       id="skills"
       style={{
-        backgroundColor: "#050505",
+        backgroundColor: "#0a0a0a",
         padding: "100px 0 120px",
         fontFamily: "'Outfit', sans-serif",
         position: "relative",

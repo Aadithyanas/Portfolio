@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { motion } from "framer-motion"
 import { LucideIcon } from "lucide-react"
 import { cn } from "../../lib/utils"
@@ -16,26 +16,76 @@ interface NavBarProps {
 
 export function NavBar({ items, className }: NavBarProps) {
   const [activeTab, setActiveTab] = useState(items[0].name)
-  const [isMobile, setIsMobile] = useState(false)
+  // Track whether user just clicked (so we don't immediately override with scroll)
+  const clickedRef = useRef(false)
+  const clickTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
+  /* ── Scroll-based active section detection ── */
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768)
+    // Collect all anchor sections from the nav items
+    const sectionIds = items
+      .filter((item) => item.url.startsWith("#"))
+      .map((item) => ({ name: item.name, id: item.url.substring(1) }))
+
+    const observers: IntersectionObserver[] = []
+
+    // Track intersection ratios for each section
+    const ratioMap: Record<string, number> = {}
+
+    const pickMostVisible = () => {
+      // Don't override if user just clicked a nav link
+      if (clickedRef.current) return
+
+      let bestId = ""
+      let bestRatio = -1
+      for (const [id, ratio] of Object.entries(ratioMap)) {
+        if (ratio > bestRatio) {
+          bestRatio = ratio
+          bestId = id
+        }
+      }
+      if (bestId) {
+        const match = sectionIds.find((s) => s.id === bestId)
+        if (match) setActiveTab(match.name)
+      }
     }
 
-    handleResize()
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
+    sectionIds.forEach(({ id }) => {
+      const el = document.getElementById(id)
+      if (!el) return
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            ratioMap[id] = entry.intersectionRatio
+          })
+          pickMostVisible()
+        },
+        {
+          // rootMargin: shrink top by navbar height so sections register correctly
+          rootMargin: "-80px 0px -20% 0px",
+          threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+        }
+      )
+
+      observer.observe(el)
+      observers.push(observer)
+    })
+
+    return () => {
+      observers.forEach((o) => o.disconnect())
+      if (clickTimerRef.current) clearTimeout(clickTimerRef.current)
+    }
+  }, [items])
 
   return (
     <div
       className={cn(
-        "fixed bottom-0 sm:top-0 left-1/2 -translate-x-1/2 z-50 mb-6 sm:mt-6",
+        "fixed top-0 left-1/2 -translate-x-1/2 z-50 mt-4 sm:mt-6",
         className,
       )}
     >
-      <div className="flex items-center gap-1 sm:gap-3 bg-white/5 dark:bg-black/5 border border-white/10 dark:border-white/10 backdrop-blur-lg py-1 px-1 rounded-full shadow-lg">
+      <div className="flex items-center gap-1 sm:gap-3 bg-white/5 border border-white/10 backdrop-blur-lg py-1 px-1 rounded-full shadow-lg">
         {items.map((item) => {
           const Icon = item.icon
           const isActive = activeTab === item.name
@@ -45,20 +95,26 @@ export function NavBar({ items, className }: NavBarProps) {
               key={item.name}
               href={item.url}
               onClick={(e) => {
-                // If the URL is an internal anchor, smooth scroll to it
-                if (item.url.startsWith('#')) {
-                  e.preventDefault();
-                  const element = document.getElementById(item.url.substring(1));
+                if (item.url.startsWith("#")) {
+                  e.preventDefault()
+                  const element = document.getElementById(item.url.substring(1))
                   if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
+                    element.scrollIntoView({ behavior: "smooth" })
                   }
                 }
-                setActiveTab(item.name);
+                // Immediately highlight clicked item and lock for ~1.2s
+                // so the IntersectionObserver doesn't flicker it back
+                setActiveTab(item.name)
+                clickedRef.current = true
+                if (clickTimerRef.current) clearTimeout(clickTimerRef.current)
+                clickTimerRef.current = setTimeout(() => {
+                  clickedRef.current = false
+                }, 1200)
               }}
               className={cn(
                 "relative cursor-pointer text-sm font-semibold px-4 sm:px-6 py-2 rounded-full transition-colors",
-                "text-black/80 dark:text-white/80 hover:text-blue-500 dark:hover:text-blue-400 font-['Outfit']",
-                isActive && "bg-black/5 dark:bg-white/5 text-blue-600 dark:text-blue-400",
+                "text-white/80 hover:text-blue-400 font-['Outfit']",
+                isActive && "bg-white/5 text-blue-400",
               )}
             >
               <span className="hidden md:inline">{item.name}</span>

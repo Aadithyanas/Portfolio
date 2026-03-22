@@ -11,6 +11,8 @@ import {
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Spline from "@splinetool/react-spline";
+import { AnimatedText } from "./ui/animated-shiny-text";
+import { cn } from "../lib/utils";
 
 const myResume = "/assets/Aadithyan_AS_Resume.pdf";
 
@@ -29,8 +31,9 @@ function useWindowWidth() {
 
 export const Hero = ({ isDark }) => {
   const width = useWindowWidth();
-  const isMobile  = width < 640;
-  const isTablet  = width >= 640 && width < 1024;
+  const isMobile = width < 480;
+  const isSmall = width >= 480 && width < 640;
+  const isTablet = width >= 640 && width < 1024;
   const isDesktop = width >= 1024;
 
   const handleDownloadCV = () => {
@@ -42,18 +45,31 @@ export const Hero = ({ isDark }) => {
   };
 
   /* ── layout values by breakpoint ── */
-  const layout = isMobile
-    ? { grid: "1fr", robotH: "55vw", textPad: "0 20px 32px", nameSz: "2.8rem" }
-    : isTablet
-    ? { grid: "1fr", robotH: "60vw", textPad: "0 32px 48px", nameSz: "3.8rem" }
-    : { grid: "1fr 1fr", robotH: "100vh", textPad: "0 0 0 48px", nameSz: "clamp(3.5rem,5vw,6rem)" };
+  const robotH = isMobile ? "72vw"
+    : isSmall ? "65vw"
+      : isTablet ? "55vw"
+        : "100vh";
+
+  const nameSz = isMobile ? "2.4rem"
+    : isSmall ? "2.8rem"
+      : isTablet ? "3.5rem"
+        : "clamp(3.5rem,4.5vw,5.5rem)";
+
+  const descSz = isMobile ? "0.85rem"
+    : isSmall ? "0.9rem"
+      : isTablet ? "0.95rem"
+        : "clamp(0.9rem,1.1vw,1.05rem)";
 
   return (
     <section
       id="about"
       style={{
         backgroundColor: "#0a0a0a",
-        minHeight: "100vh",
+        /* On desktop fill full viewport; on mobile just fit content + safe top-padding for navbar */
+        minHeight: isDesktop ? "100vh" : "auto",
+        paddingTop: isDesktop ? "0" : isMobile ? "90px" : "100px",
+        /* ↑ This removes the huge empty gap — no more forced full-vh on mobile */
+        paddingBottom: isDesktop ? "0" : "48px",
         display: "flex",
         alignItems: isDesktop ? "center" : "flex-start",
         overflow: "hidden",
@@ -68,25 +84,39 @@ export const Hero = ({ isDark }) => {
           margin: "0 auto",
           padding: isDesktop ? "0 48px" : "0",
           display: "grid",
-          gridTemplateColumns: layout.grid,
+          gridTemplateColumns: isDesktop ? "1fr 1fr" : "1fr",
           alignItems: "center",
           minHeight: isDesktop ? "100vh" : "auto",
         }}
       >
         {/* ══ ROBOT ══ */}
         <motion.div
-          initial={{ opacity: 0, x: isDesktop ? -50 : 0, y: isDesktop ? 0 : -20, scale: 0.85 }}
-          animate={{ opacity: 1, x: 0, y: 0, scale: 0.85 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          /* Entrance: slides in from left on desktop, drops from top on mobile */
+          initial={{
+            opacity: 0,
+            x: isDesktop ? -80 : 0,
+            y: isDesktop ? 0 : -30,
+            scale: 0.8,
+          }}
+          animate={{
+            opacity: 1,
+            x: 0,
+            y: 0,
+            scale: isDesktop ? 0.85 : 1,
+          }}
+          transition={{
+            duration: 1.1,
+            ease: [0.16, 1, 0.3, 1], /* spring-like custom easing */
+          }}
           style={{
             width: "100%",
-            height: layout.robotH,
+            height: robotH,
             position: "relative",
             backgroundColor: "#000000",
             mixBlendMode: "lighten",
             clipPath: "inset(0 0 52px 0)",
             transformOrigin: isDesktop ? "center left" : "center",
-            ...(isDesktop ? {} : { margin: "0 auto" }),
+            ...(!isDesktop ? { margin: "0 auto" } : {}),
           }}
         >
           <Spline
@@ -101,21 +131,23 @@ export const Hero = ({ isDark }) => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            padding: layout.textPad,
-            /* on mobile/tablet, add horizontal padding and center */
-            ...(isDesktop
-              ? {}
-              : { alignItems: "flex-start", padding: isMobile ? "24px 24px 48px" : "24px 48px 48px" }),
+            padding: isDesktop
+              ? "0 0 0 48px"
+              : isMobile
+                ? "20px 20px 0"
+                : isSmall
+                  ? "20px 24px 0"
+                  : "20px 40px 0",
           }}
         >
           {/* HELLO I'M */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
             style={{
               color: "#ffffff",
-              fontSize: isMobile ? "0.8rem" : "1rem",
+              fontSize: isMobile ? "0.72rem" : "0.88rem",
               fontWeight: "600",
               letterSpacing: "0.18em",
               textTransform: "uppercase",
@@ -126,48 +158,39 @@ export const Hero = ({ isDark }) => {
             Hello, I'm
           </motion.p>
 
-          {/* NAME */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.08 }}
-            style={{
-              color: "#ffffff",
-              fontSize: layout.nameSz,
-              fontWeight: "900",
-              lineHeight: "1",
-              marginBottom: "12px",
-              fontFamily: "'Arial Black', 'Impact', sans-serif",
-              letterSpacing: "-0.02em",
-              whiteSpace: isMobile ? "normal" : "nowrap",
-            }}
-          >
-            Aadithyan{" "}
-            <span style={{ fontWeight: "400", fontSize: "0.75em", letterSpacing: "0" }}>
-              A S
-            </span>
-          </motion.h1>
+          {/* NAME - Replaced with Animated Shiny Text */}
+          <AnimatedText
+            text="Aadithyan AS"
+            className="justify-start py-0 mb-2"
+            textClassName={cn(
+               "font-black text-left leading-tight whitespace-nowrap",
+               isMobile ? "text-[2.4rem]" : isSmall ? "text-[3.2rem]" : isTablet ? "text-[4rem]" : "text-[clamp(4rem,5vw,6rem)]"
+            )}
+            gradientColors="linear-gradient(90deg, #444, #fff, #444)"
+            gradientAnimationDuration={2}
+            hoverEffect={true}
+          />
 
           {/* Typing */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.16 }}
+            transition={{ duration: 0.55, delay: 0.4 }}
             style={{
-              fontSize: isMobile ? "1.05rem" : "clamp(1.1rem,1.6vw,1.5rem)",
+              fontSize: isMobile ? "0.95rem" : isTablet ? "1.1rem" : "clamp(1.1rem,1.6vw,1.5rem)",
               fontWeight: "600",
               color: "#60a5fa",
-              marginBottom: "18px",
+              marginBottom: "16px",
               fontFamily: "'Courier New', monospace",
-              minHeight: "36px",
+              minHeight: "30px",
             }}
           >
             <TypeAnimation
               sequence={[
                 "Full Stack Developer", 2000,
-                "React Enthusiast",    2000,
-                "Rust Developer",      2000,
-                "Next.js Expert",      2000,
+                "React Enthusiast", 2000,
+                "Rust Developer", 2000,
+                "Next.js Expert", 2000,
               ]}
               repeat={Infinity}
             />
@@ -175,15 +198,15 @@ export const Hero = ({ isDark }) => {
 
           {/* Description */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.24 }}
+            transition={{ duration: 0.55, delay: 0.5 }}
             style={{
               color: "#a0a0a0",
-              fontSize: isMobile ? "0.88rem" : "clamp(0.9rem,1.1vw,1.05rem)",
+              fontSize: descSz,
               lineHeight: "1.75",
-              marginBottom: "28px",
-              maxWidth: isMobile ? "100%" : "420px",
+              marginBottom: "24px",
+              maxWidth: isMobile || isSmall ? "100%" : "420px",
               fontFamily: "'Segoe UI', sans-serif",
             }}
           >
@@ -195,15 +218,15 @@ export const Hero = ({ isDark }) => {
 
           {/* Buttons + Social */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.32 }}
+            transition={{ duration: 0.55, delay: 0.6 }}
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "12px",
-              marginBottom: "28px",
-              flexWrap: isMobile ? "wrap" : "nowrap",
+              gap: isMobile ? "10px" : "12px",
+              marginBottom: "24px",
+              flexWrap: "wrap",
             }}
           >
             {/* Download CV */}
@@ -217,8 +240,8 @@ export const Hero = ({ isDark }) => {
                 color: "#000000",
                 border: "none",
                 borderRadius: "999px",
-                padding: isMobile ? "11px 22px" : "13px 28px",
-                fontSize: isMobile ? "0.88rem" : "0.95rem",
+                padding: isMobile ? "10px 20px" : "13px 28px",
+                fontSize: isMobile ? "0.82rem" : "0.95rem",
                 fontWeight: "700",
                 cursor: "pointer",
                 transition: "all 0.22s ease",
@@ -235,15 +258,15 @@ export const Hero = ({ isDark }) => {
                 e.currentTarget.style.transform = "scale(1) translateY(0)";
               }}
             >
-              <FaDownload size={13} />
+              <FaDownload size={12} />
               Download CV
             </button>
 
             {/* Social icons */}
             {[
-              { href: "https://github.com/Aadithyanas",            icon: <FaGithub   size={17} />, label: "GitHub"   },
-              { href: "https://www.linkedin.com/in/aadithyanas",   icon: <FaLinkedin size={17} />, label: "LinkedIn" },
-              { href: "mailto:adithyanas2694@gmail.com",            icon: <FaEnvelope size={17} />, label: "Email"    },
+              { href: "https://github.com/Aadithyanas", icon: <FaGithub size={16} />, label: "GitHub" },
+              { href: "https://www.linkedin.com/in/aadithyanas", icon: <FaLinkedin size={16} />, label: "LinkedIn" },
+              { href: "mailto:adithyanas2694@gmail.com", icon: <FaEnvelope size={16} />, label: "Email" },
             ].map(({ href, icon, label }) => (
               <a
                 key={label}
@@ -255,8 +278,8 @@ export const Hero = ({ isDark }) => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  width: isMobile ? "40px" : "46px",
-                  height: isMobile ? "40px" : "46px",
+                  width: isMobile ? "38px" : "44px",
+                  height: isMobile ? "38px" : "44px",
                   borderRadius: "50%",
                   backgroundColor: "rgba(255,255,255,0.07)",
                   color: "#ffffff",
@@ -283,22 +306,22 @@ export const Hero = ({ isDark }) => {
             ))}
           </motion.div>
 
-          {/* Stats — bullet separated */}
+          {/* Stats */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.40 }}
+            transition={{ duration: 0.55, delay: 0.7 }}
             style={{
               display: "flex",
               alignItems: "center",
-              flexWrap: isMobile ? "wrap" : "nowrap",
-              gap: isMobile ? "12px" : "0",
+              flexWrap: "wrap",
+              gap: isMobile ? "10px 16px" : "0",
             }}
           >
             {[
-              { icon: <FaRocket size={13} />, value: "2+ Years",    color: "#60a5fa" },
-              { icon: <FaStar   size={13} />, value: "19 Skills",   color: "#a78bfa" },
-              { icon: <FaCode   size={13} />, value: "4+ Projects", color: "#34d399" },
+              { icon: <FaRocket size={12} />, value: "2+ Years", color: "#60a5fa" },
+              { icon: <FaStar size={12} />, value: "19 Skills", color: "#a78bfa" },
+              { icon: <FaCode size={12} />, value: "4+ Projects", color: "#34d399" },
             ].map(({ icon, value, color }, i) => (
               <React.Fragment key={value}>
                 <div
@@ -307,18 +330,18 @@ export const Hero = ({ isDark }) => {
                     alignItems: "center",
                     gap: "6px",
                     color: "#ffffff",
-                    fontSize: isMobile ? "0.85rem" : "0.95rem",
+                    fontSize: isMobile ? "0.8rem" : "0.9rem",
                     fontWeight: "700",
                     fontFamily: "'Segoe UI', sans-serif",
                     whiteSpace: "nowrap",
-                    padding: isMobile ? "0" : i === 0 ? "0 16px 0 0" : "0 16px",
+                    padding: isMobile ? "0" : i === 0 ? "0 14px 0 0" : "0 14px",
                   }}
                 >
                   <span style={{ color }}>{icon}</span>
                   {value}
                 </div>
                 {i < 2 && !isMobile && (
-                  <span style={{ color: "#444", fontSize: "1.1rem", flexShrink: 0 }}>
+                  <span style={{ color: "#444", fontSize: "1rem", flexShrink: 0 }}>
                     •
                   </span>
                 )}

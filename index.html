@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" style="background-color:#0a0a0a;color-scheme:dark;">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/jpeg" sizes="32x32" href="/favicon-32x32.jpg" />
@@ -8,8 +8,21 @@
     <link rel="shortcut icon" href="/favicon.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Aadithyan</title>
+    <style>
+      /* Critical: set black bg before JS loads to prevent white flash */
+      html, body {
+        background-color: #0a0a0a !important;
+        margin: 0;
+        padding: 0;
+        overscroll-behavior: none;
+      }
+      #root {
+        background-color: #0a0a0a;
+        min-height: 100vh;
+      }
+    </style>
   </head>
-  <body>
+  <body style="background-color:#0a0a0a;">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
