@@ -48,7 +48,7 @@ export const Hero = ({ isDark }) => {
   const robotH = isMobile ? "72vw"
     : isSmall ? "65vw"
       : isTablet ? "55vw"
-        : "100vh";
+        : "80vh";
 
   const nameSz = isMobile ? "2.4rem"
     : isSmall ? "2.8rem"
@@ -114,7 +114,8 @@ export const Hero = ({ isDark }) => {
             position: "relative",
             backgroundColor: "#000000",
             mixBlendMode: "lighten",
-            clipPath: "inset(0 0 52px 0)",
+            clipPath: "inset(0 0 100px 0)",   // ← changed
+            overflow: "hidden",
             transformOrigin: isDesktop ? "center left" : "center",
             ...(!isDesktop ? { margin: "0 auto" } : {}),
           }}
@@ -163,8 +164,8 @@ export const Hero = ({ isDark }) => {
             text="Aadithyan AS"
             className="justify-start py-0 mb-2"
             textClassName={cn(
-               "font-black text-left leading-tight whitespace-nowrap",
-               isMobile ? "text-[2.4rem]" : isSmall ? "text-[3.2rem]" : isTablet ? "text-[4rem]" : "text-[clamp(4rem,5vw,6rem)]"
+              "font-black text-left leading-tight whitespace-nowrap",
+              isMobile ? "text-[2.4rem]" : isSmall ? "text-[3.2rem]" : isTablet ? "text-[4rem]" : "text-[clamp(4rem,5vw,6rem)]"
             )}
             gradientColors="linear-gradient(90deg, #444, #fff, #444)"
             gradientAnimationDuration={2}

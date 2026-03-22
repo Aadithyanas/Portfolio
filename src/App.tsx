@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Skills } from './components/Skills';
 import { Projects } from './components/Projects';
 import { Contact } from './components/Contact';
-import AddProjectSimple from './components/AddProjectSimple';
+import AddProject from './components/AddProject';
 import AllProjects from './components/AllProjects';
 import NEXAA from './components/NEXAA';
 import NEXAAButton from './components/NEXAAButton';
@@ -22,9 +22,28 @@ function App() {
   const [showNEXAA, setShowNEXAA] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
+  // Pseudo-routing for /add12
+  useEffect(() => {
+    const path = window.location.pathname;
+    if (path === '/add12' || path === '/add12/') {
+      setShowAddProject(true);
+    }
+  }, []);
+
   const handleProjectAdded = () => {
     setShowAddProject(false);
+    // If we were on /add12, maybe clear the URL (optional but cleaner)
+    if (window.location.pathname.includes('/add12')) {
+      window.history.pushState({}, '', '/');
+    }
     setRefreshTrigger(prev => prev + 1);
+  };
+
+  const handleCloseAddProject = () => {
+    setShowAddProject(false);
+    if (window.location.pathname.includes('/add12')) {
+      window.history.pushState({}, '', '/');
+    }
   };
 
   const handleShowAllProjects = () => setShowAllProjects(true);
@@ -50,7 +69,9 @@ function App() {
           minHeight: '100vh',
           position: 'relative',
           color: '#f0f0f0',
+          fontFamily: "'Outfit', sans-serif"
         }}
+        className="selection:bg-blue-500/30 selection:text-blue-200"
       >
         <Navbar />
         <Hero isDark={isDark} />
@@ -77,9 +98,9 @@ function App() {
         />
 
         {showAddProject && (
-          <AddProjectSimple
+          <AddProject
             isDark={isDark}
-            onClose={() => setShowAddProject(false)}
+            onClose={handleCloseAddProject}
             onProjectAdded={handleProjectAdded}
           />
         )}
